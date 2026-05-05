@@ -1,0 +1,47 @@
+/* 페이지 전환 스타일: 다크 테마 기준. 흰 플래시 없이 고급스러운 크로스-페이드 구현.
+ *
+ * 레이어 구조 (View Transitions API):
+ *   ::view-transition                     ← 최상위 오버레이 컨테이너
+ *     └ ::backdrop                         ← 컨테이너 뒤의 배경(기본 흰색)
+ *     └ ::view-transition-group(root)      ← 루트 그룹 (스냅샷 영역)
+ *         └ ::view-transition-image-pair(root)   ← 옛/새 스냅샷 쌍
+ *             ├ ::view-transition-old(root)      ← 이전 페이지 스냅샷 (페이드-아웃)
+ *             └ ::view-transition-new(root)      ← 새 페이지 스냅샷 (페이드-인)
+ *
+ * 모든 레이어에 검은 배경을 지정해 전환 어느 순간에도 흰 틈이 노출되지 않도록 한다.
+ * html/body 배경은 <head> 인라인 크리티컬 CSS 가 선제 적용(FOUC 차단). */
+
+/* 문서 간( MPA ) view transition 은 JS 페이드 전환(page-transition.js)으로 대체한다.
+ * @view-transition at-rule 은 IDE에서 unknownAtRules 경고가 발생해 제거했다. */
+
+/* 비활성 뒤에도( 미래 재사용/부분 지원 ) 뷰 전환 레이어는 무조건 #000 고정( 변수 미해결 시 흰 틈 방지 ) */
+::view-transition, ::view-transition-group(root), ::view-transition-image-pair(root) { background-color: #000; }
+::view-transition-old(root), ::view-transition-new(root) { background-color: #000; }
+::backdrop { background-color: #000; }
+
+/* ( navigation: none 일 때는 미사용 ) 루트 VT용 — 길이·이징만 유지 */
+::view-transition-old(root) { animation: goyo-vt-fade-out 300ms cubic-bezier(0.4, 0, 0.2, 1) both; }
+::view-transition-new(root) { animation: goyo-vt-fade-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes goyo-vt-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes goyo-vt-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* .goyo-page-fade: 최초 로드 페이드-인( 조금 느리게 )·떠날 때 페이드-아웃( 부드럽게·동일 톤 ) */
+html.goyo-page-fade body { opacity: 0; transition: opacity 180ms cubic-bezier(0.22, 1, 0.36, 1); will-change: opacity; }
+html.goyo-page-fade.goyo-page-ready body { opacity: 1; }
+html.goyo-page-fade.goyo-page-leaving body { opacity: 0; transition-duration: 180ms; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+html.goyo-page-fade body.front-page,
+html.goyo-page-fade.goyo-page-ready body.front-page,
+html.goyo-page-fade.goyo-page-leaving body.front-page,
+html.goyo-page-fade body.goyo-home-overlay,
+html.goyo-page-fade.goyo-page-ready body.goyo-home-overlay,
+html.goyo-page-fade.goyo-page-leaving body.goyo-home-overlay,
+html.goyo-page-fade body.home,
+html.goyo-page-fade.goyo-page-ready body.home,
+html.goyo-page-fade.goyo-page-leaving body.home { opacity: 1; transition: none; }
+
+/* 접근성: 모션 감소 모드면 전환 비활성 */
+@media (prefers-reduced-motion: reduce) {
+    html.goyo-page-fade body, html.goyo-page-fade.goyo-page-ready body, html.goyo-page-fade.goyo-page-leaving body { opacity: 1; transition: none; }
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}

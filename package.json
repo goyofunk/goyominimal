@@ -1,0 +1,17 @@
+{
+	"name": "goyoartdark",
+	"version": "1.0.0",
+	"description": "고요아트 다크테마",
+	"author": "고요펑크",
+	"license": "GPL-2.0-or-later",
+	"scripts": {
+		"check:slug-namespace": "php .cursor/rules/slug-namespace-audit.php"
+	},
+	"keywords": [
+		"WordPress",
+		"Theme",
+		"goyoartdark"
+	],
+	"homepage": "https://goyofunkstudio.com/themes/goyoartdark/",
+	"private": true
+}

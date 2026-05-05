@@ -1,0 +1,390 @@
+---
+description: 고요펑크 워드프레스 테마(goyoartdark) 개발 규칙
+globs:
+  - "**/*.php"
+  - "**/*.css"
+  - "**/*.json"
+  - "**/*.html"
+alwaysApply: true
+---
+git reset --hard 81c3fe8a2b418be444ce6d3fbdf9ca1661d3c11a && git clean -fd && git status
+# 고요펑크 워드프레스 테마 (goyoartdark) 개발 규칙
+
+## 1. 테마 기본 정보
+
+| 항목 | 값 |
+| --- | --- |
+| 테마 슬러그(폴더명) | `goyoartdark` |
+| 테마명(Theme Name) | `goyoartdark` |
+| 작업자(Author) | `고요펑크스튜디오` |
+| Author URI | `https://goyofunkstudio.com` (확정 전까지 임시값 유지) |
+| 설명(Description) | `고요아트 다크테마  ` |
+| Text Domain | `goyoartdark` |
+| 부모 테마 | 없음 (독립 블록 테마) |
+| 요구 사항 | Requires at least: 6.7 / Tested up to: 6.9 / Requires PHP: 7.2 |
+
+> `style.css` 헤더, `theme.json`, `readme.txt`, 모든 `functions.php` 등은 이 정보를 기준으로 작성합니다.
+
+## 2. 네이밍·접두사 규칙
+
+테마 코드에서는 식별자를 **`goyoartdark` 기준**으로 통일한다. (PHP `goyoartdark_*` 함수·`Goyoartdark_*` 클래스, 스타일/스크립트 핸들 `goyoartdark-`, 블록·바인딩 네임스페이스 `goyoartdark/`, 번역 Text Domain `'goyoartdark'`.)
+
+- 패턴 카테고리·슬러그 예: `goyoartdark_page`, `goyoartdark/format`.
+- `__()`, `_e()`, `esc_html__()` 등 **Text Domain** 리터럴은 항상 `'goyoartdark'` 로 둔다 (변수 금지).
+- 주석/문서블록의 `@subpackage`, `@since` 등 기술 표기는 테마 정책과 어긋나지 않게 유지한다.
+
+## 3. CSS 작성 규칙
+
+### 3-1. 클래스명 단위 한 줄 작성 (필수)
+
+**선언(속성·값):** 하나의 셀렉터 블록 **내부**에서는 속성과 값을 **줄바꿈 없이** 한 줄에 연속해서 씁니다. `font-` 최우선 순서(3-2)는 그대로 따릅니다.
+
+**셀렉터 나열(쉼표):** 둘 이상의 셀렉터를 쉼표로 묶는 경우, **쉼표 뒤에 줄바꿈**하여 셀렉터를 **한 줄에 하나씩** 둡니다. 마지막 셀렉터 줄 끝에 여는 중괄호 `{` 를 붙이고, 그 뒤에 선언 한 줄을 이어 씁니다.
+
+```css
+/* 올바른 예 (다중 셀렉터) */
+h2,
+h3 { line-height: 1.4; color: #fff; }
+
+/* 잘못된 예 (한 줄에 셀렉터 나열) */
+h2, h3 { line-height: 1.4; }
+```
+
+**`@media` / `@supports` 등 조건부 규칙:** 미디어(조건) 블록은 **여는 중괄호·닫는 중괄호가 각각 줄바꿈으로 분리**되도록 씁니다.
+
+1. **첫 줄:** `@media … )` 까지 쓰고 그 **같은 줄 끝**에 여는 중괄호 `{` 를 둡니다.
+2. **`{` 직후:** 반드시 **줄을 바꿉니다.** `{` 뒤에 규칙을 이어 붙이지 않습니다.
+3. **블록 안:** 규칙마다 **탭 한 번** 들여씁니다.
+4. **닫는 `}`:** 블록의 **마지막 줄을 단독으로** 두고, 들여쓰기는 `@media` 와 같은 열(바깥)에 맞춥니다.
+
+```css
+/* 올바른 예 */
+@media screen and (max-width: 1024px) {
+	.faqWrapper .faq-header { padding: 15px 0 15px 35px; }
+}
+
+/* 잘못된 예 — 여는/닫는 중괄호로 감싼 채 한 줄·같은 줄에 규칙 몰아쓰기 금지 */
+@media screen and (max-width: 1024px) { .faqWrapper .faq-header { padding: 15px 0 15px 35px; } }
+```
+
+```css
+/* 올바른 예 (단일 셀렉터, 선언 한 줄) */
+.hero-title { font-family: "Pretendard Variable", sans-serif; font-weight: 700; font-size: clamp(24px, 3vw, 36px); line-height: 1.4; color: #000; margin: 0; }
+
+/* 잘못된 예 (선언을 여러 줄로 쪼갬 — 금지) */
+.hero-title {
+	font-family: "Pretendard Variable", sans-serif;
+	font-weight: 700;
+}
+```
+
+적용 대상: `.css` 파일 및 `<style></style>` 블록 내부 모든 CSS.
+
+**연속 규칙 블록 사이 빈 줄 금지:** 서로 이어지는 일반 셀렉터 블록(클래스·아이디·요소 등) **사이에 빈 줄을 두지 않습니다.** 한 줄에 한 블록을 연속해 씁니다. 이는 `@media` / `@supports` 가 요구하는 **중괄호·들여쓰기 규칙과 무관**하며, “가독용으로 블록마다 한 줄 비우기” 같은 관행은 **하지 않습니다.** 섹션을 구분하는 **주석 줄** 바로 위·아래는 필요 시 한 줄만 허용합니다. `@media` 블록 **내부**의 인접 규칙들도 **빈 줄 없이** 연속 작성합니다.
+
+### 3-2. 속성 순서 규칙
+
+한 줄 안에서 속성을 배치할 때 **`font-` 관련 속성을 가장 앞에 우선 배치**합니다.
+
+권장 순서: `font-family` → `font-weight` → `font-size` → `line-height` → `letter-spacing` → 그 외(color, background, margin, padding, display, position 등).
+
+```css
+.card-title { font-family: "Pretendard Variable"; font-weight: 600; font-size: 20px; line-height: 1.3; letter-spacing: -0.4px; color: #fff; }
+```
+
+### 3-3. 필수 적용 베이스 스타일
+
+`style.css` 상단(테마 헤더 직후)과 에디터 스타일에는 다음 베이스가 반드시 포함되어야 합니다(타 테마 `goyominimal/style.css` 10~30번 줄 기반).
+
+```css
+@font-face { font-family: 'Pretendard Variable'; font-weight: 45 920; font-style: normal; font-display: swap; src: local('Pretendard Variable'), url('assets/fonts/pretendard/PretendardVariable.woff2') format('woff2-variations'); }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { margin: 0 auto; overflow: auto; overflow-x: hidden; position: relative; width: 100%; -ms-overflow-style: none; }
+body,
+button,
+input,
+select,
+optgroup,
+textarea { font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; font-size: clamp(15px, 0.9vw, 16px); line-height: 1.6; color: var(--wp--preset--color--contrast, #fff); background-color: var(--wp--preset--color--base, #000); }
+a { color: var(--wp--preset--color--accent, #0099ff); text-decoration-thickness: 1px; text-underline-offset: .1em; }
+h1 { font-size: clamp(24px, 3vw, 36px); }
+h2 { font-size: clamp(20px, 2.3vw, 28px); }
+h3 { font-size: clamp(17px, 1.7vw, 20px); }
+h4 { font-size: clamp(15px, 1.5vw, 18px); }
+h5 { font-size: clamp(14px, 1.3vw, 16px); }
+h1,
+h2 { line-height: 1.4; }
+h3,
+h4,
+h5 { line-height: 1.6; }
+```
+
+> 위 규칙은 `theme.json` 의 `typography`(fontFamilies, fontSizes) 기본값과도 **1:1로 일치**해야 합니다.
+
+## 4. 폰트 규칙 (Pretendard)
+
+- 모든 본문/UI 기본 폰트는 **Pretendard Variable** 사용.
+- 폰트 파일 위치: `assets/fonts/pretendard/PretendardVariable.woff2`
+- 로컬 로더 CSS: `assets/fonts/pretendard/pretendard.css`
+- 외부 CDN 로드 금지. 항상 테마 내 `woff2` 파일을 `@font-face` 로 로드.
+- `font-weight: 45 920;` 가변 폰트 범위를 유지합니다.
+- 참고 구현체: `../goyominimal/assets/fonts/pretendard/` (동일 구조로 이식)
+
+## 5. 아이콘 규칙 (Bootstrap Icons)
+
+- 테마 내 **모든 아이콘은 Bootstrap Icons** 를 사용합니다.
+- 권장 사용 방식:
+  1. 정적 자산: `assets/icons/bootstrap-icons.woff2` + `assets/icons/bootstrap-icons.css` 를 테마에 포함 후 `wp_enqueue_style( 'goyoartdark-bi', ... )` 로 등록.
+  2. 마크업 사용: `<i class="bi bi-house"></i>` 형태.
+- 이모지/SVG 인라인 아이콘을 직접 그려 쓰지 않습니다. 커스텀 SVG가 필요하면 Bootstrap Icons에 존재하는지 먼저 확인합니다.
+- Dashicons, Font Awesome 등 타 아이콘 라이브러리는 **사용 금지**.
+
+## 6. 디자인 토큰 & `theme.json`
+
+테마 디자인 기본값은 [Framer DESIGN.md](https://getdesign.md/framer/design-md) 를 참고하되 **폰트는 Pretendard** 로 대체하여 `theme.json` 에 반영합니다.
+
+### 6-1. 색상 팔레트 (Framer 기반)
+
+| 역할 | 토큰 slug | 값 |
+| --- | --- | --- |
+| Primary Background | `base` | `#000000` (Void Black) |
+| Primary Text | `contrast` | `#ffffff` (Pure White) |
+| Accent / Link | `accent` | `#0099ff` (Framer Blue) |
+| Secondary Text | `muted` | `#a6a6a6` (Muted Silver) |
+| Elevated Surface | `surface` | `#090909` (Near Black) |
+| Frosted Surface | `frosted` | `rgba(255, 255, 255, 0.1)` |
+| Accent Ring | `accent-ring` | `rgba(0, 153, 255, 0.15)` |
+
+`settings.color.palette` 에 위 토큰을 등록하고, 코어 색(`--wp--preset--color--*`) 과 블록 스타일이 이 토큰만 사용하도록 합니다. 추가 액센트 컬러 도입 금지 (단일 액센트 시스템).
+
+### 6-2. 타이포그래피 (Pretendard 기반)
+
+- `settings.typography.fontFamilies` 에 하나의 항목만 등록:
+  - `name: "Pretendard"`, `slug: "pretendard"`, `fontFamily: "\"Pretendard Variable\", -apple-system, BlinkMacSystemFont, system-ui, \"Apple SD Gothic Neo\", \"Noto Sans KR\", sans-serif"`
+  - `fontFace` 로 `assets/fonts/pretendard/PretendardVariable.woff2` 등록 (woff2-variations).
+- `settings.typography.fontSizes` 는 CSS `clamp()` 기반 (3-3 섹션과 동기화):
+  - `small`  : `clamp(14px, 1.3vw, 16px)`
+  - `medium` : `clamp(15px, 0.9vw, 16px)`  ← 본문 기본
+  - `large`  : `clamp(17px, 1.7vw, 20px)`
+  - `x-large`: `clamp(20px, 2.3vw, 28px)`
+  - `xx-large`: `clamp(24px, 3vw, 36px)`
+- Framer의 GT Walsheim / Inter 는 직접 사용하지 않지만, **letter-spacing 은 음수(-0.01em ~ -0.04em) 로 타이트하게** 유지하여 Framer 감성을 계승합니다.
+
+### 6-3. 레이아웃 & 간격
+
+- `settings.layout.contentSize`: `720px`
+- `settings.layout.wideSize`: `1200px`
+- `settings.spacing.spacingScale`: 8px 기반 스케일 (1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 30, 35 → px/rem 혼용 가능)
+- `settings.border.radiusStyles`: `8px`(기본), `12px`(카드), `40px`(pill), `100px`(full pill)
+
+### 6-4. 섀도 / 엘리베이션
+
+| 토큰 | 값 |
+| --- | --- |
+| `ring-accent` | `rgba(0, 153, 255, 0.15) 0px 0px 0px 1px` |
+| `ring-surface` | `rgb(9, 9, 9) 0px 0px 0px 2px` |
+| `floating` | `rgba(255, 255, 255, 0.1) 0px 0.5px 0px 0.5px, rgba(0, 0, 0, 0.25) 0px 10px 30px` |
+
+버튼/카드/네비게이션 스타일은 위 토큰과 `frosted`/`accent` 컬러로만 구성하며, 장식용 그라디언트/이미지는 사용하지 않습니다.
+
+## 7. 파일/폴더 구조
+
+```
+goyoartdark/
+├── .cursor/rules/project-rules.mdc
+├── assets/
+│   ├── css/editor-style.css
+│   ├── fonts/pretendard/{PretendardVariable.woff2, pretendard.css}
+│   └── icons/{bootstrap-icons.woff2, bootstrap-icons.css}
+├── parts/
+├── patterns/
+├── styles/           (style variations)
+├── templates/
+├── functions.php
+├── style.css
+├── theme.json
+├── readme.txt
+└── screenshot.png
+```
+
+- 파일/함수 네이밍은 전부 **소문자 + 언더스코어** (`goyoartdark_xxx`).
+
+## 8. 코드 품질 원칙
+
+- PHP/CSS/JSON 모두 **의미 있는 네이밍**을 사용하고, 매직 넘버는 상수/`theme.json` 프리셋으로 분리합니다.
+- 함수는 단일 책임을 지키고(SRP), 반복 로직은 헬퍼로 추출합니다(DRY).
+- 주석은 "왜(Why)"를 한국어로만 작성합니다. "무엇(What)"을 반복 설명하는 주석은 금지.
+- 변경 후 남은 **타 테마·임시 파일·디버그 코드** 잔재는 반드시 제거합니다(Boy Scout Rule).
+- 린트/문법 오류를 확인하고 커밋 전에 해결합니다.
+
+## 9. 금지 사항 (Don't)
+
+- **타 테마** 슬러그·Text Domain·블록 네임스페이스 문자열/주석/경로 잔존
+- CSS 속성을 여러 줄로 분리하여 작성 (3-1: 다중 셀렉터 쉼표 줄바꿈·`@media` 블록 들여쓰기는 선언 분할이 아님)
+- 인접한 CSS 규칙 블록 사이에 빈 줄 넣기 (`@media` 내부 포함; 3-1 연속 블록 규칙)
+- `font-` 관련 속성을 뒤쪽에 배치
+- Pretendard 외의 본문 폰트 사용 (GT Walsheim, Inter 등 직접 로드 금지)
+- Bootstrap Icons 외의 아이콘 라이브러리 사용
+- Framer Blue(`#0099ff`) 외의 추가 액센트 컬러 도입
+- 외부 CDN 으로 폰트/아이콘을 로드하는 방식 (보안·오프라인 대응 불가)
+- 장식 목적의 이미지/그라디언트/드롭 섀도 남용
+
+## 10. WordPress 공식 테마 개발 가이드라인 준수 (실행 룰)
+
+WordPress 공식 [Theme Developer Handbook](https://developer.wordpress.org/themes/) 을 **모든 작업의 기준**으로 삼습니다. 본 프로젝트는 `templates/*.html` + `theme.json` 기반의 **Block Theme** 로 구현하며, 아래 실행 룰을 반드시 지킵니다.
+
+> 참고 링크: <https://developer.wordpress.org/themes/>
+
+### 10-1. 테마 유형 (Block Theme 고정)
+
+- 본 테마는 **Block Theme** 입니다. Classic/Hybrid 방식을 혼용하지 않습니다.
+  - 템플릿은 `templates/*.html`, 파츠는 `parts/*.html` 로 작성 (PHP 템플릿 금지).
+  - `theme.json` 에서 전역 설정·스타일(global settings & styles)을 선언적으로 관리합니다.
+  - 사이트 에디터(Full Site Editing)에서 모든 영역이 편집 가능해야 합니다.
+- Customizer 기반 API(`add_theme_support( 'customize-selective-refresh-widgets' )` 등)를 새로 도입하지 않습니다.
+
+### 10-2. 테마 vs 플러그인 역할 분리
+
+- **테마는 "표현(presentation)"만** 담당합니다. 테마 교체 시 사라지면 안 되는 사이트 핵심 기능(CPT 등록, 단축 코드, 서드파티 연동, 분석/SEO 로직)은 테마에 넣지 않습니다.
+- 사이트 핵심 기능이 필요하면 별도 플러그인으로 분리 권고를 주석에 남기고, 테마에는 프레젠테이션 훅(`after_setup_theme`, `wp_enqueue_scripts`, 블록 스타일 등록)만 둡니다.
+- `register_post_type`, `register_taxonomy`, `wp_mail` 등 **기능성 API 호출은 테마 코드에 두지 않습니다**.
+
+### 10-3. 필수 테마 파일 & 헤더
+
+- 루트에 다음 파일이 반드시 존재해야 합니다: `style.css`, `theme.json`, `functions.php`(선택적·최소), `readme.txt`, `screenshot.png`, `templates/index.html`.
+- `style.css` 헤더는 공식 필수 필드를 모두 포함합니다: `Theme Name`, `Theme URI`, `Author`, `Author URI`, `Description`, `Version`, `Requires at least`, `Tested up to`, `Requires PHP`, `License`, `License URI`, `Text Domain`, `Tags`.
+- `License` 는 **GPL v2 이상 호환** 라이선스만 사용합니다 (권장: `GNU General Public License v2 or later`).
+- `screenshot.png` 는 1200×900(표시 600×450) 규격을 권장합니다.
+
+### 10-4. `functions.php` 작성 원칙
+
+- 모든 함수는 `goyoartdark_` 접두사 + `function_exists()` 가드로 감쌉니다.
+- 스크립트·스타일은 반드시 `wp_enqueue_scripts` / `enqueue_block_editor_assets` / `enqueue_block_assets` 훅을 통해 등록합니다. 템플릿·HTML에 `<link>`/`<script>` 를 직접 쓰지 않습니다.
+- 자산 버전은 파일 `filemtime()` 또는 테마 버전 상수를 사용해 캐시 무효화합니다.
+- `add_theme_support()` 는 `after_setup_theme` 훅 안에서만 호출합니다 (최소: `wp-block-styles`, `editor-styles`, `responsive-embeds`, `html5`, `align-wide`).
+- 블록 스타일/변형은 `register_block_style()` 및 `theme.json` 으로 등록하고, 인라인 `<style>` 주입을 지양합니다.
+
+### 10-5. 국제화(i18n) 필수 규칙
+
+- 사용자에게 노출되는 **모든 문자열**은 번역 함수로 감쌉니다: `__()`, `_e()`, `esc_html__()`, `esc_attr__()`, `_n()`, `_x()`, `printf( __('%s', 'goyoartdark'), ... )`.
+- Text Domain 은 항상 `'goyoartdark'` 리터럴로 작성 (변수 사용 금지). 플레이스홀더(`%s`, `%1$s`)는 번역 가능한 문자열 안쪽에 두고, 맥락이 필요하면 `_x()` 로 제공합니다.
+- 번역 파일은 `languages/` 에 `goyoartdark.pot` 를 두고, `load_theme_textdomain( 'goyoartdark', get_template_directory() . '/languages' );` 를 `after_setup_theme` 에서 호출합니다.
+
+### 10-6. 보안 규칙 (입력·출력·권한)
+
+- **출력 이스케이프 필수**: HTML 본문은 `esc_html()`, 속성은 `esc_attr()`, URL은 `esc_url()`, JS 컨텍스트는 `esc_js()`, 번역 문자열도 `esc_html__()`/`esc_attr__()` 로 감쌉니다.
+- **입력 검증/새니타이즈**: `sanitize_text_field()`, `absint()`, `wp_kses_post()` 등을 적절히 사용합니다.
+- **Nonce**: 폼/커스텀 액션은 `wp_nonce_field()` + `check_admin_referer()` / `wp_verify_nonce()` 로 검증합니다.
+- **Capability**: 권한 체크는 `current_user_can()` 으로 명시합니다.
+- DB 쿼리가 필요하면 `$wpdb->prepare()` 필수. 직접 쿼리 문자열 결합 금지.
+- `eval`, `create_function`, `base64_decode` 로 실행 코드 생성 금지.
+
+### 10-7. 디버깅 & 코드 품질
+
+- 개발 환경에서는 `wp-config.php` 에 `WP_DEBUG`, `WP_DEBUG_LOG`, `SCRIPT_DEBUG` 를 활성화해 오류/Notice 가 **0건** 인 상태로 커밋합니다.
+- `error_log()`, `var_dump()`, `print_r()` 등 디버그 출력은 커밋 전에 반드시 제거합니다.
+- PHP 파일은 WordPress Coding Standards(WPCS) 에 준수 — 들여쓰기는 **탭**, Yoda 조건(`if ( 'x' === $var )`), 중괄호 스타일, 공백 규칙을 지킵니다.
+- `functions.php` 파일은 물리적 끝에 `?>` 닫는 태그를 두지 않습니다.
+
+### 10-8. 테마 테스트 & 호환성
+
+- [Theme Unit Test](https://codex.wordpress.org/Theme_Unit_Test) XML 데이터로 아래 항목을 확인합니다:
+  - 긴 제목/긴 단어/한국어·영어 혼합 컨텐츠에서 레이아웃이 깨지지 않음
+  - 댓글 스레드, 이미지 정렬(left/right/center/wide/full), 목록/인용/표/코드블록 표시
+  - `wp_head()`, `wp_footer()` 호출 여부(블록 테마는 내부적으로 호출되나, 커스텀 템플릿에서 누락 금지)
+- `Theme Check` / `Site Health` / `Query Monitor` 로 경고 0건을 지향합니다.
+- 최신 WordPress LTS + PHP 7.2 ~ 8.3 에서 오류 없이 동작해야 합니다.
+
+### 10-9. 접근성(Accessibility) & UI 베스트 프랙티스
+
+- 모든 이미지에 `alt` 속성 제공. 장식용이면 빈 문자열(`alt=""`).
+- 폼 요소는 `<label>` 과 `id` 로 명시적으로 연결.
+- 키보드 탐색 가능(포커스 스타일 유지), `:focus-visible` 스타일 제공.
+- 색 대비(WCAG AA): 본문 텍스트 4.5:1 이상. `accent(#0099ff)` 를 본문에 장시간 쓰지 않음.
+- 스킵 링크(`Skip to content`) 를 헤더 파츠에 포함.
+- 시맨틱 HTML (`<header>`, `<main>`, `<nav>`, `<footer>`, `<article>`) 을 템플릿 파츠에서 준수.
+
+### 10-10. Privacy(개인정보) & 외부 리소스
+
+- 사용자 동의 없는 **외부 CDN/트래커** 로드 금지 (폰트·아이콘·분석 스크립트 포함). 폰트/아이콘은 테마 내부 자산만 사용 (섹션 4·5와 동일).
+- 개인정보를 수집하는 기능(쿠키·폼 전송)은 테마가 아닌 플러그인에서 구현합니다.
+
+### 10-11. 릴리스 & 배포
+
+- `readme.txt` 에 `Changelog` 를 버전별로 기록합니다.
+- 버전은 **SemVer**(`MAJOR.MINOR.PATCH`) 를 따르고, `style.css` 헤더 `Version` 과 `readme.txt` 를 동시 갱신합니다.
+- 배포 전 `Theme Check` 플러그인 통과, `zip` 에 `.DS_Store` / `node_modules` / 소스맵 / 빌드 아티팩트 제외.
+
+## 11. 작업 체크리스트
+
+새 커밋/변경이 완료되기 전에 다음을 점검합니다.
+
+- [ ] `style.css` 헤더가 goyoartdark 메타데이터로 갱신되었는가 (License/Text Domain/Requires 포함)
+- [ ] 함수·핸들·`goyoartdark/` 블록 네임스페이스·Text Domain이 `goyoartdark` 로 일관되는가
+- [ ] `theme.json` 색상/폰트/스페이싱이 Framer 가이드 + Pretendard 기반으로 구성되었는가
+- [ ] CSS가 선언 한 줄·다중 셀렉터 쉼표 줄바꿈·연속 블록 사이 빈 줄 없음·`@media` 등 조건부 블록의 `{`/`}` 줄분리 및 내부 탭 들여쓰기 + `font-` 최우선 규칙을 지키는가
+- [ ] Pretendard 폰트가 로컬 `woff2` 로 `@font-face` 등록되었는가
+- [ ] 모든 아이콘이 Bootstrap Icons 로 구현되었는가
+- [ ] Text Domain(`goyoartdark`)이 모든 번역 함수에 일관되게 적용되었는가
+- [ ] 모든 사용자 노출 문자열이 `__()`/`esc_html__()` 등으로 감싸졌는가 (i18n)
+- [ ] 출력부에 `esc_html()`/`esc_attr()`/`esc_url()` 이스케이프가 적용되었는가 (보안)
+- [ ] `WP_DEBUG=true` 상태에서 Notice/Warning 이 0건인가
+- [ ] Block Theme 구조(`templates/*.html`, `parts/*.html`, `theme.json`)를 유지하고 있는가
+- [ ] 스크립트/스타일이 `wp_enqueue_scripts` 훅으로만 등록되는가 (직접 태그 주입 없음)
+- [ ] 사이트 핵심 기능이 테마에 포함되지 않았는가 (플러그인 영역 분리)
+- [ ] 사용자가 **표시용 테마 이름**만 요청한 경우 **`style.css` 헤더 등 메타만** 바꿨는가 (**폴더명·슬러그·접두 일괄 치환과 혼동 없음**. §12-6 참고)
+- [ ] 사용자가 **직접 지시하지 않은** UI·디자인·CSS 변경을 하지 않았는가 (**승인 없이 금지**. §12-8)
+
+## 12. AI 협업·사이트 편집(FSE) 재발 방지
+
+> 사람 전문가는 호스팅·고객·장기 유지보수 경험으로 판단한다. 여기 규칙은 **도구(AI 포함)와 같이 작업할 때** 같은 실수를 줄이기 위한 실행 규칙이다.
+
+> **필수(강조):** 사용자가 **직접적으로 지시하지 않은** UI·디자인·**CSS** 변경(레이아웃·색·타이포·간격·애니메이션·반응형 조정·`theme.json` 스타일 시각 값·인라인 스타일 등)은 **절대 임의로 적용하지 않는다.** 필요하다고 판단되더라도 **먼저 사용자에게 물어 승인을 받은 뒤**에만 진행한다. (§12-8)
+
+### 12-1. 역할 인지
+
+- AI·에이전트는 코드·문서 검색에는 강하지만, **항상 사용자 환경(플러그인·DB·캐시)** 을 알 수 없어 **실제 “전문가 단독 수준 책임”을 대신할 수는 없다.**
+
+### 12-2. 변경 단위·롤백
+
+- **한 번에 하나의 종류만** 수정한다 (패턴만 / CSS만 / PHP 훅만). 패턴·`functions.php`·대규모 CSS를 **동일 세션 한 요청**에 묶지 않는다.
+- 에이전트가 파일을 수정하기 **직전**: `git commit` 또는 **`git stash`(백업)**. 수정 후에는 **`git diff`로 차이 확인** 후에만 저장·배포를 생각한다.
+- 증상이 악화되면 **바로 해당 커밋으로 되돌린 뒤**, 원인 한 가지를 좁히고 다시 한다. “더 덧대기” 금지.
+
+### 12-3. 블록 마크업(검증·초기화/복구 루프 방지)
+
+- `core/group` 등 코어 블록 **저장 출력에 없는** `data-*`·임의 `aria-*`를 패턴·템플릿 HTML에 **손으로 넣지 않는다**. (마크업 불일치 → 블록 검증 실패 → 초기화/복구 반복의 흔한 원인)
+- 전면이 이상하면 **먼저** 사이트 편집기에서 전면 템플릿 **“테마로 되돌리기/사용자 정의 초기화”**로 DB 쪽 오래된 복사본과의 충돌을 제거한 뒤, 테마 파일 기준으로 다시 본다.
+
+### 12-4. `wp:pattern` + `core/shortcode` (이 테마 전제)
+
+- 템플릿 최상단의 `do_shortcode()`는 패턴 내용을 펼치기 **전**에 한 번만 돌아가므로, 그 안쪽 `core/shortcode`에는 도달하지 못할 수 있다. 이 테마는 **`render_block`에서 `core/shortcode`에 `do_shortcode`를 보강**한다 (`inc/shortcodes.php`의 `goyoartdark_render_block_core_shortcode`). **이 훅을 제거·우회하지 않는다** (프론트에 `[goyo_*]` 문자 그대로 노출).
+
+### 12-5. 배포 전 최소 검증
+
+- 수정 후 매번 **공개 프론트 홈**, **모양 편집기(전면 템플릿)** 각각 새로고침. 가능하면 브라우저 **개발자 도구 콘솔**에 오류 있는지 확인.
+- 패턴/HTML을 건드렸으면 저장 후 **블록 검증 경고**(“복구 시도”) 여부도 본다.
+
+### 12-6. 테마 “이름” 요청 vs 슬러그·DB (2026-05 대화 요약 반영)
+
+- 사용자가 **“테마 이름을 예쁘게”**만 말하면 **기본 해석은 `style.css`의 `Theme Name`(및 표시용 메타)** 만 변경하는 것이다.
+- **`themes/` 폴더명 변경**, **다른 디렉터리로 복제·전환**, **Text Domain·접두사 전면 치환**은 **별도 작업**이며, **한 요청에 묶지 않는다**. 필요 시 **한 문장으로 범위를 확인**한 뒤 진행한다.
+- **폴더명(= `stylesheet`)이 바뀌면** 워드프레스는 **새 테마**로 취급한다. **커스터마이저·글로벌 스타일·폰트 라이브러리** 등은 **슬러그별로 DB에 묶이므로** “이름만” 바꾼 것처럼 보여도 **설정이 끊긴 것처럼** 보일 수 있다. 이는 **코어 동작**이며, 자동 이전을 전제로 하지 않는다.
+- 상세·키 분리는 **`.cursor/rules/slug-namespace-guard.mdc`** 와 **`inc/theme-mod-registry.php`** 를 따른다.
+
+### 12-7. 검증 표현·범위 (에이전트)
+
+- **헤더, 푸터, 프론트 페이지, 로고(`custom_logo`), 히어로 배경(`goyo_hero_font_back`)** 등은 **코드상 읽기 경로**와 **실제 DB·캐시·사이트 편집기에 저장된 복사본**이 다를 수 있다.
+- **저장소 분석만으로** “전부 문제없다”“다 고쳤다”라고 **단정하지 않는다**. 말할 때는 **파일에서 확인한 사실**과 **사용자 환경에서만 확인 가능한 항목**을 **구분**한다.
+- **요청 범위 밖**의 삭제·폴더 교체·별도 테마 생성·런타임 `set_theme_mod` 복구를 **임의로 하지 않는다**.
+- 세션 간 기억에 의존하지 않는다. **이 섹션과 `slug-namespace-guard.mdc`**가 교차 세션의 기준이다.
+
+### 12-8. UI·디자인·CSS — 무지시 변경 **절대 금지** (강조)
+
+- **원칙:** 이번 요청 문자열 안에서 사용자가 **명시적으로** 요구하지 않은 **시각·UI·디자인** 변경을 하지 않는다.
+- **적용 범위 (예시):** `*.css`, `theme.json` 의 `styles`·색·타이포·간격, `assets/css/editor-style.css`, 패턴/HTML 내 **디자인 목적** 클래스·스타일, 블록 `style`/spacing/color 등 **화면 모양을 바꾸는 모든 편집**.
+- **허용:** 사용자가 특정 파일·셀렉터·블록만 **직접** 수정하라고 한 경우; 또는 **버그로 깨진 표시**를 **기존 디자인 스펙 안에서** 되돌리는 **최소** 수정 — 단, 여기서도 **추가 꾸밈·리디자인**은 금지.
+- **금지:** 사용자 문구 없이 “더 예쁘게”“일관되게”“폴리시”만으로 간격·폰트·색을 바꾼다.
+- **절차:** 무지시 UI/CSS 변경이 **유력하면 작업 전** 사용자에게 **반드시** 묻고 승인 후 진행한다. **묻지 않고 반영하면 규칙 위반**이다.
+- **연동:** `.cursor/rules/active-theme.mdc`, `slug-namespace-guard.mdc` 의 동명 원칙과 동일한다.
