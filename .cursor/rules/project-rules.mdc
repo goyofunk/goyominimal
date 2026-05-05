@@ -1,5 +1,5 @@
 ---
-description: 고요펑크 워드프레스 테마(goyoartdark) 개발 규칙
+description: 고요펑크 워드프레스 테마(goyominimal) 개발 규칙
 globs:
   - "**/*.php"
   - "**/*.css"
@@ -8,18 +8,18 @@ globs:
 alwaysApply: true
 ---
 git reset --hard 81c3fe8a2b418be444ce6d3fbdf9ca1661d3c11a && git clean -fd && git status
-# 고요펑크 워드프레스 테마 (goyoartdark) 개발 규칙
+# 고요펑크 워드프레스 테마 (goyominimal) 개발 규칙
 
 ## 1. 테마 기본 정보
 
 | 항목 | 값 |
 | --- | --- |
-| 테마 슬러그(폴더명) | `goyoartdark` |
-| 테마명(Theme Name) | `goyoartdark` |
+| 테마 슬러그(폴더명) | `goyominimal` |
+| 테마명(Theme Name) | `미니멀리즘 테마` |
 | 작업자(Author) | `고요펑크스튜디오` |
 | Author URI | `https://goyofunkstudio.com` (확정 전까지 임시값 유지) |
-| 설명(Description) | `고요아트 다크테마  ` |
-| Text Domain | `goyoartdark` |
+| 설명(Description) | `예술가와 디자이너를 위한 포트폴리오용 테마` |
+| Text Domain | `goyominimal` |
 | 부모 테마 | 없음 (독립 블록 테마) |
 | 요구 사항 | Requires at least: 6.7 / Tested up to: 6.9 / Requires PHP: 7.2 |
 

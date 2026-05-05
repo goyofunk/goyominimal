@@ -517,7 +517,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_control(
 			'header_menu_font_size',
 			array(
-				'label'       => __( '2차메뉴 글자 크기(CSS)', 'goyoartdark' ),
+				'label'       => __( '헤더메뉴 글자 크기(CSS)', 'goyoartdark' ),
 				'section'     => $top_menu_section_id,
 				'settings'    => 'header_menu_font_size',
 				'type'        => 'text',
@@ -538,7 +538,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_control(
 			'header_menu_font_weight',
 			array(
-				'label'       => __( '2차메뉴 글자 굵기', 'goyoartdark' ),
+				'label'       => __( '헤더메뉴 글자 굵기', 'goyoartdark' ),
 				'section'     => $top_menu_section_id,
 				'settings'    => 'header_menu_font_weight',
 				'type'        => 'number',
@@ -716,7 +716,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 				$wp_customize,
 				'header_menu_current_font_color',
 				array(
-					'label'       => __( '현재강조색상', 'goyoartdark' ),
+					'label'       => __( '헤더 메뉴 현재강조색상', 'goyoartdark' ),
 					'section'     => $top_menu_section_id,
 					'settings'    => 'header_menu_current_font_color',
 					'priority'    => 2.2,

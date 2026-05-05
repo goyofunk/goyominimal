@@ -81,7 +81,7 @@ body.goyo-unicorn-over-black--screen .mainhero-unicorn { mix-blend-mode: screen;
 .mainhero-unicorn.is-ready { opacity: 1; }
 .font-back.mainhero-font-back { position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 0; margin: 0; padding: 0; pointer-events: none; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat; transform: scale(1.04); }
 .mainhero-unicorn canvas { display: block; position: relative; width: 100% !important; height: 100% !important; background: transparent; }
-.mainhero-vignette { display: flex; align-items: center; justify-content: center; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 3; pointer-events: none; background: radial-gradient(ellipse 100% 70% at 50% 100%, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.15) 40%, rgba(0, 0, 0, 0) 100%); }
+.mainhero-vignette { display: flex; align-items: center; justify-content: center; position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 3; pointer-events: none;  }
 .mainhero-vignette .goyo-customize-partial { pointer-events: auto; width: 100%; max-width: 75rem; margin: 2.5vh auto 0 auto; box-sizing: border-box; }
 .mainhero-content p:has(.mainhero-btn) { margin: 0; padding: 0; }
 .mainhero-inner--parallax { will-change: transform; transform: translate3d(0,0,0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
