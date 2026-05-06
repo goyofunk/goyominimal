@@ -1,4 +1,4 @@
-/* 페이지 전환 스타일: 다크 테마 기준. 흰 플래시 없이 고급스러운 크로스-페이드 구현.
+/* 페이지 전환 스타일: 라이트 테마 기준. 어두운 플래시 없이 자연스러운 크로스-페이드 구현.
  *
  * 레이어 구조 (View Transitions API):
  *   ::view-transition                     ← 최상위 오버레이 컨테이너
@@ -8,16 +8,16 @@
  *             ├ ::view-transition-old(root)      ← 이전 페이지 스냅샷 (페이드-아웃)
  *             └ ::view-transition-new(root)      ← 새 페이지 스냅샷 (페이드-인)
  *
- * 모든 레이어에 검은 배경을 지정해 전환 어느 순간에도 흰 틈이 노출되지 않도록 한다.
+ * 모든 레이어에 밝은 배경을 지정해 전환 어느 순간에도 어두운 틈이 노출되지 않도록 한다.
  * html/body 배경은 <head> 인라인 크리티컬 CSS 가 선제 적용(FOUC 차단). */
 
 /* 문서 간( MPA ) view transition 은 JS 페이드 전환(page-transition.js)으로 대체한다.
  * @view-transition at-rule 은 IDE에서 unknownAtRules 경고가 발생해 제거했다. */
 
-/* 비활성 뒤에도( 미래 재사용/부분 지원 ) 뷰 전환 레이어는 무조건 #000 고정( 변수 미해결 시 흰 틈 방지 ) */
-::view-transition, ::view-transition-group(root), ::view-transition-image-pair(root) { background-color: #000; }
-::view-transition-old(root), ::view-transition-new(root) { background-color: #000; }
-::backdrop { background-color: #000; }
+/* 비활성 뒤에도( 미래 재사용/부분 지원 ) 뷰 전환 레이어는 무조건 라이트 배경 고정( 변수 미해결 시 암전 방지 ) */
+::view-transition, ::view-transition-group(root), ::view-transition-image-pair(root) { background-color: #f7f7f5; }
+::view-transition-old(root), ::view-transition-new(root) { background-color: #f7f7f5; }
+::backdrop { background-color: #f7f7f5; }
 
 /* ( navigation: none 일 때는 미사용 ) 루트 VT용 — 길이·이징만 유지 */
 ::view-transition-old(root) { animation: goyo-vt-fade-out 300ms cubic-bezier(0.4, 0, 0.2, 1) both; }

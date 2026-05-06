@@ -9,17 +9,17 @@
 			"defaultPalette": false,
 			"palette": [
 				{
-					"color": "#000000",
-					"name": "Void Black",
+					"color": "#f7f7f5",
+					"name": "Canvas White",
 					"slug": "base"
 				},
 				{
-					"color": "#dbdbdb",
-					"name": "Pure White",
+					"color": "#1f2328",
+					"name": "Ink Black",
 					"slug": "contrast"
 				},
 				{
-					"color": "#2dbceb",
+					"color": "#04af65",
 					"name": "Accent Blue",
 					"slug": "accentblue"
 				},
@@ -30,37 +30,37 @@
 					"slug": "accent"
 				},
 				{
-					"color": "#a6a6a6",
-					"name": "Muted Silver",
+					"color": "#5f6b76",
+					"name": "Muted Gray",
 					"slug": "muted"
 				},
 				{
-					"color": "#090909",
-					"name": "Near Black",
+					"color": "#ffffff",
+					"name": "Paper White",
 					"slug": "surface"
 				},
 				{
-					"color": "rgba(255, 255, 255, 0.1)",
-					"name": "Frosted White",
+					"color": "rgba(0, 0, 0, 0.06)",
+					"name": "Frosted Black",
 					"slug": "frosted"
 				},
 				{
-					"color": "rgba(255, 255, 255, 0.25)",
-					"name": "border White",
+					"color": "rgba(31, 35, 40, 0.16)",
+					"name": "border Gray",
 					"slug": "border"
 				},
 				{
-					"color": "rgba(255, 255, 255, 0.35)",
-					"name": "border2 White",
+					"color": "rgba(31, 35, 40, 0.28)",
+					"name": "border2 Gray",
 					"slug": "border2"
 				},
 				{
-					"color": "rgba(255, 255, 255, 0.6)",
-					"name": "Ghost White",
+					"color": "rgba(31, 35, 40, 0.7)",
+					"name": "Ghost Black",
 					"slug": "ghost"
 				},
 				{
-					"color": "rgba(0, 153, 255, 0.15)",
+					"color": "rgba(4, 175, 101, 0.15)",
 					"name": "Accent Ring",
 					"slug": "accent-ring"
 				}

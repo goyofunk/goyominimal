@@ -20,30 +20,30 @@ Text Domain: goyominimal
 * { margin: 0; padding: 0; box-sizing: border-box; } 
 
 /* html 배경을 body 와 동일한 다크 톤으로 지정: 페이지 전환·초기 로드 시 브라우저 기본 흰 배경이 순간 노출되는 FOUC 방지. color-scheme 은 브라우저 UI(스크롤바·폼 컨트롤) 도 다크로 맞춰 깜빡임 제거 */
-html { background-color: var(--wp--preset--color--base, #000); color-scheme: dark; } 
+html { background-color: var(--wp--preset--color--base, #f7f7f5); color-scheme: light; } 
 
 /* 헤더·푸터·네비게이션이 참조하는 테마 공통 커스텀 프로퍼티 정의. theme.json 팔레트(base/contrast/accent/surface/frosted/muted) 와 매핑해 다크 테마 일관성 유지. goyominimal 의 dynamic-css.php 를 대체하는 정적 변수 세트 */
-:root { --body-bg-color: var(--wp--preset--color--base, #000);
-	 --body-text-color: var(--wp--preset--color--contrast, #e1e1e1); /* 주요 강조색(현재 메뉴·활성 링크·포인트) */ 
+:root { --body-bg-color: var(--wp--preset--color--base, #f7f7f5);
+	 --body-text-color: var(--wp--preset--color--contrast, #1f2328); /* 주요 강조색(현재 메뉴·활성 링크·포인트) */ 
 	 --primary-color: var(--wp--preset--color--accent, #04af65); 
 	 --current-menu-color: var(--wp--preset--color--accent, #04af65); /* 상단 메뉴 색상 */ 
-	 --menu-top-color: var(--wp--preset--color--contrast, #e1e1e1); 
-	 --menu-top-current-color: #ffffff; /* 상단 메뉴 드롭다운 서브메뉴 */ 
-	 --submenu-bg-color: var(--wp--preset--color--surface, #090909); 
-	 --submenu-text-color: var(--wp--preset--color--contrast, #e1e1e1); 
+	 --menu-top-color: var(--wp--preset--color--contrast, #1f2328); 
+	 --menu-top-current-color: #0f1419; /* 상단 메뉴 드롭다운 서브메뉴 */ 
+	 --submenu-bg-color: var(--wp--preset--color--surface, #ffffff); 
+	 --submenu-text-color: var(--wp--preset--color--contrast, #1f2328); 
 	 --submenu-hover-text-color: var(--wp--preset--color--accent, #04af65); 
-	 --submenu-hover-bg-color: var(--wp--preset--color--frosted, rgba(255, 255, 255, 0.1)); 
+	 --submenu-hover-bg-color: var(--wp--preset--color--frosted, rgba(0, 0, 0, 0.06)); 
 	 /* subbanner 메뉴 색상 */ 
-	 --subbanner-menu-color: var(--wp--preset--color--contrast, #e1e1e1); 
+	 --subbanner-menu-color: var(--wp--preset--color--contrast, #1f2328); 
 	 --subbanner-menu-color-active:#04af65; 
-	 --border-color: var(--wp--preset--color--border, rgba(255, 255, 255, 0.3));
-	  --border-color2: var(--wp--preset--color--border2, rgba(255, 255, 255, 0.5)); 
-	  --border-color3: var(--wp--preset--color--border3, rgba(255, 255, 255, 0.85)); 
-	  --link-color: #c6c6c6; --link-hover-color: #ffffff; 
-	  --footer-text-color: #979797; 
-	  --footer-link-color: #c6c6c6; --footer-link-hover-color: #ffffff; 
-	  --footer-link-current-color: rgba(255, 255, 255, 0.808); 
-	  --copyright-bg-color: #0a0a0a; } 
+	 --border-color: var(--wp--preset--color--border, rgba(31, 35, 40, 0.16));
+	  --border-color2: var(--wp--preset--color--border2, rgba(31, 35, 40, 0.28)); 
+	  --border-color3: rgba(31, 35, 40, 0.45); 
+	  --link-color: #333333; --link-hover-color: #0f1419;
+	  --footer-text-color: #9c9c9c;
+	  --footer-link-color: #d0d0d0; --footer-link-hover-color: #ffffff;
+	  --footer-link-current-color: rgb(255 255 255 / 80%);
+	  --copyright-bg-color: #eff1f3; } 
 
 body { margin: 0 auto; overflow: auto; overflow-x: hidden; position: relative; width: 100%; -ms-overflow-style: none; } 
 
@@ -53,7 +53,7 @@ button,
 input,
 select,
 optgroup,
-textarea { font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; font-size: clamp(15px, 0.9vw, 16px); line-height: 1.6; color: var(--wp--preset--color--contrast, #e2e2e2); background-color: var(--wp--preset--color--base, #000); } 
+textarea { font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; font-size: clamp(15px, 0.9vw, 16px); line-height: 1.75; color: var(--wp--preset--color--contrast, #1f2328); background-color: var(--wp--preset--color--base, #f7f7f5); } 
 
 /* 모든 템플릿의 main(직계 wp-block-group)에 적용되는 전역 패딩을 제거해 풀폭 섹션이 정확히 100%로 보이도록 고정 */
 .wp-site-blocks > main.wp-block-group { padding-top: 0 !important; padding-right: 0 !important; padding-bottom: 0 !important; padding-left: 0 !important; } 
@@ -141,9 +141,10 @@ nav ul li { list-style:none; display: inline-block; }
 /* 서브페이지 */
 h1.pageTitle { font-size: clamp(24px, 3.4vw, 50px); font-weight: 700; } 
 .bzCardGrid2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 20px; } 
-.frontcolGp{padding: 30px 0px !important;}
-
-
+.bzCardGrid2 > .wp-block-group:nth-child(1).fadeup { transition-delay: 0.1s; }
+.bzCardGrid2 > .wp-block-group:nth-child(2).fadeup { transition-delay: 0.25s; }
+.bzCardGrid2 > .wp-block-group:nth-child(3).fadeup { transition-delay: 0.4s; }
+.frontcolGp{padding: 10px 0px !important;}
 /* FAQ: .faq-accordion(단순 Q/A 마크업) + .faqWrapper(아코디언, assets/js/custom.js 와 연동). goyominimal 과 동일 구조, 다크 톤에 맞춤 */
 .faq-accordion { margin: 0 auto; max-width: 780px; border-top: 1px solid var(--border-color); } 
 .faq-item { border-bottom: 1px solid var(--border-color); padding: 10px 0; margin-top: 0; } 
@@ -154,7 +155,7 @@ h1.pageTitle { font-size: clamp(24px, 3.4vw, 50px); font-weight: 700; }
 .faqWrapper .faqItem { border-bottom: 1px solid var(--border-color); margin-block-start: 0; } 
 .faqWrapper .faq-header { display: flex; border-radius: 8px; align-items: center; padding: 15px 8px 15px 42px; margin: 0; cursor: pointer; font-size: clamp(15px, 1.5vw, 18px); font-weight: 400; position: relative; width: 100%; color: inherit; } 
 .faqWrapper .faq-header::before { content: "\F38B"; font-family: "bootstrap-icons"; position: absolute; left: 0; width: 30px; margin-left:12px; opacity: 0.85; } 
-.faqWrapper .faq-header:hover { background-color: var(--wp--preset--color--frosted, rgba(255, 255, 255, 0.08)); } 
+.faqWrapper .faq-header:hover { background-color: rgba(0, 0, 0, 0.02); } 
 .faqWrapper .faq-header .faq-icon { position: relative; width: 24px; height: 24px; flex-shrink: 0; margin-left: auto; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--footer-text-color, #979797); pointer-events: none; } 
 .faqWrapper .faq-header .faq-icon::before { content: "\f4fe"; font-family: "bootstrap-icons"; display: block; line-height: 1; } 
 .faqWrapper .faqItem.active .faq-header .faq-icon::before { content: "\f2ea"; } 
@@ -215,11 +216,17 @@ body.mode-editor .container.subbox { max-width: 700px !important; }
 #kboard-default-editor .kboard-attr-attach button:hover { border-color: var(--border-color3) !important; color: var(--link-hover-color) !important; } 
 #kboard-default-editor input[type="checkbox"],
 #kboard-default-editor input[type="radio"],
-#kboard-default-editor .kboard-checkbox { accent-color: var(--wp--preset--color--accent, #04af65) !important; } 
+#kboard-default-editor .kboard-checkbox { accent-color:#009957 !important; color: #ffffff !important; } 
 #kboard-default-editor input[type="radio"] { width: 18px !important; height: 18px !important; vertical-align: middle !important; margin-right: 4px !important; } 
+#kboard-default-editor input[type="checkbox"]:checked,
+#kboard-default-editor input[type="radio"]:checked,
+body:not(.home):not(.front-page) #kboard-contact-form-editor input[type="checkbox"]:checked,
+body:not(.home):not(.front-page) #kboard-contact-form-editor input[type="radio"]:checked,
+.kboard-comments-default input[type="checkbox"]:checked,
+.kboard-comments-default input[type="radio"]:checked { color: #ffffff !important; }
 #kboard-default-editor .kboard-control .kboard-default-button-small.goList,
 #kboard-default-editor .kboard-control button[type="submit"],
-#kboard-default-editor .kboard-control input[type="submit"] { background-color: var(--wp--preset--color--accent, #04af65) !important; border: 1px solid var(--border-color2) !important; color: #ffffff !important; } 
+#kboard-default-editor .kboard-control input[type="submit"] { background-color:  #009957 !important; border: 1px solid var(--border-color2) !important; color: #ffffff !important; } 
 #kboard-default-list .kboard-list table tbody tr:hover { background-color: inherit !important } 
 #kboard-contact-form-editor form.kboard-form:has(.kboard-attr-checkbox input[type="checkbox"]) .kboard-attr-row.kboard-attr-captcha { display: none !important; } 
 #kboard-contact-form-editor .kboard-attr-checkbox:has(input[type="checkbox"]:checked) ~ .kboard-attr-captcha,
@@ -249,12 +256,12 @@ body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .a
 body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="file"]::-webkit-file-upload-button:hover { border-color: var(--border-color3) !important; color: var(--link-hover-color) !important; } 
 body:not(.home):not(.front-page) #kboard-contact-form-editor input[type="checkbox"],
 body:not(.home):not(.front-page) #kboard-contact-form-editor input[type="radio"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-checkbox { accent-color: var(--wp--preset--color--accent, #04af65) !important; } 
+body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-checkbox { accent-color: #009957 !important; color: #ffffff !important; } 
 body:not(.home):not(.front-page) #kboard-contact-form-editor input[type="radio"] { width: 18px !important; height: 18px !important; vertical-align: middle !important; margin-right: 4px !important; } 
 body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-control .kboard-contact-form-button-large,
 body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-control .kboard-contact-form-button-submit,
 body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-control button[type="submit"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-control input[type="submit"] { background-color: var(--wp--preset--color--accent, #04af65) !important; border: 1px solid var(--border-color2) !important; color: #ffffff !important; } 
+body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-control input[type="submit"] { background-color:  #009957 !important; border: 1px solid var(--border-color2) !important; color: #ffffff !important; } 
 
 /* 댓글 영역: Contact 게시판 디자인과 통일 (다크 + accent) */
 .kboard-comments-default .comments-header { display: none !important; } 
@@ -294,7 +301,7 @@ body .kboard-comments-default hr { margin: 0 !important; padding: 15px 0 0 0 !im
 
 /* 메타슬라이더 패턴 */
 .metaslider .flex-control-nav { bottom: 15px !important; } 
-.front-page .metaslider.ms-theme-clarity .flexslider { padding-bottom: 30px !important; } 
+.front-page .metaslider.ms-theme-clarity .flexslider { padding-bottom: 30px !important;margin-bottom: 0 !important; } 
 .metaslider .flex-control-paging li a,
 .metaslider .flex-control-paging li a.flex-active { width: 10px !important; height: 10px !important; } 
 .metaslider.ms-theme-default-base .flexslider .flex-direction-nav li a { background: transparent !important; background-image: none !important; top: calc(50% + 10px) !important; } 
@@ -304,8 +311,8 @@ body .kboard-comments-default hr { margin: 0 !important; padding: 15px 0 0 0 !im
 .metaslider .flexslider .flex-direction-nav li a:after,
 .metaslider .flexslider .flex-direction-nav li a:before { mask-size: 30px auto !important; } 
 .metaslider .flexslider .flex-control-nav li a:focus { outline: none !important; } 
-.metaslider.ms-theme-default-base .flexslider .flex-control-nav li a:not(.flex-active) { background: var(--border-color2) !important; } 
-.metaslider.ms-theme-default-base .flexslider .flex-control-nav li a.flex-active { background: var(--link-hover-color) !important; } 
+/* .metaslider.ms-theme-default-base .flexslider .flex-control-nav li a:not(.flex-active) { background: rgba(255,255,255,0.5) !important; } 
+.metaslider.ms-theme-default-base .flexslider .flex-control-nav li a.flex-active { background:  rgba(255,255,255,1) !important; }  */
 body .metaslider.ms-theme-clarity .flexslider .caption-wrap,
 .metaslider.ms-theme-clarity .flexslider .slides li { background: rgba(0,0,0,0) !important; background-color: rgba(0,0,0,0) !important; border: 0px !important; margin-top: 10px !important; } 
 
@@ -328,7 +335,7 @@ body .metaslider.ms-theme-clarity .flexslider .caption-wrap,
 	.faqWrapper .faq-header { padding: 12px 0 12px 35px; }
 	.faqWrapper .faq-content p { line-height: 1.5; }
 	.bzCardGrid2 .bzCard p { font-size: 15px; margin:0px 0px 30px 0px !important }
-	.frontcolGp{padding: 30px 0 !important;}
+	.frontcolGp{padding: 10px 0 !important;}
 	#metaslider_3843.flexslider .slides li { margin-right: 10px !important; }
 	.kboardTitle,
 	.kboardTitle2 { margin-top: 0; font-size: 20px; }

@@ -149,8 +149,8 @@ body.admin-bar.front-page .mainhero.mainhero-wrapper,body.admin-bar.goyo-home-ov
 body.front-page .mainhero-spacer,body.goyo-home-overlay .mainhero-spacer{display:block !important; position:relative !important; z-index:3 !important; width:100% !important; flex-shrink:0 !important; pointer-events:none !important; height:var(--goyo-hero-height,100vh) !important; min-height:var(--goyo-hero-height,100vh) !important;}
 body.admin-bar.front-page .mainhero-spacer,body.admin-bar.goyo-home-overlay .mainhero-spacer{height:calc(var(--goyo-hero-height,100vh) - 32px) !important; min-height:calc(var(--goyo-hero-height,100vh) - 32px) !important;}
 @media (max-width:820px){body.front-page .mainhero.mainhero-wrapper,body.goyo-home-overlay .mainhero.mainhero-wrapper{height:var(--goyo-hero-height-820,var(--goyo-hero-height,100vh)) !important; min-height:var(--goyo-hero-height-820,var(--goyo-hero-height,100vh)) !important;} body.admin-bar.front-page .mainhero.mainhero-wrapper,body.admin-bar.goyo-home-overlay .mainhero.mainhero-wrapper{top:32px !important; height:var(--goyo-hero-height-820,var(--goyo-hero-height,100vh)) !important; min-height:var(--goyo-hero-height-820,var(--goyo-hero-height,100vh)) !important;} body.front-page .mainhero-spacer,body.goyo-home-overlay .mainhero-spacer{height:var(--goyo-hero-height-820,var(--goyo-hero-height,100vh)) !important; min-height:var(--goyo-hero-height-820,var(--goyo-hero-height,100vh)) !important;} body.admin-bar.front-page .mainhero-spacer,body.admin-bar.goyo-home-overlay .mainhero-spacer{height:var(--goyo-hero-height-820,var(--goyo-hero-height,100vh)) !important; min-height:var(--goyo-hero-height-820,var(--goyo-hero-height,100vh)) !important;}}@media (max-width:520px){body.front-page .mainhero.mainhero-wrapper,body.goyo-home-overlay .mainhero.mainhero-wrapper{height:var(--goyo-hero-height-520,var(--goyo-hero-height-820,var(--goyo-hero-height,100vh))) !important; min-height:var(--goyo-hero-height-520,var(--goyo-hero-height-820,var(--goyo-hero-height,100vh))) !important;} body.admin-bar.front-page .mainhero.mainhero-wrapper,body.admin-bar.goyo-home-overlay .mainhero.mainhero-wrapper{height:var(--goyo-hero-height-520,var(--goyo-hero-height-820,var(--goyo-hero-height,100vh))) !important; min-height:var(--goyo-hero-height-520,var(--goyo-hero-height-820,var(--goyo-hero-height,100vh))) !important;} body.front-page .mainhero-spacer,body.goyo-home-overlay .mainhero-spacer{height:var(--goyo-hero-height-520,var(--goyo-hero-height-820,var(--goyo-hero-height,100vh))) !important; min-height:var(--goyo-hero-height-520,var(--goyo-hero-height-820,var(--goyo-hero-height,100vh))) !important;} body.admin-bar.front-page .mainhero-spacer,body.admin-bar.goyo-home-overlay .mainhero-spacer{height:var(--goyo-hero-height-520,var(--goyo-hero-height-820,var(--goyo-hero-height,100vh))) !important; min-height:var(--goyo-hero-height-520,var(--goyo-hero-height-820,var(--goyo-hero-height,100vh))) !important;}}@media (max-width:782px){body.admin-bar.front-page .mainhero.mainhero-wrapper,body.admin-bar.goyo-home-overlay .mainhero.mainhero-wrapper{top:46px !important;}}
-body.front-page .conWrap,body.goyo-home-overlay .conWrap{position:relative !important; z-index:12 !important; background:#000000 !important; background-color:var(--wp--preset--color--base,#000) !important; mix-blend-mode:normal;}
-body.front-page main~*,body.goyo-home-overlay main~*{position:relative !important; z-index:11 !important; background-color:var(--wp--preset--color--base,#000) !important;}
+body.front-page .conWrap,body.goyo-home-overlay .conWrap{position:relative !important; z-index:12 !important; background:#f7f7f5 !important; background-color:var(--wp--preset--color--base,#f7f7f5) !important; mix-blend-mode:normal;}
+body.front-page main~*,body.goyo-home-overlay main~*{position:relative !important; z-index:11 !important; background-color:var(--wp--preset--color--base,#f7f7f5) !important;}
 CSS;
 		wp_add_inline_style( 'goyoartdark-front-page', $css );
 	}
@@ -658,27 +658,26 @@ endif;
 add_filter( 'login_site_html_link', 'goyoartdark_login_site_html_link' );
 
 // 페이지 전환 안정화: 크리티컬 인라인 <head> 출력.
-// 1) meta color-scheme: dark → 브라우저 UI(스크롤바·폼)를 CSS 로드 전부터 다크로 고정.
-// 2) 인라인 <style>: html/body 검은 배경을 외부 CSS 로드 전에 적용해 FOUC 흰 플래시 차단.
+// 1) meta color-scheme: light → 브라우저 UI(스크롤바·폼)를 CSS 로드 전부터 라이트로 고정.
+// 2) 인라인 <style>: html/body 밝은 배경을 외부 CSS 로드 전에 적용해 FOUC 암전 플래시 차단.
 //    또한 View Transition 스택(::view-transition, ::backdrop, group/image-pair) 전체에
-//    검은 배경을 지정해 전환 중 어느 레이어에서도 흰 틈이 새지 않도록 한다.
+//    밝은 배경을 지정해 전환 중 어느 레이어에서도 어두운 틈이 새지 않도록 한다.
 // 3) 인라인 <script>: ( prefers-reduced-motion 이 아닐 때 ) 모든 브라우저에 .goyo-page-fade 를 붙여
 //    body opacity 기반 부드러운 전환( assets/js/page-transition.js 와 쌍 ) — Chrome 도 동일 경험.
 // 반드시 외부 스타일/스크립트 로드 전에 파싱되어야 하므로 wp_head 우선순위 0 으로 인라인 출력.
 if ( ! function_exists( 'goyoartdark_render_page_transition_head' ) ) :
 	/**
-	 * Outputs critical inline <head> markup for seamless dark page transitions.
+	 * Outputs critical inline <head> markup for seamless light page transitions.
 	 *
 	 * @since goyoartdark 1.0
 	 *
 	 * @return void
 	 */
 	function goyoartdark_render_page_transition_head() {
-		$disable_dark_mode     = goyoartdark_should_disable_dark_color_scheme();
-		$color_scheme_value    = $disable_dark_mode ? 'light dark' : 'dark';
-		$theme_color_value     = $disable_dark_mode ? '#ffffff' : '#000000';
-		$critical_bg_color     = $disable_dark_mode ? '#ffffff' : '#000000';
-		$critical_color_scheme = $disable_dark_mode ? 'light' : 'dark';
+		$color_scheme_value    = 'light dark';
+		$theme_color_value     = '#f7f7f5';
+		$critical_bg_color     = '#f7f7f5';
+		$critical_color_scheme = 'light';
 		?>
 <meta name="color-scheme" content="<?php echo esc_attr( $color_scheme_value ); ?>">
 <meta name="theme-color" content="<?php echo esc_attr( $theme_color_value ); ?>">

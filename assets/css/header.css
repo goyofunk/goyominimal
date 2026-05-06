@@ -23,8 +23,9 @@ header ul li, .subBanner ul li { list-style:none; }
 .single .subBanner .pageTitle {font-size: clamp(22px, 2vw, 34px);}
 
 header .site-header.scActive ul.menu>li.menu-item > a { height: 60px; } 
-header { position: fixed; top: 0; left: 0; z-index: 100; width: 100%; height: 80px; transform: translate3d(0, 0, 0); transition: transform 0.36s ease, background-color 0.2s ease, height 0.2s ease; background-color: rgba(0, 0, 0, 0.1); backdrop-filter: blur(5px); will-change: transform; backface-visibility: hidden; } 
+header { position: fixed; top: 0; left: 0;background-color: rgba(0, 0, 0, 0.2); z-index: 100; width: 100%; height: 80px; transform: translate3d(0, 0, 0); transition: transform 0.36s ease, background-color 0.2s ease, height 0.2s ease;  backdrop-filter: blur(5px); will-change: transform; backface-visibility: hidden; } 
 .front-page header {background-color: transparent !important;}
+.front-page header.scActive {background-color: rgba(0, 0, 0, 0.1) !important;}
 body.admin-bar header { top: 32px; } 
 header.header-scroll-hidden { transform: translate3d(0, -105%, 0); pointer-events: none; } 
 header.header-scroll-visible { transform: translate3d(0, 0, 0); pointer-events: auto; } 
@@ -82,7 +83,7 @@ header .sub-menu { display: none; display:block; flex-direction: column; box-sha
 
 /* sns — hover 시 서비스별 브랜드 컬러로 부드럽게 전환 */
 header ul.sns { display: flex; gap: 0; } 
-header ul.sns a { color: var(--menu-top-color); padding: 4px 0; line-height:1; font-size: var(--header-menu-font-size, clamp(18px, 1.2vw, 21px)); transition: color 0.28s ease;display: flex;
+header ul.sns a { color: var(--header-menu-font-color); padding: 4px 0; line-height:1; font-size: var(--header-menu-font-size, clamp(18px, 1.2vw, 21px)); transition: color 0.28s ease;display: flex;
     align-items: center; justify-content: center; } 
 header ul.sns li { margin-left: 20px; } 
 header ul.sns li.insta a:hover { color: #f997bb; } 
@@ -109,7 +110,7 @@ header ul.sns li.facebook a:hover { color: #4a96f8; }
 .menu-container.active { visibility:visible; pointer-events:auto; opacity:1 } 
 
 .menu-container.active .more-navigation { top:0; right:0px; } 
- .menu-container .more-navigation { padding:80px 20px 50px 20px; overflow-y:scroll; position:absolute;    box-shadow: -10px 0 15px rgba(0, 0, 0, 0.5); right:-100px; z-index:1000; width:100%; max-width:320px; background:var(--body-bg-color); -webkit-transition:right .3s ease-in-out; transition:right .3s ease-in-out; -moz-transition:right .3s ease-in-out; -ms-transition:right .3s ease-in-out; -o-transition:right .3s ease-in-out } 
+ .menu-container .more-navigation { padding:80px 20px 50px 20px; overflow-y:scroll; position:absolute;    box-shadow: -10px 0 15px rgba(0, 0, 0, 0.05); right:-100px; z-index:1000; width:100%; max-width:320px; background:var(--body-bg-color); -webkit-transition:right .3s ease-in-out; transition:right .3s ease-in-out; -moz-transition:right .3s ease-in-out; -ms-transition:right .3s ease-in-out; -o-transition:right .3s ease-in-out } 
  body.admin-bar .menu-container .more-navigation { padding:126px 20px 50px 20px; }
 .menu-container .more-navigation .toggle-btn { display:block; position:absolute; top:0; right:0px; z-index:1; width:48px; height:48px; background:url(../images/icon-arrow-down.svg) center/24px no-repeat; background-size: 18px; transition:.3s; transform:rotate(0); } 
 .menu-container .more-navigation .toggle-btn.show { transition: 0.3s; transform: rotate(180deg); } 
@@ -119,13 +120,16 @@ header ul.sns li.facebook a:hover { color: #4a96f8; }
 .menu-container .more-navigation li a { display:block; padding:14px 0; border-bottom: 1px solid var(--border-color); position:relative; height: inherit; font-size:20px; line-height:1; color:var(--body-text-color); text-align:left; } 
 .menu-container .more-navigation li.button { display:block; margin-top:80px; margin-bottom:40px; padding:0; border:none; height:auto; line-height:auto; border-radius:8px; -webkit-border-radius:8px; -moz-border-radius:8px; -ms-border-radius:8px } 
 .menu-container .more-navigation li.button a { padding: 12px; font-size: 20px; font-weight: normal; color: #fff; text-align: center; } 
-.menu-container .more-navigation li .sub-menu { display: none; margin-left: 0; padding:0.7rem 0; background-color: rgba(0,0,0,0.05); } 
+.menu-container .more-navigation li .sub-menu { display: none; margin-left: 0; padding:0.7rem 0;  } 
 .menu-container .more-navigation li .sub-menu li { border-bottom: none; } 
 .menu-container .more-navigation li .sub-menu li.current-menu-item > a , 
 .menu-container .more-navigation li.current-menu-parent > a { background-color: inherit !important; color: inherit !important; } 
 .menu-container .more-navigation li .sub-menu a { padding: 8px 0; border: 0; font-size: 18px; } 
-.menu-container .more-navigation li.show .sub-menu { display:block!important; border:0; box-shadow:none; position:relative; top:inherit; left:inherit; width:100%; visibility:inherit; transform:none; opacity:inherit } 
+.menu-container .more-navigation li.show .sub-menu { display:block!important; border:0; box-shadow:none; position:relative; top:inherit; left:inherit; width:100%; visibility:inherit; 
+    transform:none; opacity:inherit ;background-color: inherit !important;} 
 .menu-container .active .more-navigation .current-page-item a { opacity: 1; } 
+header .menu-container .menu-item:not(.current-menu-item):not(.current-menu-parent):not(.current-menu-ancestor):not(.current-page-ancestor) > a:hover,
+header .menu-container .menu-item:not(.current-menu-item):not(.current-menu-parent):not(.current-menu-ancestor):not(.current-page-ancestor) > a:focus-visible { color: #333 !important }
 .menu-btn { display: none; } 
 .menu-container,
 .menu-container .overlay { width:100%; height:100%; visibility:hidden; opacity:0 } 
@@ -170,8 +174,10 @@ footer br.onlymobile { display: none; }
 
 .floatRight { display: flex; gap: 10px; flex-direction: column; position: fixed; right: 20px; bottom:30px; z-index: 51; width: 45px; height: max-content; } 
 .front-page .floatRight { bottom: 40px; } 
-.gotoTop { display: flex; align-items: center; justify-content: center; box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); width: 45px; height: 45px; border-radius: 8px; font-size: 20px; overflow: hidden; position: relative; background-color: #ffffff26; color: #e0e0e0; border: 1px solid rgb(255 255 255 / 25%); } 
-.gotoTop i { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; opacity: 1; } 
+.gotoTop { display: flex; align-items: center; justify-content: center; box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); width: 45px; height: 45px; border-radius: 8px; font-size: 20px; overflow: hidden; position: relative;
+     background-color: rgba(255,255,255, 0.75); color: #e0e0e0; border: 1px solid rgb(255 255 255 / 25%); } 
+.gotoTop i {color: #444;position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; opacity: 1; } 
+.gotoTop:hover i { }
 .kakaochat { box-shadow: 0 0 5px rgba(0,0,0,0.2); width: 45px; height: 45px; background-color: #ebe00a; color: #333; border-radius: 8px; } 
 .kakaochat a, .navertalk a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; } 
 .kakaochat i { font-size: 24px; color: rgb(47, 39, 12); } 
@@ -200,8 +206,8 @@ footer br.onlymobile { display: none; }
  .front-page header .container { max-width: 97%; } 
  .menu-btn { display: block; position: absolute; top: 10px; right: 10px; z-index: 9999; width: 40px; height: 40px; cursor: pointer; } 
  .menu-btn .menu-icon { width: 32px; height: 32px; position: relative; } 
- .menu-btn .menu-icon::before { color: var(--menu-top-color-sub); width: 32px; height: 32px; position: absolute; display: inline-block; font-family: "bootstrap-icons"; content: '\F479'; font-weight: 400; font-size: 32px; line-height: 1; top: 6px; left: 0; } 
- .front-page .menu-icon::before { color:var(--menu-top-color); } 
+ .menu-btn .menu-icon::before { color: #ffffff; width: 32px; height: 32px; position: absolute; display: inline-block; font-family: "bootstrap-icons"; content: '\F479'; font-weight: 400; font-size: 32px; line-height: 1; top: 6px; left: 0; } 
+ .front-page .menu-icon::before { color:#ffffff  } 
  .menu-btn.active .menu-icon::before { color:var(--body-text-color); content: "\F659"; } 
  .menu-container .menu {width: 100%;}
  .menu-container .more-navigation li { display: block; } 
