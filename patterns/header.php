@@ -18,7 +18,7 @@
 	<!-- wp:columns {"isStackedOnMobile":false,"className":"goyo-header-row","verticalAlignment":"center"} -->
 	<div class="wp-block-columns goyo-header-row is-not-stacked-on-mobile are-vertically-aligned-center">
 		<!-- wp:column {"width":"32%","verticalAlignment":"center"} -->
-		<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:40%">
+		<div class="wp-block-column is-vertically-aligned-center topleft" >
 			<!-- wp:group {"className":"goyo-header-brand"} -->
 			<div class="wp-block-group goyo-header-brand">
 				<?php if ( function_exists( 'has_custom_logo' ) && has_custom_logo() ) : ?>
@@ -31,7 +31,7 @@
 		</div>
 		<!-- /wp:column -->
 		<!-- wp:column {"width":"68%","verticalAlignment":"center"} -->
-		<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:60%">
+		<div class="wp-block-column is-vertically-aligned-center topright" >
 			<!-- wp:goyoartdark/site-header /-->
 		</div>
 		<!-- /wp:column -->

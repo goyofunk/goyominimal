@@ -32,6 +32,9 @@ header.header-scroll-visible { transform: translate3d(0, 0, 0); pointer-events: 
 /* .front-page header{ background-color: transparent; } */
 header .container { display: block; height: 100%; max-width: 1360px; transition: all 0.2s; margin: 0 auto; } 
 header .container.wp-block-group { width: 100%; box-sizing: border-box; } 
+header .container.wp-block-group .topleft { flex-basis:40% } 
+header .container.wp-block-group .topright { flex-basis:60% } 
+
 header .goyo-header-row { display: flex; flex-wrap: nowrap; align-items: center; } 
 header .goyo-header-row .wp-block-column { min-width: 0; } 
 header .goyo-header-row .wp-block-column:nth-child(1) { max-width: 100%; } 
@@ -117,7 +120,7 @@ header ul.sns li.facebook a:hover { color: #4a96f8; }
 .menu-container .more-navigation .button.menu-item { margin-left: 0; } 
 .menu-container .more-navigation li { position: relative; } 
 .menu-container .more-navigation li :last-child { margin-bottom: 0; } 
-.menu-container .more-navigation li a { display:block; padding:14px 0; border-bottom: 1px solid var(--border-color); position:relative; height: inherit; font-size:20px; line-height:1; color:var(--body-text-color); text-align:left; } 
+.menu-container .more-navigation li a { display:block; padding:14px 0;font-weight: 500 !important; border-bottom: 1px solid var(--border-color); position:relative; height: inherit; font-size:20px; line-height:1; color:var(--body-text-color); text-align:left; } 
 .menu-container .more-navigation li.button { display:block; margin-top:80px; margin-bottom:40px; padding:0; border:none; height:auto; line-height:auto; border-radius:8px; -webkit-border-radius:8px; -moz-border-radius:8px; -ms-border-radius:8px } 
 .menu-container .more-navigation li.button a { padding: 12px; font-size: 20px; font-weight: normal; color: #fff; text-align: center; } 
 .menu-container .more-navigation li .sub-menu { display: none; margin-left: 0; padding:0.7rem 0;  } 
@@ -257,6 +260,8 @@ footer br.onlymobile { display: none; }
  }
 
 @media screen and (max-width:520px){
+    header .container.wp-block-group .topleft { flex-basis:60% } 
+header .container.wp-block-group .topright { flex-basis:40% } 
  .logobox a, .goyo-header-brand .wp-block-site-logo a { font-size: 22px; } 
  .page-contact .contactGrid > div { padding: 20px 10px; } 
  header .container { padding: 0 15px; max-width: 100%; } 

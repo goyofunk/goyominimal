@@ -19,7 +19,7 @@
 					"slug": "contrast"
 				},
 				{
-					"color": "#04af65",
+					"color": "#0099ff",
 					"name": "Accent Blue",
 					"slug": "accentblue"
 				},
@@ -46,8 +46,8 @@
 				},
 				{
 					"color": "rgba(31, 35, 40, 0.16)",
-					"name": "border Gray",
-					"slug": "border"
+					"name": "Divider Gray",
+					"slug": "divider"
 				},
 				{
 					"color": "rgba(31, 35, 40, 0.28)",

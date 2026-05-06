@@ -166,8 +166,11 @@ body.is-customize-preview .goyo-customize-partial { position: relative; }
 .front-th {overflow: hidden;}
 .front-th img {transform: scale(1.03); transition: all 0.3s;display: flex; align-items: center;justify-content: center; }
 .front-th:hover img {transform: scale(1); }
-
+.frontcolGp{padding: 10px 0px !important;}
 .frontcolGp .wp-block-post-title { font-size: clamp(15px, 1.1vw ,18px);}
+.frontcolGp2box { display: flex; flex-direction: column;  justify-content: center;}
+
+
 
 @media (max-width: 1024px) {
 	.front-contactWrap { grid-template-columns: 1fr; }
@@ -185,7 +188,7 @@ body.is-customize-preview .goyo-customize-partial { position: relative; }
 	body.admin-bar.goyo-home-overlay .mainhero-spacer { height: var(--goyo-hero-height-820, var(--goyo-hero-height, 100vh)); min-height: var(--goyo-hero-height-820, var(--goyo-hero-height, 100vh)); }
 	.front-page .metaslider.ms-theme-clarity .flexslider{margin-bottom: 0 !important; margin-top: -30px !important;}
 	.front-page h1.fronth1 {padding-top: 0px !important; margin-bottom: -20px !important;}
-
+	.frontcolGp{padding: 10px 0 !important;}
 	body.admin-bar.front-page .mainhero.mainhero-wrapper,
 	body.admin-bar.goyo-home-overlay .mainhero.mainhero-wrapper { top: 46px; }
 
@@ -199,7 +202,7 @@ body.is-customize-preview .goyo-customize-partial { position: relative; }
 	.front-contactWrap .contactbox #kboard-contact-form-editor .kboard-control .kboard-contact-form-button-large { width: 100% !important; }
 }
 @media (max-width: 520px) {
-	.youTubeBox, .front-contactWrap{ margin-left: -25px !important ; margin-right: -25px !important; max-width: inherit !important;}
+	.youTubeBox, .front-contactWrap{ margin-left: -25px !important ; margin-right: -25px !important; margin-top: -25px !important; max-width: inherit !important;}
 	.mainhero { height: var(--goyo-hero-height-520, var(--goyo-hero-height-820, var(--goyo-hero-height, 100vh))); min-height: var(--goyo-hero-height-520, var(--goyo-hero-height-820, var(--goyo-hero-height, 100vh))); }
 	body.front-page .mainhero.mainhero-wrapper,
 	body.goyo-home-overlay .mainhero.mainhero-wrapper { height: var(--goyo-hero-height-520, var(--goyo-hero-height-820, var(--goyo-hero-height, 100vh))); min-height: var(--goyo-hero-height-520, var(--goyo-hero-height-820, var(--goyo-hero-height, 100vh))); }
@@ -209,6 +212,9 @@ body.is-customize-preview .goyo-customize-partial { position: relative; }
 	body.goyo-home-overlay .mainhero-spacer { height: var(--goyo-hero-height-520, var(--goyo-hero-height-820, var(--goyo-hero-height, 100vh))); min-height: var(--goyo-hero-height-520, var(--goyo-hero-height-820, var(--goyo-hero-height, 100vh))); }
 	body.admin-bar.front-page .mainhero-spacer,
 	body.admin-bar.goyo-home-overlay .mainhero-spacer { height: var(--goyo-hero-height-520, var(--goyo-hero-height-820, var(--goyo-hero-height, 100vh))); min-height: var(--goyo-hero-height-520, var(--goyo-hero-height-820, var(--goyo-hero-height, 100vh))); }
+	.frontcolGp2{min-height: 60vh !important; margin-left: -25px !important; margin-right: -25px !important; width: inherit !important; max-width: inherit !important;}
+	.front-contactWrap {margin-bottom: 0 !important;}
+	.mainhero-inner {padding:clamp(3rem, 5vh, 6.5rem) 15px ;}
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -225,4 +231,5 @@ body.is-customize-preview .goyo-customize-partial { position: relative; }
 	body.admin-bar.goyo-home-overlay .mainhero.mainhero-wrapper { top: 0; height: auto; min-height: var(--goyo-hero-height, 100vh); }
 	body.front-page .mainhero-spacer,
 	body.goyo-home-overlay .mainhero-spacer { display: none; height: 0; z-index: auto; }
+	
 }

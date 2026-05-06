@@ -10,7 +10,6 @@
 
 /* 링크 밑줄 두께/오프셋 통일 */
 a { text-decoration-thickness: 1px !important; text-underline-offset: .1em; }
-
 /* 헤딩: Framer 감성의 타이트한 tracking 을 에디터 프리뷰에도 적용 */
 .editor-styles-wrapper h1 { font-size: clamp(24px, 3vw, 36px); line-height: 1.4; letter-spacing: -0.02em; }
 .editor-styles-wrapper h2 { font-size: clamp(20px, 2.3vw, 28px); line-height: 1.4; letter-spacing: -0.02em; }

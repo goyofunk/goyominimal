@@ -257,6 +257,18 @@ function goyoartdark_render_subbanner() {
 		}
 	}
 
+	// 싱글만: 서브네비는 형제 메뉴 대신 이 글의 대표 카테고리 한 항목만 둔다 (카테고리·고정 페이지는 기존 동작 유지).
+	if ( is_single() && $current_category instanceof WP_Term ) {
+		$submenu_items = array(
+			(object) array(
+				'url'       => get_category_link( $current_category->term_id ),
+				'title'     => $current_category->name,
+				'object'    => 'category',
+				'object_id' => (int) $current_category->term_id,
+			),
+		);
+	}
+
 	ob_start();
 	?>
 	<div class="subBanner"<?php echo $subbanner_background_image_url ? ' style="background-image:url(' . esc_url( $subbanner_background_image_url ) . ');"' : ''; ?>>
