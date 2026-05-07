@@ -4,8 +4,8 @@
  *
  * 이 파일에서 제공하는 숏코드:
  *   [goyo_subbanner]      - primary-menu 기반 서브배너(페이지 타이틀 + 서브메뉴)
- *   [goyo_category_loop]  - 카테고리/검색 아카이브 루프(goyominimal 의 category.php 이식)
- *   [goyo_single_content] - 싱글 포스트 본문 + 이전·다음글 + 관련글 (goyominimal 의 single.php 이식)
+ *   [goyo_category_loop]  - 카테고리/검색 아카이브 루프(category.php 이식)
+ *   [goyo_single_content] - 싱글 포스트 본문 + 이전·다음글 + 관련글 (single.php 이식)
  *   [goyo_main_trio]      - 홈 3열 가로 스와이프(커스터마이저, 갤러리1 앞)
  *   [goyo_main_gallery]   - 홈 갤러리 그리드(커스터마이저)
  *   [goyo_hero_inner]     - 홈 히어로(메인슬로건·보조문구 HTML, 버튼, 커스터마이저; selective refresh)
@@ -143,7 +143,7 @@ function goyoartdark_render_subbanner() {
 			$has_subbanner_overlay          = ! empty( $subbanner_background_image_url );
 		}
 	} elseif ( is_page() ) {
-		// 일반 페이지: 기본 타이틀은 글 제목, 메뉴·카테고리 매칭 시 부모/형제로 덮어쓴다 (goyominimal page.php 와 동일 흐름).
+		// 일반 페이지: 기본 타이틀은 글 제목, 메뉴·카테고리 매칭 시 부모/형제로 덮어쓴다 ( page.php 와 동일 흐름).
 		$current_url  = get_permalink();
 		$parent_title = get_the_title();
 	} elseif ( is_search() ) {
@@ -205,7 +205,7 @@ function goyoartdark_render_subbanner() {
 			$current_menu_item = $item;
 			break;
 		}
-		// goyominimal page.php: URL 과 달라도 object 가 page 이면 ID 로 매칭.
+		//  page.php: URL 과 달라도 object 가 page 이면 ID 로 매칭.
 		if ( $page_id && 'page' === $item->object && (int) $item->object_id === (int) $page_id ) {
 			$current_menu_item = $item;
 			break;
@@ -229,7 +229,7 @@ function goyoartdark_render_subbanner() {
 		}
 	}
 
-	// goyominimal page.php: 메뉴에 페이지 항목이 없을 때, 페이지의 첫 카테고리 slug 가 들어간 메뉴 링크로 그룹을 찾는다.
+	//  page.php: 메뉴에 페이지 항목이 없을 때, 페이지의 첫 카테고리 slug 가 들어간 메뉴 링크로 그룹을 찾는다.
 	if ( ! $current_menu_item && is_page() && $page_primary_category_id && ! empty( $menu_items ) ) {
 		$category = get_category( $page_primary_category_id );
 		if ( $category && ! is_wp_error( $category ) ) {
@@ -937,11 +937,11 @@ function goyoartdark_render_main_trio_inner_html() {
 	if ( ! goyoartdark_is_main_page_blocks_context() ) {
 		return '';
 	}
-	if ( get_theme_mod( 'goyoartdark_main_trio_hide', false ) ) {
+	if ( get_theme_mod( 'goyoartdark_main_trio_hide', true ) ) {
 		return '';
 	}
-	$cat_id = absint( get_theme_mod( 'goyoartdark_main_trio_category_id', 0 ) );
-	$count  = absint( get_theme_mod( 'goyoartdark_main_trio_count', 9 ) );
+	$cat_id = absint( get_theme_mod( 'goyoartdark_main_trio_category_id', 3 ) );
+	$count  = absint( get_theme_mod( 'goyoartdark_main_trio_count', 5 ) );
 	if ( $cat_id <= 0 ) {
 		return '';
 	}
@@ -1031,10 +1031,10 @@ function goyoartdark_render_main_gallery_inner_html() {
 		return '';
 	}
 	$keys = goyoartdark_main_gallery_mod_keys();
-	if ( get_theme_mod( $keys['hide_key'], false ) ) {
+	if ( get_theme_mod( $keys['hide_key'], true ) ) {
 		return '';
 	}
-	$cat_id = absint( get_theme_mod( $keys['cat_key'], 0 ) );
+	$cat_id = absint( get_theme_mod( $keys['cat_key'], 3 ) );
 	$count  = absint( get_theme_mod( $keys['count_key'], 6 ) );
 	if ( $cat_id <= 0 ) {
 		return '';
@@ -1051,7 +1051,7 @@ function goyoartdark_render_main_gallery_inner_html() {
 	$g_per_row = function_exists( 'goyoartdark_sanitize_main_page_per_row' )
 		? goyoartdark_sanitize_main_page_per_row( get_theme_mod( $keys['per_row_key'], 3 ) )
 		: max( 1, min( 5, absint( get_theme_mod( $keys['per_row_key'], 3 ) ) ) );
-	$g_aspect  = goyoartdark_main_page_ratio_slug_to_css_aspect( get_theme_mod( $keys['ratio_key'], '4-3' ) );
+	$g_aspect  = goyoartdark_main_page_ratio_slug_to_css_aspect( get_theme_mod( $keys['ratio_key'], '16-9' ) );
 
 	ob_start();
 	?>
@@ -1209,7 +1209,7 @@ function goyoartdark_sanitize_hero_height_value( $value ) {
  * @return array{desktop:string,820:string,520:string}
  */
 function goyoartdark_parse_hero_height_theme_mod() {
-	$raw = get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_HEIGHT, '100vh' );
+	$raw = get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_HEIGHT, '100vh; 570px; 50vh' );
 	return goyoartdark_parse_hero_height_from_string( (string) $raw );
 }
 
@@ -1229,10 +1229,11 @@ function goyoartdark_get_hero_height_css_value() {
  * @return array{slogan: string, subtext: string, button_label: string}
  */
 function goyoartdark_get_hero_default_strings() {
+	// goyominimal-export.dat 사용자정의 기준 기본문구(신규 설치·theme_mod 비어 있을 때).
 	return array(
-		'slogan'       => 'Captivating Websites That tell compelling stories',
-		'subtext'      => 'Main Hero Description',
-		'button_label' => 'Main Hero Button',
+		'slogan'       => 'A Creative Website, <br>Done in One Day',
+		'subtext'      => '메인페이지의 사진을 교체하고, 회사 정보를 입력하는 것만으로 <br>' . "\n" . '뚝딱 홈페이지를 오픈하실 수 있습니다.',
+		'button_label' => '문의하기',
 	);
 }
 
@@ -1268,7 +1269,7 @@ function goyoartdark_render_hero_inner_content_html() {
 	$sub     = is_string( $sub ) ? $sub : '';
 	$btntxt  = get_theme_mod( 'goyo_hero_button_label', $def['button_label'] );
 	$btntxt  = is_string( $btntxt ) ? trim( $btntxt ) : '';
-	$href    = get_theme_mod( 'goyo_hero_button_url', '' );
+	$href    = get_theme_mod( 'goyo_hero_button_url', '/contactpage/contact/' );
 	$href    = is_string( $href ) ? trim( $href ) : '';
 	if ( '' !== $href && '#' !== $href && false === strpos( $href, '://' ) && 0 !== strpos( $href, 'mailto:' ) && 0 !== strpos( $href, 'tel:' ) ) {
 		if ( preg_match( '/^(localhost|127(?:\.\d{1,3}){3}|\[::1\])(?::\d{1,5})?(?:\/.*)?$/i', $href ) ) {
@@ -1281,14 +1282,14 @@ function goyoartdark_render_hero_inner_content_html() {
 	}
 	$newtab  = (bool) get_theme_mod( 'goyo_hero_button_new_tab', false );
 
-	$ff_slogan = get_theme_mod( 'goyo_hero_slogan_font_family', '' );
+	$ff_slogan = get_theme_mod( 'goyo_hero_slogan_font_family', '"Poppins", sans-serif' );
 	$ff_slogan = is_string( $ff_slogan ) ? goyoartdark_sanitize_hero_font_family( trim( $ff_slogan ) ) : '';
-	$sz_slogan = get_theme_mod( 'goyo_hero_slogan_font_size', 'clamp(1.9rem, 4.2vw, 3.5rem)' );
+	$sz_slogan = get_theme_mod( 'goyo_hero_slogan_font_size', 'clamp(1.9rem, 4.5vw, 4.2rem)' );
 	$sz_slogan = is_string( $sz_slogan ) ? goyoartdark_sanitize_hero_css_value( trim( $sz_slogan ) ) : '';
 	$fw_slogan = function_exists( 'goyoartdark_sanitize_hero_font_weight' )
 		? goyoartdark_sanitize_hero_font_weight( get_theme_mod( 'goyo_hero_slogan_font_weight', '700' ) )
 		: ( in_array( (string) get_theme_mod( 'goyo_hero_slogan_font_weight', '700' ), array( '200', '300', '400', '500', '600', '700', '800' ), true ) ? (string) get_theme_mod( 'goyo_hero_slogan_font_weight', '700' ) : '700' );
-	$cl_slogan = sanitize_hex_color( (string) get_theme_mod( 'goyo_hero_slogan_color', '#f2f2f0' ) );
+	$cl_slogan = sanitize_hex_color( (string) get_theme_mod( 'goyo_hero_slogan_color', '#fff157' ) );
 	$op_slogan = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_slogan_opacity', 1 ) );
 	$cl_slogan = $hex_to_rgba( $cl_slogan, $op_slogan );
 	$slogan_style = array();
@@ -1308,10 +1309,10 @@ function goyoartdark_render_hero_inner_content_html() {
 
 	$ff_subf = get_theme_mod( 'goyo_hero_subtext_font_family', '' );
 	$ff_subf = is_string( $ff_subf ) ? goyoartdark_sanitize_hero_font_family( trim( $ff_subf ) ) : '';
-	$sz_subf = get_theme_mod( 'goyo_hero_subtext_font_size', 'clamp(1.05rem, 2vw, 1.2rem)' );
+	$sz_subf = get_theme_mod( 'goyo_hero_subtext_font_size', 'clamp(0.9rem, 1.8vw, 1.1rem)' );
 	$sz_subf = is_string( $sz_subf ) ? goyoartdark_sanitize_hero_css_value( trim( $sz_subf ) ) : '';
 	$cl_subf = sanitize_hex_color( (string) get_theme_mod( 'goyo_hero_subtext_color', '#f2f2f0' ) );
-	$op_subf = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_subtext_opacity', 0.66 ) );
+	$op_subf = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_subtext_opacity', 1 ) );
 	$cl_subf = $hex_to_rgba( $cl_subf, $op_subf );
 	$sub_style = array();
 	if ( '' !== $ff_subf ) {
@@ -1325,7 +1326,7 @@ function goyoartdark_render_hero_inner_content_html() {
 	}
 	$sub_font_attr = ! empty( $sub_style ) ? ' style="' . esc_attr( implode( '; ', $sub_style ) ) . '"' : '';
 
-	$sz_btn = get_theme_mod( 'goyo_hero_button_font_size', '0.88rem' );
+	$sz_btn = get_theme_mod( 'goyo_hero_button_font_size', '0.9rem' );
 	$sz_btn = is_string( $sz_btn ) ? goyoartdark_sanitize_hero_css_value( trim( $sz_btn ) ) : '';
 	$cl_btn = sanitize_hex_color( (string) get_theme_mod( 'goyo_hero_button_color', '#f2f2f0' ) );
 	$op_btn = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_button_opacity', 1 ) );
@@ -1335,14 +1336,14 @@ function goyoartdark_render_hero_inner_content_html() {
 	if ( ! $bg_hex ) {
 		$bg_hex = '#000000';
 	}
-	$bg_op  = goyoartdark_sanitize_hero_opacity( get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BG_OPACITY, 0.3 ) );
+	$bg_op  = goyoartdark_sanitize_hero_opacity( get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BG_OPACITY, 0.78 ) );
 	$bg_css = $hex_to_rgba( $bg_hex, $bg_op );
 
 	$bd_hex = sanitize_hex_color( (string) get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BORDER_COLOR, '#ffffff' ) );
 	if ( ! $bd_hex ) {
 		$bd_hex = '#ffffff';
 	}
-	$bd_op  = goyoartdark_sanitize_hero_opacity( get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BORDER_OPACITY, 0.3 ) );
+	$bd_op  = goyoartdark_sanitize_hero_opacity( get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BORDER_OPACITY, 0.14 ) );
 	$bd_css = $hex_to_rgba( $bd_hex, $bd_op );
 
 	$btn_style = array();
@@ -1417,16 +1418,16 @@ function goyoartdark_render_hero_inner_shortcode() {
 add_shortcode( 'goyo_hero_inner', 'goyoartdark_render_hero_inner_shortcode' );
 
 /**
- * 홈 히어로 배경 이미지 URL( 커스터마이저·기본 admin_bg ) — 숏코드·인라인 CSS·::before 가 동일 URL 사용
+ * 홈 히어로 배경 이미지 URL( 커스터마이저·기본 default-thumbnail.jpg ) — 숏코드·인라인 CSS·::before 가 동일 URL 사용
  *
  * @return string
  */
 function goyoartdark_get_hero_font_back_url() {
-	$mod = get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_FONT_BACK, '' );
+	$mod = get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_FONT_BACK, 'http://localhost/goyominimal/wp-content/uploads/2026/05/0003.jpg' );
 	if ( is_string( $mod ) && '' !== trim( $mod ) ) {
 		$url = esc_url( $mod );
 	} else {
-		$url = esc_url( get_theme_file_uri( 'assets/images/admin_bg.jpg' ) );
+		$url = esc_url( get_theme_file_uri( 'assets/images/default-thumbnail.jpg.jpg' ) );
 	}
 	return ( is_string( $url ) && '' !== $url ) ? $url : '';
 }
@@ -1468,7 +1469,7 @@ add_action( 'wp_enqueue_scripts', 'goyoartdark_hero_height_css_var', 36 );
 
 /**
  * 홈 히어로 전체 배경( div + background-size:cover, .mainhero-font-back ). JS 패럴은 .mainhero-inner 전용(배경 transform 없음).
- * 커스터마이저 비어 있을 때: assets/images/admin_bg.jpg
+ * 커스터마이저 비어 있을 때: assets/images/default-thumbnail.jpg.jpg
  * 실제 화면의 배경은 goyoartdark_hero_font_back_css_var() 의 ::before( 동일 URL )이 담당 — 숏코드는 FSE/에디터·마크업용.
  *
  * @return string

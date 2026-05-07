@@ -125,7 +125,7 @@ if ( ! function_exists( 'goyoartdark_should_disable_dark_color_scheme' ) ) :
 	 * @return bool
 	 */
 	function goyoartdark_should_disable_dark_color_scheme() {
-		return (bool) get_theme_mod( 'goyoartdark_main_page_top_disable_dark_mode', false ) || (bool) get_theme_mod( 'goyoartdark_main_page_disable_dark_mode', false );
+		return (bool) get_theme_mod( 'goyoartdark_main_page_top_disable_dark_mode', false ) || (bool) get_theme_mod( 'goyoartdark_main_page_disable_dark_mode', true );
 	}
 endif;
 
@@ -385,7 +385,7 @@ if ( ! function_exists( 'goyoartdark_enqueue_scripts' ) ) :
 			);
 			$unicorn_project_id = function_exists( 'goyoartdark_get_unicorn_selected_project_id' )
 				? goyoartdark_get_unicorn_selected_project_id()
-				: (string) get_theme_mod( 'goyo_unicorn_project_id', 'yMdOzFD8aQSbrqNp2425' );
+				: (string) get_theme_mod( 'goyo_unicorn_project_id', '' );
 			if ( '' !== trim( (string) $unicorn_project_id ) ) {
 				$unicorn_loader_path = get_parent_theme_file_path( 'assets/js/unicorn-loader.js' );
 				$unicorn_loader_ver  = file_exists( $unicorn_loader_path ) ? (string) filemtime( $unicorn_loader_path ) : $version;
@@ -951,25 +951,25 @@ if ( ! function_exists( 'goyoartdark_render_sub_banner_custom_style' ) ) :
 	 */
 	function goyoartdark_render_sub_banner_custom_style() {
 		$sub_banner_bg_color              = get_theme_mod( 'sub_banner_bg_color', '#333333' );
-		$sub_banner_overlay_bg_color      = (string) get_theme_mod( 'sub_banner_overlay_bg_color', 'rgba(0, 0, 0, 0.3)' );
-		$sub_banner_min_height            = (string) get_theme_mod( 'sub_banner_min_height', 'clamp(400px, 40vw,500px)' );
-		$sub_banner_page_title_font_size  = (string) get_theme_mod( 'sub_banner_page_title_font_size', 'clamp(24px, 3.2vw, 46px)' );
+		$sub_banner_overlay_bg_color      = (string) get_theme_mod( 'sub_banner_overlay_bg_color', 'rgba(0, 0, 0, 0.2)' );
+		$sub_banner_min_height            = (string) get_theme_mod( 'sub_banner_min_height', '' );
+		$sub_banner_page_title_font_size  = (string) get_theme_mod( 'sub_banner_page_title_font_size', 'clamp(24px, 3.2vw, 50px)' );
 		$sub_banner_page_title_font_weight = (int) get_theme_mod( 'sub_banner_page_title_font_weight', 700 );
 		$sub_banner_subnav_font_size      = (string) get_theme_mod( 'sub_banner_subnav_font_size', '17px' );
-		$sub_banner_subnav_font_weight    = (int) get_theme_mod( 'sub_banner_subnav_font_weight', 400 );
-		$header_menu_font_size            = (string) get_theme_mod( 'header_menu_font_size', 'clamp(18px, 1.2vw, 21px)' );
+		$sub_banner_subnav_font_weight    = (int) get_theme_mod( 'sub_banner_subnav_font_weight', 300 );
+		$header_menu_font_size            = (string) get_theme_mod( 'header_menu_font_size', 'clamp(18px, 1.3vw, 22px)' );
 		$header_submenu_font_size         = (string) get_theme_mod( 'header_submenu_font_size', '16px' );
-		$header_menu_font_weight          = (int) get_theme_mod( 'header_menu_font_weight', 500 );
+		$header_menu_font_weight          = (int) get_theme_mod( 'header_menu_font_weight', 600 );
 		$header_submenu_font_weight       = (int) get_theme_mod( 'header_submenu_font_weight', 400 );
 		$default_font_family_stack        = 'Pretendard, "Noto Sans KR", sans-serif';
-		$header_menu_font_family          = (string) get_theme_mod( 'header_menu_font_family', $default_font_family_stack );
+		$header_menu_font_family          = (string) get_theme_mod( 'header_menu_font_family', '' );
 		$header_submenu_font_family       = (string) get_theme_mod( 'header_submenu_font_family', $default_font_family_stack );
-		$sub_banner_page_title_font_family = (string) get_theme_mod( 'sub_banner_page_title_font_family', $default_font_family_stack );
+		$sub_banner_page_title_font_family = (string) get_theme_mod( 'sub_banner_page_title_font_family', '"Poppins", sans-serif' );
 		$sub_banner_subnav_font_family    = (string) get_theme_mod( 'sub_banner_subnav_font_family', $default_font_family_stack );
 		$header_menu_font_color           = sanitize_hex_color( get_theme_mod( 'header_menu_font_color', '#ffffff' ) );
 		$header_menu_current_font_color   = sanitize_hex_color( get_theme_mod( 'header_menu_current_font_color', '#ffffff' ) );
-		$header_menu_font_opacity         = get_theme_mod( 'header_menu_font_opacity', 1 );
-		$header_submenu_font_color        = sanitize_hex_color( get_theme_mod( 'header_submenu_font_color', '#ffffff' ) );
+		$header_menu_font_opacity         = get_theme_mod( 'header_menu_font_opacity', 0.94 );
+		$header_submenu_font_color        = sanitize_hex_color( get_theme_mod( 'header_submenu_font_color', '#606060' ) );
 		$header_submenu_current_accent_color = sanitize_hex_color( get_theme_mod( 'header_submenu_current_accent_color', '#04af65' ) );
 		$sub_banner_page_title_font_color = sanitize_hex_color( get_theme_mod( 'sub_banner_page_title_font_color', '#ffffff' ) );
 		$sub_banner_subnav_font_color     = sanitize_hex_color( get_theme_mod( 'sub_banner_subnav_font_color', '#ffffff' ) );
@@ -992,11 +992,13 @@ if ( ! function_exists( 'goyoartdark_render_sub_banner_custom_style' ) ) :
 		}
 
 		if ( ! preg_match( '/^[0-9a-zA-Z\.\,\(\)\-\+\s%#]+$/', $sub_banner_overlay_bg_color ) ) {
-			$sub_banner_overlay_bg_color = 'rgba(0, 0, 0, 0.3)';
+			$sub_banner_overlay_bg_color = 'rgba(0, 0, 0, 0.2)';
 		}
 
 		$sub_banner_min_height = trim( $sub_banner_min_height );
-		if ( ! preg_match( '/^[0-9a-zA-Z\.\,\(\)\-\+\s%]+$/', $sub_banner_min_height ) ) {
+		if ( '' === $sub_banner_min_height ) {
+			$sub_banner_min_height = 'auto';
+		} elseif ( ! preg_match( '/^[0-9a-zA-Z\.\,\(\)\-\+\s%]+$/', $sub_banner_min_height ) ) {
 			$sub_banner_min_height = 'clamp(400px, 40vw,500px)';
 		}
 		if ( preg_match( '/^\d+$/', $sub_banner_min_height ) ) {
@@ -1008,7 +1010,7 @@ if ( ! function_exists( 'goyoartdark_render_sub_banner_custom_style' ) ) :
 		}
 
 		if ( ! preg_match( '/^[0-9a-zA-Z\.\,\(\)\-\+\s%]+$/', $sub_banner_page_title_font_size ) ) {
-			$sub_banner_page_title_font_size = 'clamp(24px, 3.2vw, 46px)';
+			$sub_banner_page_title_font_size = 'clamp(24px, 3.2vw, 50px)';
 		}
 
 		if ( ! preg_match( '/^[0-9a-zA-Z\.\,\(\)\-\+\s%]+$/', $sub_banner_subnav_font_size ) ) {
@@ -1028,11 +1030,11 @@ if ( ! function_exists( 'goyoartdark_render_sub_banner_custom_style' ) ) :
 		}
 
 		if ( $sub_banner_subnav_font_weight < 100 || $sub_banner_subnav_font_weight > 900 ) {
-			$sub_banner_subnav_font_weight = 400;
+			$sub_banner_subnav_font_weight = 300;
 		}
 
 		if ( ! preg_match( '/^[0-9a-zA-Z\.\,\(\)\-\+\s%]+$/', $header_menu_font_size ) ) {
-			$header_menu_font_size = 'clamp(18px, 1.2vw, 21px)';
+			$header_menu_font_size = 'clamp(18px, 1.3vw, 22px)';
 		}
 
 		if ( ! preg_match( '/^[0-9a-zA-Z\.\,\(\)\-\+\s%]+$/', $header_submenu_font_size ) ) {
@@ -1040,7 +1042,7 @@ if ( ! function_exists( 'goyoartdark_render_sub_banner_custom_style' ) ) :
 		}
 
 		if ( $header_menu_font_weight < 100 || $header_menu_font_weight > 900 ) {
-			$header_menu_font_weight = 500;
+			$header_menu_font_weight = 600;
 		}
 
 		if ( $header_submenu_font_weight < 100 || $header_submenu_font_weight > 900 ) {
@@ -1118,12 +1120,12 @@ if ( ! function_exists( 'goyoartdark_render_header_logo_custom_style' ) ) :
 	 * @return void
 	 */
 	function goyoartdark_render_header_logo_custom_style() {
-		$logo_width_value  = (string) get_theme_mod( Goyoartdark_Theme_Mod_Registry::HEADER_LOGO_WIDTH, '180px' );
-		$logo_margin_value = (string) get_theme_mod( Goyoartdark_Theme_Mod_Registry::HEADER_LOGO_MARGIN, '0 12px 0 0' );
-		$logo_width        = '180px';
-		$logo_width_mobile = '180px';
-		$logo_margin       = '0 12px 0 0';
-		$logo_margin_mobile = '0 12px 0 0';
+		$logo_width_value  = (string) get_theme_mod( Goyoartdark_Theme_Mod_Registry::HEADER_LOGO_WIDTH, '188px;160px' );
+		$logo_margin_value = (string) get_theme_mod( Goyoartdark_Theme_Mod_Registry::HEADER_LOGO_MARGIN, '0 0 0 0;0 0 0 0' );
+		$logo_width        = '188px';
+		$logo_width_mobile = '160px';
+		$logo_margin       = '0 0 0 0';
+		$logo_margin_mobile = '0 0 0 0';
 		if ( function_exists( 'goyoartdark_sanitize_logo_width' ) ) {
 			$logo_width_value = goyoartdark_sanitize_logo_width( $logo_width_value );
 		}
@@ -1233,6 +1235,23 @@ function remove_dashboard_notices() {
     remove_action('welcome_panel', 'wp_welcome_panel');
 }
 add_action('wp_dashboard_setup', 'remove_dashboard_notices');
+
+// 관리자 좌측 메뉴·상단바의 업데이트/대기 건수 뱃지(숫자 원형 알림) 시각 숨김 — 업데이트 기능 자체는 유지.
+if ( ! function_exists( 'goyoartdark_enqueue_admin_hide_menu_badges' ) ) :
+	/**
+	 * @return void
+	 */
+	function goyoartdark_enqueue_admin_hide_menu_badges() {
+		$handle = 'goyoartdark-admin-hide-menu-badges';
+		wp_register_style( $handle, false, array(), wp_get_theme()->get( 'Version' ) );
+		wp_enqueue_style( $handle );
+		wp_add_inline_style(
+			$handle,
+			'#adminmenu .awaiting-mod,#adminmenu .update-plugins,#wpadminbar .update-plugins,#wpadminbar #wp-admin-bar-comments .awaiting-mod{display:none !important;}'
+		);
+	}
+endif;
+add_action( 'admin_enqueue_scripts', 'goyoartdark_enqueue_admin_hide_menu_badges', 99 );
 
 // 코어 업데이트
 add_filter('allow_dev_auto_core_updates', '__return_false');

@@ -226,7 +226,7 @@ if ( ! function_exists( 'goyoartdark_render_site_header_block' ) ) :
 	 * @return string 렌더된 헤더 내비 HTML.
 	 */
 	function goyoartdark_render_site_header_block() {
-		$sns_instagram = trim( (string) get_theme_mod( 'instagram_url', '' ) );
+		$sns_instagram = trim( (string) get_theme_mod( 'instagram_url', 'https://www.instagram.com/goyofunk' ) );
 		$sns_blog      = trim( (string) get_theme_mod( 'blog_url', '' ) );
 		$sns_youtube   = trim( (string) get_theme_mod( 'youtube_url', '' ) );
 		$sns_facebook  = trim( (string) get_theme_mod( 'facebook_url', '' ) );

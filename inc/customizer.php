@@ -92,7 +92,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'goyoartdark_footer_secondary_text',
 			array(
-				'default'           => '<span>대표전화</span> 02-731-2120 <span>이메일</span> goyofunkstudio@naver.com <span>주소</span> 서울특별시 중구 세종대로 110 (04524)',
+				'default'           => '<span>대표전화</span> 02-731-2120 <span>이메일</span> goyofunkstudio@naver.com <span>주소</span> 서울특별시 중구 세종대로 110 (04524) ',
 				'sanitize_callback' => 'wp_kses_post',
 				'transport'         => 'refresh',
 			)
@@ -131,7 +131,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'kakaochat_url',
 			array(
-				'default'           => '',
+				'default'           => 'https://www.instagram.com/goyofunk',
 				'sanitize_callback' => 'esc_url_raw',
 				'transport'         => 'refresh',
 			)
@@ -170,7 +170,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'instagram_url',
 			array(
-				'default'           => '',
+				'default'           => 'https://www.instagram.com/goyofunk',
 				'sanitize_callback' => 'esc_url_raw',
 				'transport'         => 'refresh',
 			)
@@ -268,7 +268,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'sub_banner_overlay_bg_color',
 			array(
-				'default'           => 'rgba(0, 0, 0, 0.3)',
+				'default'           => 'rgba(0, 0, 0, 0.2)',
 				'sanitize_callback' => 'sanitize_text_field',
 				'transport'         => 'refresh',
 			)
@@ -288,7 +288,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'sub_banner_min_height',
 			array(
-				'default'           => 'clamp(400px, 40vw,500px)',
+				'default'           => '',
 				'sanitize_callback' => 'sanitize_text_field',
 				'transport'         => 'refresh',
 			)
@@ -308,7 +308,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'sub_banner_page_title_font_family',
 			array(
-				'default'           => 'Pretendard, "Noto Sans KR", sans-serif',
+				'default'           => '"Poppins", sans-serif',
 				'sanitize_callback' => 'sanitize_text_field',
 				'transport'         => 'refresh',
 			)
@@ -331,7 +331,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'sub_banner_page_title_font_size',
 			array(
-				'default'           => 'clamp(24px, 3.2vw, 46px)',
+				'default'           => 'clamp(24px, 3.2vw, 50px)',
 				'sanitize_callback' => 'sanitize_text_field',
 				'transport'         => 'refresh',
 			)
@@ -420,7 +420,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'sub_banner_subnav_font_weight',
 			array(
-				'default'           => 400,
+				'default'           => 300,
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 			)
@@ -509,7 +509,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'header_menu_font_size',
 			array(
-				'default'           => 'clamp(18px, 1.2vw, 21px)',
+				'default'           => 'clamp(18px, 1.3vw, 22px)',
 				'sanitize_callback' => 'sanitize_text_field',
 				'transport'         => 'refresh',
 			)
@@ -530,7 +530,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'header_menu_font_weight',
 			array(
-				'default'           => 500,
+				'default'           => 600,
 				'sanitize_callback' => 'absint',
 				'transport'         => 'refresh',
 			)
@@ -620,7 +620,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'header_submenu_font_color',
 			array(
-				'default'           => '#ffffff',
+				'default'           => '#606060',
 				'sanitize_callback' => 'sanitize_hex_color',
 				'transport'         => 'refresh',
 			)
@@ -664,7 +664,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'header_menu_font_family',
 			array(
-				'default'           => 'Pretendard, "Noto Sans KR", sans-serif',
+				'default'           => '',
 				'sanitize_callback' => 'sanitize_text_field',
 				'transport'         => 'refresh',
 			)
@@ -728,7 +728,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'header_menu_font_opacity',
 			array(
-				'default'           => 1,
+				'default'           => 0.94,
 				'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
 				'transport'         => 'refresh',
 			)
@@ -835,7 +835,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 			array(
 				'selector'        => '.edit_kakaochat_url',
 				'render_callback' => static function () {
-					return esc_url( get_theme_mod( 'kakaochat_url', '' ) );
+					return esc_url( get_theme_mod( 'kakaochat_url', 'https://www.instagram.com/goyofunk' ) );
 				},
 			)
 		);
@@ -852,7 +852,7 @@ if ( ! function_exists( 'goyoartdark_sanitize_logo_width' ) ) :
 	 * @return string
 	 */
 	function goyoartdark_sanitize_logo_width( $raw ) {
-		$default = '180px';
+		$default = '188px';
 		$value   = trim( sanitize_text_field( (string) $raw ) );
 		if ( '' === $value ) {
 			return $default;
@@ -885,7 +885,7 @@ if ( ! function_exists( 'goyoartdark_sanitize_logo_margin' ) ) :
 	 * @return string
 	 */
 	function goyoartdark_sanitize_logo_margin( $raw ) {
-		$default = '0 12px 0 0';
+		$default = '0 0 0 0';
 		$value = trim( sanitize_text_field( (string) $raw ) );
 		if ( '' === $value ) {
 			return $default;
@@ -933,7 +933,7 @@ if ( ! function_exists( 'goyoartdark_customizer_site_identity_extra' ) ) :
 		$wp_customize->add_setting(
 			Goyoartdark_Theme_Mod_Registry::HEADER_LOGO_WIDTH,
 			array(
-				'default'           => '180px',
+				'default'           => '188px;160px',
 				'sanitize_callback' => 'goyoartdark_sanitize_logo_width',
 				'transport'         => 'refresh',
 			)
@@ -952,7 +952,7 @@ if ( ! function_exists( 'goyoartdark_customizer_site_identity_extra' ) ) :
 		$wp_customize->add_setting(
 			Goyoartdark_Theme_Mod_Registry::HEADER_LOGO_MARGIN,
 			array(
-				'default'           => '0 12px 0 0',
+				'default'           => '0 0 0 0;0 0 0 0',
 				'sanitize_callback' => 'goyoartdark_sanitize_logo_margin',
 				'transport'         => 'refresh',
 			)
@@ -1060,7 +1060,7 @@ if ( ! function_exists( 'goyoartdark_get_unicorn_selected_project_id' ) ) :
 	 * @return string
 	 */
 	function goyoartdark_get_unicorn_selected_project_id() {
-		$preset = goyoartdark_sanitize_unicorn_effect_preset( get_theme_mod( 'goyo_unicorn_effect_preset', 'default' ) );
+		$preset = goyoartdark_sanitize_unicorn_effect_preset( get_theme_mod( 'goyo_unicorn_effect_preset', 'none' ) );
 		if ( 'none' === $preset ) {
 			return '';
 		}
@@ -1094,7 +1094,7 @@ endif;
 		$wp_customize->add_setting(
 			'goyo_unicorn_effect_preset',
 			array(
-				'default'           => 'default',
+				'default'           => 'none',
 				'sanitize_callback' => 'goyoartdark_sanitize_unicorn_effect_preset',
 				'transport'         => 'refresh',
 			)
@@ -1159,7 +1159,7 @@ endif;
 		$wp_customize->add_setting(
 			'goyo_unicorn_project_id_soft_particles_fog',
 			array(
-				'default'           => '',
+				'default'           => 'IgA9BzHkaQGscGP9DKpA',
 				'sanitize_callback' => 'goyoartdark_sanitize_unicorn_project_id',
 				'transport'         => 'refresh',
 			)

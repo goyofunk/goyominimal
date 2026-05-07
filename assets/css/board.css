@@ -83,7 +83,7 @@ body.category-width-1380 .post-list-wrap:has(.row.portfolio) .container.subbox, 
 /* 토글 스크립트가 없을 때 상단 돋보기는 폼과 중복되므로 숨김(제출 버튼 아이콘만 사용) */
 .category-searchwrap .search-trigger { display: none; } 
 .category-bt-search { display: flex; align-items: center; justify-content: flex-end; min-width: 0; } 
-/* goyominimal 은 .top-search 를 absolute+숨김(클릭 시 .active) — 이 테마는 항상 표시 */
+/* top-search 를 absolute+숨김(클릭 시 .active) — 이 테마는 항상 표시 */
 .category-bt-search.top-search { position: static; inset: auto; width: 100%; max-width: min(100%, 320px); opacity: 1; visibility: visible; transform: none; } 
 .category-search-form { display: flex; flex-direction: row; align-items: stretch; flex-wrap: nowrap; width: 100%; min-width: 0; gap: 0; } 
 .category-search-select { flex: 0 0 auto; height: 44px; min-width: 6.5em; max-width: 38%; margin: 0; padding: 0 1.75rem 0 10px; border: 1px solid var(--border-color); border-radius: 4px 0 0 4px; background: var(--body-bg-color); color: var(--body-text-color); font-size: 15px; outline: none; cursor: pointer; -webkit-appearance: none; appearance: none; } 

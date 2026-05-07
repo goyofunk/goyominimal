@@ -290,7 +290,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$wp_customize->add_setting(
 		'goyo_hero_slogan_font_family',
 		array(
-			'default'           => '',
+			'default'           => '"Poppins", sans-serif',
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_font_family',
 			'transport'         => 'postMessage',
 		)
@@ -312,7 +312,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$wp_customize->add_setting(
 		'goyo_hero_slogan_font_size',
 		array(
-			'default'           => 'clamp(1.9rem, 4.2vw, 3.5rem)',
+			'default'           => 'clamp(1.9rem, 4.5vw, 4.2rem)',
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_css_value',
 			'transport'         => 'postMessage',
 		)
@@ -363,7 +363,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$wp_customize->add_setting(
 		'goyo_hero_slogan_color',
 		array(
-			'default'           => '#f2f2f0',
+			'default'           => '#fff157',
 			'sanitize_callback' => 'sanitize_hex_color',
 			'transport'         => 'postMessage',
 		)
@@ -452,7 +452,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$wp_customize->add_setting(
 		'goyo_hero_subtext_font_size',
 		array(
-			'default'           => 'clamp(1.05rem, 2vw, 1.2rem)',
+			'default'           => 'clamp(0.9rem, 1.8vw, 1.1rem)',
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_css_value',
 			'transport'         => 'postMessage',
 		)
@@ -496,7 +496,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$wp_customize->add_setting(
 		'goyo_hero_subtext_opacity',
 		array(
-			'default'           => 0.66,
+			'default'           => 1,
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
 			'transport'         => 'postMessage',
 		)
@@ -539,7 +539,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$wp_customize->add_setting(
 		'goyo_hero_button_font_size',
 		array(
-			'default'           => '0.88rem',
+			'default'           => '0.9rem',
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_css_value',
 			'transport'         => 'postMessage',
 		)
@@ -628,7 +628,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$wp_customize->add_setting(
 		Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BG_OPACITY,
 		array(
-			'default'           => 0.3,
+			'default'           => 0.78,
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
 			'transport'         => 'postMessage',
 		)
@@ -673,7 +673,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$wp_customize->add_setting(
 		Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BORDER_OPACITY,
 		array(
-			'default'           => 0.3,
+			'default'           => 0.14,
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
 			'transport'         => 'postMessage',
 		)
@@ -697,7 +697,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$wp_customize->add_setting(
 		'goyo_hero_button_url',
 		array(
-			'default'           => '',
+			'default'           => '/contactpage/contact/',
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_button_url',
 			'transport'         => 'postMessage',
 		)
@@ -740,7 +740,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$wp_customize->add_setting(
 		$hero_bg_key,
 		array(
-			'default'           => '',
+			'default'           => 'http://localhost/goyominimal/wp-content/uploads/2026/05/0003.jpg',
 			'sanitize_callback' => 'esc_url_raw',
 			'transport'         => 'refresh',
 		)
@@ -763,7 +763,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$wp_customize->add_setting(
 		$hero_h_key,
 		array(
-			'default'           => '100vh',
+			'default'           => '100vh; 570px; 50vh',
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_height_value',
 			'transport'         => 'refresh',
 		)
@@ -825,7 +825,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$wp_customize->add_setting(
 		'goyoartdark_main_page_disable_dark_mode',
 		array(
-			'default'           => false,
+			'default'           => true,
 			'sanitize_callback' => 'goyoartdark_sanitize_main_page_dark_mode_disable',
 			'transport'         => 'refresh',
 		)
@@ -876,7 +876,7 @@ function goyoartdark_customizer_main_page_section( $wp_customize ) {
 	$wp_customize->add_setting(
 		'goyoartdark_main_trio_category_id',
 		array(
-			'default'           => 0,
+			'default'           => 3,
 			'sanitize_callback' => 'goyoartdark_sanitize_main_page_category_id',
 			'transport'         => 'postMessage',
 		)
@@ -895,7 +895,7 @@ function goyoartdark_customizer_main_page_section( $wp_customize ) {
 	$wp_customize->add_setting(
 		'goyoartdark_main_trio_count',
 		array(
-			'default'           => 9,
+			'default'           => 5,
 			'sanitize_callback' => 'goyoartdark_sanitize_main_page_count',
 			'transport'         => 'postMessage',
 		)
@@ -968,7 +968,7 @@ function goyoartdark_customizer_main_page_section( $wp_customize ) {
 	$wp_customize->add_setting(
 		'goyoartdark_main_trio_hide',
 		array(
-			'default'           => false,
+			'default'           => true,
 			'sanitize_callback' => 'goyoartdark_sanitize_main_page_hide',
 			'transport'         => 'postMessage',
 		)
@@ -989,7 +989,7 @@ function goyoartdark_customizer_main_page_section( $wp_customize ) {
 	$wp_customize->add_setting(
 		$gallery_keys['cat_key'],
 		array(
-			'default'           => 0,
+			'default'           => 3,
 			'sanitize_callback' => 'goyoartdark_sanitize_main_page_category_id',
 			'transport'         => 'postMessage',
 		)
@@ -1059,7 +1059,7 @@ function goyoartdark_customizer_main_page_section( $wp_customize ) {
 	$wp_customize->add_setting(
 		$gallery_keys['ratio_key'],
 		array(
-			'default'           => '4-3',
+			'default'           => '16-9',
 			'sanitize_callback' => 'goyoartdark_sanitize_main_page_image_ratio_slug',
 			'transport'         => 'postMessage',
 		)
@@ -1084,7 +1084,7 @@ function goyoartdark_customizer_main_page_section( $wp_customize ) {
 	$wp_customize->add_setting(
 		$gallery_keys['hide_key'],
 		array(
-			'default'           => false,
+			'default'           => true,
 			'sanitize_callback' => 'goyoartdark_sanitize_main_page_hide',
 			'transport'         => 'postMessage',
 		)

@@ -1,5 +1,5 @@
 ---
-description: 고요펑크 워드프레스 테마(goyominimal) 개발 규칙
+description: 고요펑크 워드프레스 테마 개발 규칙
 globs:
   - "**/*.php"
   - "**/*.css"
@@ -8,18 +8,18 @@ globs:
 alwaysApply: true
 ---
 git reset --hard 81c3fe8a2b418be444ce6d3fbdf9ca1661d3c11a && git clean -fd && git status
-# 고요펑크 워드프레스 테마 (goyominimal) 개발 규칙
+# 고요펑크 워드프레스 테마 개발 규칙
 
 ## 1. 테마 기본 정보
 
 | 항목 | 값 |
 | --- | --- |
-| 테마 슬러그(폴더명) | `goyominimal` |
+| 테마 슬러그(폴더명) | `goyoartlight` |
 | 테마명(Theme Name) | `미니멀리즘 테마` |
 | 작업자(Author) | `고요펑크스튜디오` |
 | Author URI | `https://goyofunkstudio.com` (확정 전까지 임시값 유지) |
 | 설명(Description) | `예술가와 디자이너를 위한 포트폴리오용 테마` |
-| Text Domain | `goyominimal` |
+| Text Domain | `goyoartlight` |
 | 부모 테마 | 없음 (독립 블록 테마) |
 | 요구 사항 | Requires at least: 6.7 / Tested up to: 6.9 / Requires PHP: 7.2 |
 
@@ -94,7 +94,7 @@ h2, h3 { line-height: 1.4; }
 
 ### 3-3. 필수 적용 베이스 스타일
 
-`style.css` 상단(테마 헤더 직후)과 에디터 스타일에는 다음 베이스가 반드시 포함되어야 합니다(타 테마 `goyominimal/style.css` 10~30번 줄 기반).
+`style.css` 상단(테마 헤더 직후)과 에디터 스타일에는 다음 베이스가 반드시 포함되어야 합니다(타 테마 `style.css` 10~30번 줄 기반).
 
 ```css
 @font-face { font-family: 'Pretendard Variable'; font-weight: 45 920; font-style: normal; font-display: swap; src: local('Pretendard Variable'), url('assets/fonts/pretendard/PretendardVariable.woff2') format('woff2-variations'); }
@@ -129,7 +129,7 @@ h5 { line-height: 1.6; }
 - 로컬 로더 CSS: `assets/fonts/pretendard/pretendard.css`
 - 외부 CDN 로드 금지. 항상 테마 내 `woff2` 파일을 `@font-face` 로 로드.
 - `font-weight: 45 920;` 가변 폰트 범위를 유지합니다.
-- 참고 구현체: `../goyominimal/assets/fonts/pretendard/` (동일 구조로 이식)
+- 참고 구현체: `../assets/fonts/pretendard/` (동일 구조로 이식)
 
 ## 5. 아이콘 규칙 (Bootstrap Icons)
 

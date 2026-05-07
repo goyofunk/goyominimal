@@ -9,7 +9,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // 공통정보(Customizer) 기반 채팅 버튼 값. trim 으로 공백 입력은 빈 값 처리.
-$goyoartdark_kakaochat_url    = trim( (string) get_theme_mod( 'kakaochat_url', '' ) );
+$goyoartdark_kakaochat_url    = trim( (string) get_theme_mod( 'kakaochat_url', 'https://www.instagram.com/goyofunk' ) );
 $goyoartdark_navertalk_url    = trim( (string) get_theme_mod( 'navertalk_url', '' ) );
 $goyoartdark_has_chat_buttons = ( $goyoartdark_kakaochat_url || $goyoartdark_navertalk_url );
 ?>

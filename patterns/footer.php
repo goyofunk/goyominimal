@@ -31,7 +31,7 @@
 					<!-- wp:goyoartdark/site-menu {"location":"footer-menu","containerTag":"nav","containerClass":"footer-navigation","menuClass":"footer-nav","depth":1,"ariaLabel":"푸터 메뉴"} /-->
 
 					<!-- wp:paragraph {"align":"center"} -->
-					<p class="has-text-align-center"><?php echo wp_kses_post( get_theme_mod( 'goyoartdark_footer_secondary_text', '<span>대표전화</span> 02-731-2120 <span>이메일</span> goyofunkstudio@naver.com <span>주소</span> 서울특별시 중구 세종대로 110 (04524)' ) ); ?></p>
+					<p class="has-text-align-center"><?php echo wp_kses_post( get_theme_mod( 'goyoartdark_footer_secondary_text', '<span>대표전화</span> 02-731-2120 <span>이메일</span> goyofunkstudio@naver.com <span>주소</span> 서울특별시 중구 세종대로 110 (04524) ' ) ); ?></p>
 					<!-- /wp:paragraph -->
 
 					<!-- wp:paragraph {"align":"center"} -->

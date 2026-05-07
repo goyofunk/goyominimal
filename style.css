@@ -1,5 +1,5 @@
 /*
-Theme Name: 미니멀리즘 테마
+Theme Name: 고요아트 라이트 테마
 Theme URI: https://goyofunkstudio.com
 Author: 고요펑크스튜디오
 Author URI: https://goyofunkstudio.com
@@ -10,7 +10,7 @@ Requires PHP: 7.2
 Version: 1.0.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: goyominimal
+Text Domain: goyoartlight
 */
 
 /* Pretendard 가변 폰트 등록 (로컬 woff2 전용) */
@@ -22,7 +22,7 @@ Text Domain: goyominimal
 /* html 배경을 body 와 동일한 다크 톤으로 지정: 페이지 전환·초기 로드 시 브라우저 기본 흰 배경이 순간 노출되는 FOUC 방지. color-scheme 은 브라우저 UI(스크롤바·폼 컨트롤) 도 다크로 맞춰 깜빡임 제거 */
 html { background-color: var(--wp--preset--color--base, #f7f7f5); color-scheme: light; } 
 
-/* 헤더·푸터·네비게이션이 참조하는 테마 공통 커스텀 프로퍼티 정의. theme.json 팔레트(base/contrast/accent/divider/border2/surface/frosted/muted) 와 매핑해 다크 테마 일관성 유지. goyominimal 의 dynamic-css.php 를 대체하는 정적 변수 세트 */
+/* 헤더·푸터·네비게이션이 참조하는 테마 공통 커스텀 프로퍼티 정의. theme.json 팔레트(base/contrast/accent/divider/border2/surface/frosted/muted) 와 매핑해 다크 테마 일관성 유지.  dynamic-css.php 를 대체하는 정적 변수 세트 */
 :root { --body-bg-color: var(--wp--preset--color--base, #f7f7f5);
 	 --body-text-color: var(--wp--preset--color--contrast, #1f2328); /* 주요 강조색(현재 메뉴·활성 링크·포인트) */ 
 	 --primary-color: var(--wp--preset--color--accent, #04af65); 
@@ -144,7 +144,7 @@ h1.pageTitle { font-size: clamp(24px, 3.4vw, 50px); font-weight: 700; }
 .bzCardGrid2 > .wp-block-group:nth-child(2).fadeup { transition-delay: 0.25s; }
 .bzCardGrid2 > .wp-block-group:nth-child(3).fadeup { transition-delay: 0.4s; }
 
-/* FAQ: .faq-accordion(단순 Q/A 마크업) + .faqWrapper(아코디언, assets/js/custom.js 와 연동). goyominimal 과 동일 구조, 다크 톤에 맞춤 */
+/* FAQ: .faq-accordion(단순 Q/A 마크업) + .faqWrapper(아코디언, assets/js/custom.js 와 연동).  */
 .faq-accordion { margin: 0 auto; max-width: 780px; border-top: 1px solid var(--border-color); } 
 .faq-item { border-bottom: 1px solid var(--border-color); padding: 10px 0; margin-top: 0; } 
 .faq-question { display: flex; padding: 13px 0 13px 30px; font-size: clamp(18px, 2vw, 24px); font-weight: 500; align-items: center; cursor: pointer; position: relative; color: inherit; } 
