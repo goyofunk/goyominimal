@@ -92,7 +92,7 @@ body.goyo-unicorn-over-black--screen .mainhero-unicorn { mix-blend-mode: screen;
 .mainhero-lead { margin: clamp(1.25rem, 2vw, 1.7rem) 0 0 0; font-size: clamp(1.05rem, 2vw, 1.2rem); font-weight: 400; line-height: 1.65; color: rgba(242, 242, 240, 0.66); animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both; }
 .mainhero-btn { display: inline-flex; align-items: center; justify-content: center; margin: clamp(1.75rem, 3.5vw, 2.5rem) 0 0 0; padding: 1rem 2rem; min-width: 170px;font-size: 0.88rem; font-weight: 500; line-height: 1.2; letter-spacing: 0.01em; text-decoration: none; color: #f2f2f0; 
 	border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6rem; background: rgba(0, 0, 0, 0.3); animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 1.2s both; }
-.mainhero-btn:hover { filter: brightness(1.5); }
+/* .mainhero-btn:hover { filter: brightness(1.5); } */
 .mainhero-btn:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.55); outline-offset: 2px; }
 /* 홈: 히어로 뷰포트 고정, 본문(.conWrap)만 스크롤되며 위로 덮임 — 조상은 transform/filter 없게(블록 에디터가 fixed 를 뷰포트 기준으로 묶여 사라지는 현상 방지) */
 body.front-page .wp-site-blocks,

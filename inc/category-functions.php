@@ -294,7 +294,7 @@ function add_category_post_format_field_edit($term) {
     ];
     ?>
     <tr class="form-field">
-        <th scope="row"><label for="post_format">게시글 형식</label></th>
+        <th scope="row"><label for="post_format_edit">게시글 형식</label></th>
         <td>
             <select name="post_format" id="post_format_edit">
                 <?php foreach ($options as $value => $label) : ?>

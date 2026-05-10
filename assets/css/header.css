@@ -72,7 +72,7 @@ header .menu-item.current-menu-ancestor > a:focus-visible,
 header .menu-item.current-page-ancestor > a:focus-visible { color: var(--menu-top-current-color); }
 header .menu-item:not(.current-menu-item):not(.current-menu-parent):not(.current-menu-ancestor):not(.current-page-ancestor) > a:hover,
 header .menu-item:not(.current-menu-item):not(.current-menu-parent):not(.current-menu-ancestor):not(.current-page-ancestor) > a:focus-visible { color: var(--menu-top-current-color); }
-header .sub-menu { display: none; display:block; flex-direction: column; box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+header .sub-menu { display: none; display:block; flex-direction: column; box-shadow: 0 3px 5px rgba(0,0,0,0.08);
     overflow: hidden; position: absolute; top: calc(100% - 5px); left: 50%; z-index: 101; 
     min-width: 150px; width:fit-content; visibility: hidden; border:1px solid var(--border-color);
     background-color: var(--submenu-bg-color); 
