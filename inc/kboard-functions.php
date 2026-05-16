@@ -112,8 +112,20 @@ function kboard_user_display_2025($user_display, $user_id, $user_name, $plugins,
     $is_other_user   = ($user_id != get_current_user_id() || !$user_id);
 
     if ($is_target_board && $is_not_admin && $is_other_user) {
-        $strlen       = mb_strlen($user_name, 'utf-8');
-        $user_display = mb_substr($user_name, 0, 1, 'utf-8') . str_repeat('*', max(0, $strlen - 1));
+        $strlen = mb_strlen($user_name, 'utf-8');
+
+        // 한글 여부 판단: 문자열 내 한글이 포함되어 있으면 한글 닉네임으로 간주
+        $is_korean = preg_match('/[\x{AC00}-\x{D7A3}\x{1100}-\x{11FF}\x{3130}-\x{318F}]/u', $user_name);
+
+        if ($is_korean) {
+            // 한글: 앞 2자 노출, 나머지 * 처리
+            $visible      = mb_substr($user_name, 0, 2, 'utf-8');
+            $user_display = $visible . str_repeat('*', max(0, $strlen - 2));
+        } else {
+            // 영문: 앞 3자 노출, 나머지 * 처리
+            $visible      = mb_substr($user_name, 0, 3, 'utf-8');
+            $user_display = $visible . str_repeat('*', max(0, $strlen - 3));
+        }
     }
 
     return $user_display;

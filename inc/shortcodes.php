@@ -1372,6 +1372,11 @@ function goyoartdark_render_hero_inner_content_html() {
 		? '<p class="mainhero-lead"' . $sub_font_attr . '>' . esc_html__( 'Main Hero Description', 'goyoartdark' ) . '</p>'
 		: '<div class="mainhero-lead"' . $sub_font_attr . '>' . wp_kses_post( $sub ) . '</div>';
 
+	$hide_subtext = (bool) get_theme_mod( 'goyo_hero_subtext_hide', false );
+	if ( $hide_subtext ) {
+		$sub_html = '';
+	}
+
 	$btn_l = ( '' === $btntxt ) ? esc_html__( 'Main Hero Button', 'goyoartdark' ) : esc_html( $btntxt );
 
 	$href_e = ( '' === $href ) ? '#' : esc_url( $href );
@@ -1383,7 +1388,12 @@ function goyoartdark_render_hero_inner_content_html() {
 	$out  = '<div class="mainhero-content">';
 	$out .= $title_html;
 	$out .= $sub_html;
-	$out .= '<a class="mainhero-btn" href="' . $href_e . '"' . $attr . $btn_style_attr . '>' . $btn_l . '</a>';
+
+	$hide_button = (bool) get_theme_mod( 'goyo_hero_button_hide', false );
+	if ( ! $hide_button ) {
+		$out .= '<a class="mainhero-btn" href="' . $href_e . '"' . $attr . $btn_style_attr . '>' . $btn_l . '</a>';
+	}
+
 	$out .= '</div>';
 	return $out;
 }

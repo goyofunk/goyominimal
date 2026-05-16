@@ -86,7 +86,7 @@ body.goyo-unicorn-over-black--screen .mainhero-unicorn { mix-blend-mode: screen;
 .mainhero-vignette .goyo-customize-partial { pointer-events: auto; width: 100%; max-width: 75rem; margin: 2.5vh auto 0 auto; box-sizing: border-box; }
 .mainhero-content p:has(.mainhero-btn) { margin: 0; padding: 0; }
 .mainhero-inner--parallax { will-change: transform; transform: translate3d(0,0,0); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
-.mainhero-inner { position: relative; z-index: 10 !important; display: block; width: 100%; max-width:75rem; margin: 0 auto; padding: clamp(4rem, 10vh, 6.5rem) clamp(1.25rem, 4vw, 2rem) clamp(3rem, 5vh, 4rem); }
+.mainhero-inner { position: relative; z-index: 10 !important; display: block; width: 100%; max-width:75rem; margin: 0 auto; padding: clamp(3rem, 5vh, 4rem) clamp(1.25rem, 4vw, 2rem) clamp(3rem, 5vh, 4rem); }
 .mainhero-content { text-align: center; transform-origin: 50% 0%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .mainhero-title { margin: 0; font-size: clamp(1.9rem, 4vw, 3.5rem); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both; }
 .mainhero-lead { margin: clamp(1.25rem, 2vw, 1.7rem) 0 0 0; font-size: clamp(1.05rem, 2vw, 1.2rem); font-weight: 400; line-height: 1.65; color: rgba(242, 242, 240, 0.66); animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both; }
@@ -94,6 +94,26 @@ body.goyo-unicorn-over-black--screen .mainhero-unicorn { mix-blend-mode: screen;
 	border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6rem; background: rgba(0, 0, 0, 0.3); animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 1.2s both; }
 /* .mainhero-btn:hover { filter: brightness(1.5); } */
 .mainhero-btn:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.55); outline-offset: 2px; }
+
+/* ── 히어로 정렬: 왼쪽 아래(bottom-left) ────────────────────────────── */
+body.goyo-hero-layout--bottom-left .mainhero-vignette {
+	align-items: flex-end;
+	justify-content: flex-start;
+}
+body.goyo-hero-layout--bottom-left .mainhero-vignette .goyo-customize-partial {
+	margin: 0 auto 5vh auto !important;
+    max-width: 1440px !important;
+}
+body.goyo-hero-layout--bottom-left .mainhero-inner {
+	margin: 0;
+	padding: clamp(2rem, 4vh, 3rem) clamp(1.5rem, 5vw, 3.5rem) clamp(2.5rem, 6vh, 4.5rem);
+}
+body.goyo-hero-layout--bottom-left .mainhero-content {
+	align-items: flex-start;
+	justify-content: flex-end;
+	text-align: left;
+}
+/* ─────────────────────────────────────────────────────────────────────── */
 /* 홈: 히어로 뷰포트 고정, 본문(.conWrap)만 스크롤되며 위로 덮임 — 조상은 transform/filter 없게(블록 에디터가 fixed 를 뷰포트 기준으로 묶여 사라지는 현상 방지) */
 body.front-page .wp-site-blocks,
 body.goyo-home-overlay .wp-site-blocks { transform: none !important; filter: none !important; perspective: none !important; }
@@ -191,7 +211,8 @@ body.is-customize-preview .goyo-customize-partial { position: relative; }
 	.frontcolGp{padding: 10px 0 !important;}
 	body.admin-bar.front-page .mainhero.mainhero-wrapper,
 	body.admin-bar.goyo-home-overlay .mainhero.mainhero-wrapper { top: 46px; }
-
+	body.goyo-hero-layout--bottom-left .mainhero-vignette .goyo-customize-partial {
+		margin: 0 auto -10px auto !important;}
 	.mainhero-content { transform-origin: 50% 50%; }
 	.goyo-main-gallery-grid { grid-template-columns: repeat(2, 1fr); }
 
@@ -202,6 +223,10 @@ body.is-customize-preview .goyo-customize-partial { position: relative; }
 	.front-contactWrap .contactbox #kboard-contact-form-editor .kboard-control .kboard-contact-form-button-large { width: 100% !important; }
 }
 @media (max-width: 520px) {
+	.mainhero-btn {
+		margin: clamp(1.2rem, 2vw, 2rem) 0 0 0;
+		padding: 0.8rem 1.5rem;
+		min-width: 130px;}
 	.youTubeBox, .front-contactWrap{ margin-left: -25px !important ; margin-right: -25px !important; margin-top: -25px !important; max-width: inherit !important;}
 	.mainhero { height: var(--goyo-hero-height-520, var(--goyo-hero-height-820, var(--goyo-hero-height, 100vh))); min-height: var(--goyo-hero-height-520, var(--goyo-hero-height-820, var(--goyo-hero-height, 100vh))); }
 	body.front-page .mainhero.mainhero-wrapper,
