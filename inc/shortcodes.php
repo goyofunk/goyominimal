@@ -6,8 +6,6 @@
  *   [goyo_subbanner]      - primary-menu 기반 서브배너(페이지 타이틀 + 서브메뉴)
  *   [goyo_category_loop]  - 카테고리/검색 아카이브 루프(category.php 이식)
  *   [goyo_single_content] - 싱글 포스트 본문 + 이전·다음글 + 관련글 (single.php 이식)
- *   [goyo_main_trio]      - 홈 3열 가로 스와이프(커스터마이저, 갤러리1 앞)
- *   [goyo_main_gallery]   - 홈 갤러리 그리드(커스터마이저)
  *   [goyo_hero_inner]     - 홈 히어로(메인슬로건·보조문구 HTML, 버튼, 커스터마이저; selective refresh)
  *   [goyo_hero_font_back] - 홈 히어로 전체 배경 이미지(커스터마이저·테마 assets 폴백)
  *
@@ -652,21 +650,6 @@ function goyoartdark_main_page_posts_query( $category_id, $count ) {
 }
 
 /**
- * 갤러리 theme_mod 키(커스터마이저·숏코드 공통).
- *
- * @return array<string, string> cat_key, count_key, per_row_key, ratio_key, hide_key.
- */
-function goyoartdark_main_gallery_mod_keys() {
-	return array(
-		'cat_key'     => 'goyoartdark_main_gallery_category_id',
-		'count_key'   => 'goyoartdark_main_gallery_count',
-		'per_row_key' => 'goyoartdark_main_gallery_per_row',
-		'ratio_key'   => 'goyoartdark_main_gallery_image_ratio',
-		'hide_key'    => 'goyoartdark_main_gallery_hide',
-	);
-}
-
-/**
  * 썸네일 비율 slug → CSS aspect-ratio 용 값.
  *
  * @param string $slug 저장값(또는 get_theme_mod 원본).
@@ -927,196 +910,6 @@ function goyoartdark_is_main_page_blocks_context() {
 	}
 	return false;
 }
-
-/**
- * 3열 스와이프 본문(미리보기·숏코드 공통).
- *
- * @return string
- */
-function goyoartdark_render_main_trio_inner_html() {
-	if ( ! goyoartdark_is_main_page_blocks_context() ) {
-		return '';
-	}
-	if ( get_theme_mod( 'goyoartdark_main_trio_hide', true ) ) {
-		return '';
-	}
-	$cat_id = absint( get_theme_mod( 'goyoartdark_main_trio_category_id', 3 ) );
-	$count  = absint( get_theme_mod( 'goyoartdark_main_trio_count', 5 ) );
-	if ( $cat_id <= 0 ) {
-		return '';
-	}
-	$count = max( 3, min( 30, $count ) );
-	$query = goyoartdark_main_page_posts_query( $cat_id, $count );
-	if ( ! $query || ! $query->have_posts() ) {
-		return '';
-	}
-
-	$trio_per_row = function_exists( 'goyoartdark_sanitize_main_page_per_row' )
-		? goyoartdark_sanitize_main_page_per_row( get_theme_mod( 'goyoartdark_main_trio_per_row', 3 ) )
-		: max( 1, min( 5, absint( get_theme_mod( 'goyoartdark_main_trio_per_row', 3 ) ) ) );
-	$trio_aspect  = goyoartdark_main_page_ratio_slug_to_css_aspect( get_theme_mod( 'goyoartdark_main_trio_image_ratio', '4-3' ) );
-
-	ob_start();
-	?>
-	<section class="goyo-main-trio-wrap" style="<?php echo esc_attr( '--goyo-main-trio-ar: ' . $trio_aspect . ';' ); ?>" aria-label="<?php echo esc_attr__( '메인 3열 스와이프', 'goyoartdark' ); ?>">
-		<div class="swiper-container goyo-main-trio-swiper" data-goyo-per-row="<?php echo esc_attr( (string) $trio_per_row ); ?>">
-			<div class="swiper-wrapper">
-				<?php
-				$i = 0;
-				while ( $query->have_posts() ) :
-					$query->the_post();
-					$img_url = goyoartdark_main_page_entry_image_url( get_the_ID(), 'large' );
-					?>
-					<div class="swiper-slide">
-						<a href="<?php echo esc_url( get_permalink() ); ?>" class="goyo-main-trio-item">
-							<div class="goyo-main-trio-thumb" aria-hidden="true">
-								<?php if ( $img_url ) : ?>
-									<img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( get_the_title() ) ); ?>" loading="<?php echo ( $i < 3 ) ? 'eager' : 'lazy'; ?>" />
-								<?php endif; ?>
-							</div>
-							<p class="goyo-main-trio-title"><?php echo esc_html( wp_strip_all_tags( get_the_title() ) ); ?></p>
-						</a>
-					</div>
-					<?php
-					++$i;
-				endwhile;
-				wp_reset_postdata();
-				?>
-			</div>
-			<div class="swiper-pagination" aria-hidden="true"></div>
-			<button type="button" class="swiper-button-prev swiper-button-white" aria-label="<?php echo esc_attr__( '이전', 'goyoartdark' ); ?>"></button>
-			<button type="button" class="swiper-button-next swiper-button-white" aria-label="<?php echo esc_attr__( '다음', 'goyoartdark' ); ?>"></button>
-		</div>
-	</section>
-	<?php
-	return goyoartdark_cleanup_shortcode_output( ob_get_clean() );
-}
-
-/**
- * 3열 스와이프(파셜 루트: 커스터마이저).
- *
- * @return string
- */
-function goyoartdark_render_main_trio_partial_root_html() {
-	if ( ! goyoartdark_is_main_page_blocks_context() ) {
-		return '';
-	}
-	$inner = goyoartdark_render_main_trio_inner_html();
-	if ( '' === $inner ) {
-		if ( ! goyoartdark_show_main_page_shortcode_empty_placeholder() ) {
-			return '';
-		}
-		$inner = '<div class="goyo-customize-partial-placeholder">' . esc_html__( '3열 스와이프: 카테고리·글을 넣거나 숨기기를 해제하세요.', 'goyoartdark' ) . '</div>';
-	}
-	return '<div class="goyo-customize-partial goyo-customize-partial--main-trio">' . $inner . '</div>';
-}
-
-/**
- * [goyo_main_trio] 숏코드.
- *
- * @return string
- */
-function goyoartdark_render_main_trio_shortcode() {
-	return goyoartdark_render_main_trio_partial_root_html();
-}
-add_shortcode( 'goyo_main_trio', 'goyoartdark_render_main_trio_shortcode' );
-
-/**
- * 갤러리 본문 마크업(래퍼 제외).
- *
- * @return string
- */
-function goyoartdark_render_main_gallery_inner_html() {
-	if ( ! goyoartdark_is_main_page_blocks_context() ) {
-		return '';
-	}
-	$keys = goyoartdark_main_gallery_mod_keys();
-	if ( get_theme_mod( $keys['hide_key'], true ) ) {
-		return '';
-	}
-	$cat_id = absint( get_theme_mod( $keys['cat_key'], 3 ) );
-	$count  = absint( get_theme_mod( $keys['count_key'], 6 ) );
-	if ( $cat_id <= 0 ) {
-		return '';
-	}
-	$count = max( 1, min( 50, $count ) );
-	$query = goyoartdark_main_page_posts_query( $cat_id, $count );
-	if ( ! $query || ! $query->have_posts() ) {
-		return '';
-	}
-
-	$term    = get_category( $cat_id );
-	$heading = ( $term && ! is_wp_error( $term ) ) ? $term->name : '';
-
-	$g_per_row = function_exists( 'goyoartdark_sanitize_main_page_per_row' )
-		? goyoartdark_sanitize_main_page_per_row( get_theme_mod( $keys['per_row_key'], 3 ) )
-		: max( 1, min( 5, absint( get_theme_mod( $keys['per_row_key'], 3 ) ) ) );
-	$g_aspect  = goyoartdark_main_page_ratio_slug_to_css_aspect( get_theme_mod( $keys['ratio_key'], '16-9' ) );
-
-	ob_start();
-	?>
-	<section class="goyo-main-gallery-wrap" style="<?php echo esc_attr( '--goyo-gallery-ar: ' . $g_aspect . '; --goyo-gallery-cols: ' . (string) (int) $g_per_row . ';' ); ?>" aria-label="<?php echo esc_attr( $heading ? $heading : __( '갤러리', 'goyoartdark' ) ); ?>">
-		<div class="container">
-			<?php if ( $heading ) : ?>
-				<h1 class="goyo-main-gallery-heading"><?php echo esc_html( $heading ); ?></h1>
-			<?php endif; ?>
-			<ul class="goyo-main-gallery-grid">
-				<?php
-				$i = 0;
-				while ( $query->have_posts() ) :
-					$query->the_post();
-					$img_url = goyoartdark_main_page_entry_image_url( get_the_ID(), 'medium_large' );
-					++$i;
-					?>
-					<li class="goyo-main-gallery-item goyo-col-reveal">
-						<a href="<?php echo esc_url( get_permalink() ); ?>">
-							<div class="goyo-main-gallery-thumb">
-								<?php if ( $img_url ) : ?>
-									<img src="<?php echo esc_url( $img_url ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( get_the_title() ) ); ?>" loading="<?php echo ( $i <= 3 ) ? 'eager' : 'lazy'; ?>" />
-								<?php endif; ?>
-							</div>
-							<p class="goyo-main-gallery-title"><?php echo esc_html( wp_strip_all_tags( get_the_title() ) ); ?></p>
-						</a>
-					</li>
-					<?php
-				endwhile;
-				wp_reset_postdata();
-				?>
-			</ul>
-		</div>
-	</section>
-	<?php
-	return goyoartdark_cleanup_shortcode_output( ob_get_clean() );
-}
-
-/**
- * 커스터마이저 partial 루트(갤러리).
- *
- * @return string
- */
-function goyoartdark_render_main_gallery_partial_root_html() {
-	if ( ! goyoartdark_is_main_page_blocks_context() ) {
-		return '';
-	}
-	$inner = goyoartdark_render_main_gallery_inner_html();
-	if ( '' === $inner ) {
-		if ( ! goyoartdark_show_main_page_shortcode_empty_placeholder() ) {
-			return '';
-		}
-		$inner = '<div class="goyo-customize-partial-placeholder">' . esc_html__( '갤러리가 비어 있거나 숨겨져 있습니다. 여기서 설정을 열 수 있습니다.', 'goyoartdark' ) . '</div>';
-	}
-	return '<div class="goyo-customize-partial goyo-customize-partial--main-gallery">' . $inner . '</div>';
-}
-
-/**
- * 홈 갤러리 숏코드.
- *
- * @return string
- */
-function goyoartdark_render_main_gallery_shortcode() {
-	return goyoartdark_render_main_gallery_partial_root_html();
-}
-add_shortcode( 'goyo_main_gallery', 'goyoartdark_render_main_gallery_shortcode' );
 
 /**
  * 히어로 높이 한 구간 문자열만 정제( 세미콜론은 구간 구분만 바깥에서 처리 ).
@@ -1417,86 +1210,10 @@ function goyoartdark_render_hero_inner_html( $is_partial = false ) {
 	return goyoartdark_cleanup_shortcode_output( $wrapped );
 }
 
-/**
- * 홈 히어로(메인슬로건·보조·버튼) — 메인·미리보기·partial 과 동일 마크업.
- *
- * @return string
- */
-function goyoartdark_render_hero_inner_shortcode() {
-	return goyoartdark_render_hero_inner_html( false );
-}
-add_shortcode( 'goyo_hero_inner', 'goyoartdark_render_hero_inner_shortcode' );
+// [goyo_hero_inner] 숏코드는 제거됨 — 슬로건 HTML은 .conWrap .mainhero 안의 슬라이더에 직접 렌더링
 
-/**
- * 홈 히어로 배경 이미지 URL( 커스터마이저·기본 default-thumbnail.jpg ) — 숏코드·인라인 CSS·::before 가 동일 URL 사용
- *
- * @return string
- */
-function goyoartdark_get_hero_font_back_url() {
-	$mod = get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_FONT_BACK, 'http://localhost/goyominimal/wp-content/uploads/2026/05/0003.jpg' );
-	if ( is_string( $mod ) && '' !== trim( $mod ) ) {
-		$url = esc_url( $mod );
-	} else {
-		$url = esc_url( get_theme_file_uri( 'assets/images/default-thumbnail.jpg.jpg' ) );
-	}
-	return ( is_string( $url ) && '' !== $url ) ? $url : '';
-}
-
-/**
- * .mainhero::before 가 배경을 반드시 그리도록 --goyo-hero-bg-image 주입( 자식 div 0높이·블록 래퍼에도 대응 )
- */
-function goyoartdark_hero_font_back_css_var() {
-	if ( ! goyoartdark_is_main_page_blocks_context() && ! is_front_page() && ! is_customize_preview() ) {
-		return;
-	}
-	$url = goyoartdark_get_hero_font_back_url();
-	if ( '' === $url ) {
-		return;
-	}
-	$css = '.mainhero { --goyo-hero-bg-image: url("' . esc_attr( $url ) . '"); }';
-	wp_add_inline_style( 'goyoartdark-style', $css );
-	if ( function_exists( 'goyoartdark_is_effective_front_page_for_assets' ) && goyoartdark_is_effective_front_page_for_assets() ) {
-		wp_add_inline_style( 'goyoartdark-front-page', $css );
-	}
-}
-add_action( 'wp_enqueue_scripts', 'goyoartdark_hero_font_back_css_var', 35 );
-
-/**
- * 히어로 높이 — `:root` 에 `--goyo-hero-height`(데스크톱)·`--goyo-hero-height-820`·`--goyo-hero-height-520` 주입(critical 과 동일 변수명).
- */
-function goyoartdark_hero_height_css_var() {
-	if ( ! goyoartdark_is_main_page_blocks_context() && ! is_front_page() && ! is_customize_preview() ) {
-		return;
-	}
-	$h   = goyoartdark_parse_hero_height_theme_mod();
-	$css = ':root { --goyo-hero-height: ' . $h['desktop'] . '; --goyo-hero-height-820: ' . $h['820'] . '; --goyo-hero-height-520: ' . $h['520'] . '; }';
-	wp_add_inline_style( 'goyoartdark-style', $css );
-	if ( function_exists( 'goyoartdark_is_effective_front_page_for_assets' ) && goyoartdark_is_effective_front_page_for_assets() && wp_style_is( 'goyoartdark-front-page', 'enqueued' ) ) {
-		wp_add_inline_style( 'goyoartdark-front-page', $css );
-	}
-}
-add_action( 'wp_enqueue_scripts', 'goyoartdark_hero_height_css_var', 36 );
-
-/**
- * 홈 히어로 전체 배경( div + background-size:cover, .mainhero-font-back ). JS 패럴은 .mainhero-inner 전용(배경 transform 없음).
- * 커스터마이저 비어 있을 때: assets/images/default-thumbnail.jpg.jpg
- * 실제 화면의 배경은 goyoartdark_hero_font_back_css_var() 의 ::before( 동일 URL )이 담당 — 숏코드는 FSE/에디터·마크업용.
- *
- * @return string
- */
-function goyoartdark_render_hero_font_back_shortcode() {
-	if ( ! goyoartdark_is_main_page_blocks_context() && ! is_front_page() && ! is_customize_preview() ) {
-		return '';
-	}
-	$url = goyoartdark_get_hero_font_back_url();
-	if ( '' === $url ) {
-		return '';
-	}
-	$style  = 'background-image: url(' . esc_url( $url ) . ');';
-	$html   = '<div class="font-back mainhero-font-back" style="' . esc_attr( $style ) . '" aria-hidden="true"></div>';
-	return goyoartdark_cleanup_shortcode_output( $html );
-}
-add_shortcode( 'goyo_hero_font_back', 'goyoartdark_render_hero_font_back_shortcode' );
+// [goyo_hero_font_back] 숏코드 및 --goyo-hero-bg-image CSS 변수 주입은 제거됨.
+// 배경 이미지는 .conWrap .mainhero 의 슬라이더(MetaSlider)가 직접 담당한다.
 
 if ( ! function_exists( 'goyoartdark_render_block_core_shortcode' ) ) :
 	/**
