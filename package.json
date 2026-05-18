@@ -1,7 +1,7 @@
 {
-	"name": "goyoartlight",
+	"name": "goyominimal",
 	"version": "1.0.0",
-	"description": "고요아트 라이트 테마",
+	"description": "미니멀리즘 테마",
 	"author": "고요펑크",
 	"license": "GPL-2.0-or-later",
 	"scripts": {
@@ -10,7 +10,7 @@
 	"keywords": [
 		"WordPress",
 		"Theme",
-		"goyoartlight"
+		"goyominimal"
 	],
 	"homepage": "https://goyofunkstudio.com",
 	"private": true
