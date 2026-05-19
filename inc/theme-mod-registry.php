@@ -24,24 +24,6 @@ final class Goyoartdark_Theme_Mod_Registry {
 	/** WordPress 코어 — 사이트 아이덴티티 로고(첨부 ID). 패턴 헤더·get_custom_logo() 의 유일 근거. */
 	public const CUSTOM_LOGO = 'custom_logo';
 
-	/** 홈 메인 히어로 전체 배경 이미지 URL. ::before 숏코드 [goyo_hero_font_back] 와 동일. 코어 background_image 와 무관. */
-	public const HERO_FONT_BACK = 'goyo_hero_font_back';
-
-	/** 홈 메인 히어로 영역 높이(CSS 크기 값 한 덩어리, 예: 100vh, clamp(), min()). `:root --goyo-hero-height`. */
-	public const HERO_HEIGHT = 'goyo_hero_height';
-
-	/** 히어로 CTA 버튼 배경(hex). 알파는 `goyo_hero_button_bg_opacity`. */
-	public const HERO_BUTTON_BG_COLOR = 'goyo_hero_button_bg_color';
-
-	/** 히어로 CTA 버튼 배경 알파(0~1). */
-	public const HERO_BUTTON_BG_OPACITY = 'goyo_hero_button_bg_opacity';
-
-	/** 히어로 CTA 버튼 테두리색(hex). 알파는 `goyo_hero_button_border_opacity`. */
-	public const HERO_BUTTON_BORDER_COLOR = 'goyo_hero_button_border_color';
-
-	/** 히어로 CTA 버튼 테두리 알파(0~1). */
-	public const HERO_BUTTON_BORDER_OPACITY = 'goyo_hero_button_border_opacity';
-
 	/** 코어 사용자정의 사이트 배경(선택 플러그인/설정 경로). 이 테마 메인히어로와 혼동 금지. */
 	public const CORE_BACKGROUND_IMAGE = 'background_image';
 
@@ -68,9 +50,9 @@ final class Goyoartdark_Theme_Mod_Registry {
 	public static function audit_checklist_items(): array {
 		return array(
 			'db_theme_mod_current'           => '`wp_options` 에서 option_name LIKE \'theme_mods_%\' 로 stylesheet 와 과거 후보 확인.',
-			'db_theme_mod_hero_logo_split'    => '\'theme_mods_goyoartdark\' 직렬화 내 custom_logo(ID) 와 `goyo_hero_font_back`(URL, 키: ' . self::HERO_FONT_BACK . ') 분리 유지 확인.',
+			'db_theme_mod_hero_logo_split'    => '\'theme_mods_goyoartdark\' 직렬화 내 custom_logo(ID) 확인.',
 			'db_legacy_keys'                  => '`mytheme_logo`/`mytheme_logoblack` 키는 레거시. 신규 UI 없음; 값은 무시 가능. 로고 문제는 반드시 ' . self::CUSTOM_LOGO . ' 만 수정.',
-			'db_background_confusion'         => '`' . self::CORE_BACKGROUND_IMAGE . '` 는 코어 배경 플로우. 메인히어로는 `' . self::HERO_FONT_BACK . '` 로만 수정.',
+			'db_background_confusion'         => '`' . self::CORE_BACKGROUND_IMAGE . '` 는 코어 배경 플로우. 메인히어로 배경은 MetaSlider 슬라이더가 직접 담당.',
 			'fse_templates'                   => '`wp_posts` post_type=`wp_template` / `wp_template_part` 해당 테마 식별자와 동기 확인.',
 			'fse_global_styles'               => '`wp_posts` post_type=`wp_global_styles` 활성 스타일 존재·변경 확인.',
 			'screen_home_hero'                => '프론트 홈: 히어로 배경·슬라이드·카테고리 썸네일 분리 확인.',
@@ -89,7 +71,6 @@ final class Goyoartdark_Theme_Mod_Registry {
 		return array(
 			'theme_mods_list'        => 'SELECT option_name, LENGTH(option_value) AS bytes FROM wp_options WHERE option_name LIKE \'theme_mods_%\' ORDER BY bytes DESC;',
 			'find_logo_in_mods'      => 'SELECT option_name FROM wp_options WHERE option_name LIKE \'theme_mods_%\' AND option_value LIKE \'%custom_logo%\' ;',
-			'find_hero_back_in_mods' => 'SELECT option_name FROM wp_options WHERE option_name LIKE \'theme_mods_%\' AND option_value LIKE \'%goyo_hero_font_back%\' ;',
 		);
 	}
 }

@@ -158,7 +158,7 @@ header .menu-container .menu-item:not(.current-menu-item):not(.current-menu-pare
 
 .front-page .site-header ul.sns a,
 .front-page .search-toggle i,
-.front-page .menu-icon::before { color: var(--menu-top-color); } 
+.front-page .menu-icon::before { color: var(--header-menu-font-color); } 
 
 /* footer */
 footer { color: var(--footer-text-color); background-color: #131313; } 

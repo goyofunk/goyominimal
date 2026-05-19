@@ -81,15 +81,6 @@ function goyoartdark_sanitize_main_page_image_ratio_slug( $value ) {
 	return in_array( $v, $allowed, true ) ? $v : '4-3';
 }
 
-/**
- * 메인페이지/메인페이지 상단 다크모드 해제 체크박스 값.
- *
- * @param mixed $value 원본 값.
- * @return bool 체크 시 true.
- */
-function goyoartdark_sanitize_main_page_dark_mode_disable( $value ) {
-	return rest_sanitize_boolean( $value );
-}
 
 /**
  * 히어로 메인 슬로건·보조문구: 글 편집과 동일 허용 태그( p, br, div, a … ) — wp_kses_post 와 동일.
@@ -264,28 +255,6 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 	$section_id = 'goyoartdark_main_page_top';
 	$hero_def = goyoartdark_get_hero_default_strings();
 
-	$wp_customize->add_setting(
-		'goyo_hero_slogan',
-		array(
-			'default'           => $hero_def['slogan'],
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_rich_text',
-			'transport'         => 'postMessage',
-		)
-	);
-	$wp_customize->add_control(
-		'goyo_hero_slogan',
-		array(
-			'label'       => __( '메인 슬로건', 'goyoartdark' ),
-			'section'     => $section_id,
-			'settings'    => 'goyo_hero_slogan',
-			'type'        => 'textarea',
-			'input_attrs' => array(
-				'rows' => 4,
-			),
-			'priority'    => 1,
-		)
-	);
-
 	// ── 메인 슬로건 정렬 ──────────────────────────────────────────
 	$wp_customize->add_setting(
 		'goyo_hero_layout',
@@ -310,12 +279,32 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		)
 	);
 
+	// ── 메인 슬로건 배경색 없애기 ─────────────────────────────────
+	$wp_customize->add_setting(
+		'goyo_hero_caption_no_bg',
+		array(
+			'default'           => true,
+			'sanitize_callback' => 'rest_sanitize_boolean',
+			'transport'         => 'refresh',
+		)
+	);
+	$wp_customize->add_control(
+		'goyo_hero_caption_no_bg',
+		array(
+			'label'    => __( '메인 슬로건 배경색 없애기', 'goyoartdark' ),
+			'section'  => $section_id,
+			'settings' => 'goyo_hero_caption_no_bg',
+			'type'     => 'checkbox',
+			'priority' => 1.6,
+		)
+	);
+
 	$wp_customize->add_setting(
 		'goyo_hero_slogan_font_family',
 		array(
 			'default'           => '"Poppins", sans-serif',
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_font_family',
-			'transport'         => 'postMessage',
+			'transport'         => 'refresh',
 		)
 	);
 	$wp_customize->add_control(
@@ -337,7 +326,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		array(
 			'default'           => 'clamp(1.9rem, 4.5vw, 4.2rem)',
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_css_value',
-			'transport'         => 'postMessage',
+			'transport'         => 'refresh',
 		)
 	);
 	$wp_customize->add_control(
@@ -360,7 +349,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		array(
 			'default'           => '700',
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_font_weight',
-			'transport'         => 'postMessage',
+			'transport'         => 'refresh',
 		)
 	);
 	$wp_customize->add_control(
@@ -388,7 +377,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		array(
 			'default'           => '#fff157',
 			'sanitize_callback' => 'sanitize_hex_color',
-			'transport'         => 'postMessage',
+			'transport'         => 'refresh',
 		)
 	);
 	$wp_customize->add_control(
@@ -409,7 +398,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		array(
 			'default'           => 1,
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
-			'transport'         => 'postMessage',
+			'transport'         => 'refresh',
 		)
 	);
 	$wp_customize->add_control(
@@ -428,34 +417,13 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		)
 	);
 
-	$wp_customize->add_setting(
-		'goyo_hero_subtext',
-		array(
-			'default'           => $hero_def['subtext'],
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_rich_text',
-			'transport'         => 'postMessage',
-		)
-	);
-	$wp_customize->add_control(
-		'goyo_hero_subtext',
-		array(
-			'label'       => __( '보조문구', 'goyoartdark' ),
-			'section'     => $section_id,
-			'settings'    => 'goyo_hero_subtext',
-			'type'        => 'textarea',
-			'input_attrs' => array(
-				'rows' => 4,
-			),
-			'priority'    => 7,
-		)
-	);
-
+	// ── 보조문구 스타일 ──────────────────────────────────────────
 	$wp_customize->add_setting(
 		'goyo_hero_subtext_font_family',
 		array(
 			'default'           => '',
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_font_family',
-			'transport'         => 'postMessage',
+			'transport'         => 'refresh',
 		)
 	);
 	$wp_customize->add_control(
@@ -477,7 +445,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		array(
 			'default'           => 'clamp(0.9rem, 1.8vw, 1.1rem)',
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_css_value',
-			'transport'         => 'postMessage',
+			'transport'         => 'refresh',
 		)
 	);
 	$wp_customize->add_control(
@@ -500,7 +468,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		array(
 			'default'           => '#f2f2f0',
 			'sanitize_callback' => 'sanitize_hex_color',
-			'transport'         => 'postMessage',
+			'transport'         => 'refresh',
 		)
 	);
 	$wp_customize->add_control(
@@ -521,7 +489,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		array(
 			'default'           => 1,
 			'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
-			'transport'         => 'postMessage',
+			'transport'         => 'refresh',
 		)
 	);
 	$wp_customize->add_control(
@@ -540,267 +508,10 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		)
 	);
 
-	$wp_customize->add_setting(
-		'goyo_hero_subtext_hide',
-		array(
-			'default'           => false,
-			'sanitize_callback' => 'rest_sanitize_boolean',
-			'transport'         => 'refresh',
-		)
-	);
-	$wp_customize->add_control(
-		'goyo_hero_subtext_hide',
-		array(
-			'label'    => __( '보조문구 숨기기', 'goyoartdark' ),
-			'section'  => $section_id,
-			'settings' => 'goyo_hero_subtext_hide',
-			'type'     => 'checkbox',
-			'priority' => 12,
-		)
-	);
+	// 버튼(링크) 글자·폰트·색상·투명도·배경·라인·URL·새탭 컨트롤 제거됨.
+	// 히어로 배경 이미지(HERO_FONT_BACK) 및 히어로 높이(HERO_HEIGHT) 컨트롤 제거됨.
 
-	$wp_customize->add_setting(
-		'goyo_hero_button_hide',
-		array(
-			'default'           => false,
-			'sanitize_callback' => 'rest_sanitize_boolean',
-			'transport'         => 'refresh',
-		)
-	);
-	$wp_customize->add_control(
-		'goyo_hero_button_hide',
-		array(
-			'label'    => __( '버튼 숨기기', 'goyoartdark' ),
-			'section'  => $section_id,
-			'settings' => 'goyo_hero_button_hide',
-			'type'     => 'checkbox',
-			'priority' => 13,
-		)
-	);
-
-	$wp_customize->add_setting(
-		'goyo_hero_button_label',
-		array(
-			'default'           => $hero_def['button_label'],
-			'sanitize_callback' => 'sanitize_text_field',
-			'transport'         => 'postMessage',
-		)
-	);
-	$wp_customize->add_control(
-		'goyo_hero_button_label',
-		array(
-			'label'       => __( '버튼(링크) 글자', 'goyoartdark' ),
-			'section'     => $section_id,
-			'settings'    => 'goyo_hero_button_label',
-			'type'        => 'text',
-			'priority'    => 14,
-		)
-	);
-
-	$wp_customize->add_setting(
-		'goyo_hero_button_font_size',
-		array(
-			'default'           => '0.9rem',
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_css_value',
-			'transport'         => 'postMessage',
-		)
-	);
-	$wp_customize->add_control(
-		'goyo_hero_button_font_size',
-		array(
-			'label'       => __( '버튼(링크) — 폰트 크기', 'goyoartdark' ),
-			'section'     => $section_id,
-			'settings'    => 'goyo_hero_button_font_size',
-			'type'        => 'text',
-			'description' => __( '예: 0.88rem, clamp(0.82rem, 1.6vw, 1rem)', 'goyoartdark' ),
-			'input_attrs' => array(
-				'placeholder' => '0.88rem',
-			),
-			'priority'    => 15,
-		)
-	);
-
-	$wp_customize->add_setting(
-		'goyo_hero_button_color',
-		array(
-			'default'           => '#f2f2f0',
-			'sanitize_callback' => 'sanitize_hex_color',
-			'transport'         => 'postMessage',
-		)
-	);
-	$wp_customize->add_control(
-		new WP_Customize_Color_Control(
-			$wp_customize,
-			'goyo_hero_button_color',
-			array(
-				'label'    => __( '버튼(링크) — 글자색', 'goyoartdark' ),
-				'section'  => $section_id,
-				'settings' => 'goyo_hero_button_color',
-				'priority' => 14,
-			)
-		)
-	);
-
-	$wp_customize->add_setting(
-		'goyo_hero_button_opacity',
-		array(
-			'default'           => 1,
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
-			'transport'         => 'postMessage',
-		)
-	);
-	$wp_customize->add_control(
-		'goyo_hero_button_opacity',
-		array(
-			'label'       => __( '버튼(링크) — 투명도(알파)', 'goyoartdark' ),
-			'section'     => $section_id,
-			'settings'    => 'goyo_hero_button_opacity',
-			'type'        => 'range',
-			'input_attrs' => array(
-				'min'  => 0,
-				'max'  => 1,
-				'step' => 0.01,
-			),
-			'priority'    => 15,
-		)
-	);
-
-	$wp_customize->add_setting(
-		Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BG_COLOR,
-		array(
-			'default'           => '#000000',
-			'sanitize_callback' => 'sanitize_hex_color',
-			'transport'         => 'postMessage',
-		)
-	);
-	$wp_customize->add_control(
-		new WP_Customize_Color_Control(
-			$wp_customize,
-			Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BG_COLOR,
-			array(
-				'label'    => __( '버튼링크 배경색', 'goyoartdark' ),
-				'section'  => $section_id,
-				'settings' => Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BG_COLOR,
-				'priority' => 16,
-			)
-		)
-	);
-
-	$wp_customize->add_setting(
-		Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BG_OPACITY,
-		array(
-			'default'           => 0.78,
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
-			'transport'         => 'postMessage',
-		)
-	);
-	$wp_customize->add_control(
-		Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BG_OPACITY,
-		array(
-			'label'       => __( '버튼링크 배경 — 투명도(알파)', 'goyoartdark' ),
-			'section'     => $section_id,
-			'settings'    => Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BG_OPACITY,
-			'type'        => 'range',
-			'input_attrs' => array(
-				'min'  => 0,
-				'max'  => 1,
-				'step' => 0.01,
-			),
-			'priority'    => 17,
-		)
-	);
-
-	$wp_customize->add_setting(
-		Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BORDER_COLOR,
-		array(
-			'default'           => '#ffffff',
-			'sanitize_callback' => 'sanitize_hex_color',
-			'transport'         => 'postMessage',
-		)
-	);
-	$wp_customize->add_control(
-		new WP_Customize_Color_Control(
-			$wp_customize,
-			Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BORDER_COLOR,
-			array(
-				'label'    => __( '버튼링크 라인색', 'goyoartdark' ),
-				'section'  => $section_id,
-				'settings' => Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BORDER_COLOR,
-				'priority' => 18,
-			)
-		)
-	);
-
-	$wp_customize->add_setting(
-		Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BORDER_OPACITY,
-		array(
-			'default'           => 0.14,
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
-			'transport'         => 'postMessage',
-		)
-	);
-	$wp_customize->add_control(
-		Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BORDER_OPACITY,
-		array(
-			'label'       => __( '버튼링크 라인 — 투명도(알파)', 'goyoartdark' ),
-			'section'     => $section_id,
-			'settings'    => Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BORDER_OPACITY,
-			'type'        => 'range',
-			'input_attrs' => array(
-				'min'  => 0,
-				'max'  => 1,
-				'step' => 0.01,
-			),
-			'priority'    => 19,
-		)
-	);
-
-	$wp_customize->add_setting(
-		'goyo_hero_button_url',
-		array(
-			'default'           => '/contactpage/contact/',
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_button_url',
-			'transport'         => 'postMessage',
-		)
-	);
-	$wp_customize->add_control(
-		'goyo_hero_button_url',
-		array(
-			'label'       => __( '링크 주소', 'goyoartdark' ),
-			'section'     => $section_id,
-			'settings'    => 'goyo_hero_button_url',
-			'type'        => 'text',
-			'description' => __( '내부/외부 주소, 상대경로(/about), 로컬 입력이 가능합니다.', 'goyoartdark' ),
-			'input_attrs' => array(
-				'placeholder' => 'https://',
-			),
-			'priority'    => 20,
-		)
-	);
-
-	$wp_customize->add_setting(
-		'goyo_hero_button_new_tab',
-		array(
-			'default'           => false,
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_button_new_tab',
-			'transport'         => 'postMessage',
-		)
-	);
-	$wp_customize->add_control(
-		'goyo_hero_button_new_tab',
-		array(
-			'label'       => __( '체크 시 링크를 새 탭에서 열기', 'goyoartdark' ),
-			'section'     => $section_id,
-			'settings'    => 'goyo_hero_button_new_tab',
-			'type'        => 'checkbox',
-			'priority'    => 21,
-		)
-	);
-
-	// 히어로 — 배경 이미지(전체) 및 히어로 높이 컨트롤은 제거됨.
-	// fixed 히어로 레이아웃을 사용하지 않으므로 이 두 설정은 불필요하다.
-
-	// 헤더 검색·다크모드 — Unicorn 효과 선택(42) 직상단. '상단 검색…' 직전에 시각적 구분선 .
+	// 헤더 검색· — Unicorn 효과 선택(42) 직상단. '상단 검색…' 직전에 시각적 구분선 .
 	$wp_customize->add_setting(
 		'goyoartdark_main_page_top_sep_before_search_1',
 		array(
@@ -838,25 +549,9 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 			'priority'    => 40,
 		)
 	);
+	
 
-	$wp_customize->add_setting(
-		'goyoartdark_main_page_disable_dark_mode',
-		array(
-			'default'           => true,
-			'sanitize_callback' => 'goyoartdark_sanitize_main_page_dark_mode_disable',
-			'transport'         => 'refresh',
-		)
-	);
-	$wp_customize->add_control(
-		'goyoartdark_main_page_disable_dark_mode',
-		array(
-			'label'       => __( '다크모드 해제', 'goyoartdark' ),
-			'section'     => $section_id,
-			'settings'    => 'goyoartdark_main_page_disable_dark_mode',
-			'type'        => 'checkbox',
-			'priority'    => 41,
-		)
-	);
+
 }
 add_action( 'customize_register', 'goyoartdark_customizer_main_page_top_hero', 8 );
 
@@ -879,6 +574,80 @@ function goyoartdark_customizer_main_page_section( $wp_customize ) {
 }
 add_action( 'customize_register', 'goyoartdark_customizer_main_page_section', 9 );
 
+/**
+ * 커스터마이저 히어로 설정 → CSS 변수를 goyoartdark-front-page 핸들에 인라인 주입.
+ * 기존 테마의 wp_add_inline_style() 방식과 동일. transport=refresh 이므로
+ * 별도 JS 없이 미리보기 새로고침만으로 반영된다.
+ *
+ * @return void
+ */
+function goyoartdark_hero_customizer_inline_css() {
+	if ( ! is_front_page() && ! is_customize_preview() ) {
+		return;
+	}
+	if ( ! wp_style_is( 'goyoartdark-front-page', 'enqueued' ) ) {
+		return;
+	}
+
+	// ── 메인 슬로건 ─────────────────────────────────────────────
+	$slogan_font_family = get_theme_mod( 'goyo_hero_slogan_font_family', '"Poppins", sans-serif' );
+	$slogan_font_size   = get_theme_mod( 'goyo_hero_slogan_font_size', 'clamp(1.9rem, 4.5vw, 4.2rem)' );
+	$slogan_font_weight = get_theme_mod( 'goyo_hero_slogan_font_weight', '700' );
+	$slogan_color       = get_theme_mod( 'goyo_hero_slogan_color', '#fff157' );
+	$slogan_opacity     = get_theme_mod( 'goyo_hero_slogan_opacity', 1 );
+
+	// ── 보조문구 ─────────────────────────────────────────────────
+	$subtext_font_family = get_theme_mod( 'goyo_hero_subtext_font_family', '' );
+	$subtext_font_size   = get_theme_mod( 'goyo_hero_subtext_font_size', 'clamp(0.9rem, 1.8vw, 1.1rem)' );
+	$subtext_color       = get_theme_mod( 'goyo_hero_subtext_color', '#f2f2f0' );
+	$subtext_opacity     = get_theme_mod( 'goyo_hero_subtext_opacity', 1 );
+
+	// CSS 변수 빌드 — 빈 값은 제외
+	$vars = array();
+	if ( $slogan_font_family ) {
+		$vars[] = '--goyo-slogan-font-family: ' . esc_attr( $slogan_font_family );
+	}
+	if ( $slogan_font_size ) {
+		$vars[] = '--goyo-slogan-font-size: ' . esc_attr( $slogan_font_size );
+	}
+	if ( $slogan_font_weight ) {
+		$vars[] = '--goyo-slogan-font-weight: ' . esc_attr( $slogan_font_weight );
+	}
+	if ( $slogan_color ) {
+		$vars[] = '--goyo-slogan-color: ' . esc_attr( $slogan_color );
+	}
+	$vars[] = '--goyo-slogan-opacity: ' . floatval( $slogan_opacity );
+
+	if ( $subtext_font_family ) {
+		$vars[] = '--goyo-subtext-font-family: ' . esc_attr( $subtext_font_family );
+	}
+	if ( $subtext_font_size ) {
+		$vars[] = '--goyo-subtext-font-size: ' . esc_attr( $subtext_font_size );
+	}
+	if ( $subtext_color ) {
+		$vars[] = '--goyo-subtext-color: ' . esc_attr( $subtext_color );
+	}
+	$vars[] = '--goyo-subtext-opacity: ' . floatval( $subtext_opacity );
+
+	if ( empty( $vars ) ) {
+		return;
+	}
+
+	wp_add_inline_style(
+		'goyoartdark-front-page',
+		'.mainhero{' . implode( ';', $vars ) . ';}'
+	);
+
+	// ── 메인 슬로건 배경색 없애기 ─────────────────────────────────
+	if ( get_theme_mod( 'goyo_hero_caption_no_bg', true ) ) {
+		wp_add_inline_style(
+			'goyoartdark-front-page',
+			'.mainhero .metaslider .caption{background-color:transparent !important;padding:0 0 2vw 0 !important;}'
+		);
+	}
+}
+add_action( 'wp_enqueue_scripts', 'goyoartdark_hero_customizer_inline_css', 201 );
+
 
 /**
  * 히어로 레이아웃 — body_class 로 정렬 클래스 주입.
@@ -894,20 +663,13 @@ function goyoartdark_hero_layout_body_class( $classes ) {
 	$layout = get_theme_mod( 'goyo_hero_layout', 'center' );
 	if ( 'bottom-left' === $layout ) {
 		$classes[] = 'goyo-hero-layout--bottom-left';
+	} else {
+		// 'center' 를 명시적으로 추가해야 bottom-left 가 저장된 적 있어도 CSS로 덮어씌울 수 있다.
+		$classes[] = 'goyo-hero-layout--center';
 	}
 	return $classes;
 }
 add_filter( 'body_class', 'goyoartdark_hero_layout_body_class' );
 
-/**
- * 히어로(메인슬로건·보조·버튼) — selective refresh.
- *
- * @param WP_Customize_Partial $partial Partial.
- * @param array                $context 컨텍스트(선택).
- * @return string
- */
-function goyoartdark_customize_render_partial_hero( $partial, $context = array() ) { // phpcs:ignore VariableAnalysis
-	unset( $partial, $context );
-	return goyoartdark_render_hero_inner_html( true );
-}
+
 

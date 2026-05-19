@@ -118,16 +118,6 @@ if ( ! function_exists( 'goyoartdark_is_effective_front_page_for_assets' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'goyoartdark_should_disable_dark_color_scheme' ) ) :
-	/**
-	 * 커스터마이저 체크 상태 기준으로 브라우저 UI 다크 color-scheme 해제 여부를 반환.
-	 *
-	 * @return bool
-	 */
-	function goyoartdark_should_disable_dark_color_scheme() {
-		return (bool) get_theme_mod( 'goyoartdark_main_page_top_disable_dark_mode', false ) || (bool) get_theme_mod( 'goyoartdark_main_page_disable_dark_mode', true );
-	}
-endif;
 
 // 홈 레이아웃( 고정 히어로 · 스페이스 · 본문 덮음 ) — 다른 스타일/플러그인 묻힘 방지용·front-page 핸들 맨 마지막 인라인
 if ( ! function_exists( 'goyoartdark_front_page_critical_css' ) ) :
@@ -258,9 +248,7 @@ if ( ! function_exists( 'goyoartdark_enqueue_styles' ) ) :
 			goyoartdark_enqueue_front_page_bundle();
 		}
 
-		if ( goyoartdark_should_disable_dark_color_scheme() ) {
-			wp_add_inline_style( 'goyoartdark-style', 'html{color-scheme:light !important;}' );
-		}
+	
 	}
 endif;
 add_action( 'wp_enqueue_scripts', 'goyoartdark_enqueue_styles' );
@@ -379,10 +367,23 @@ if ( ! function_exists( 'goyoartdark_enqueue_scripts' ) ) :
 				$version,
 				true
 			);
-			$unicorn_project_id = function_exists( 'goyoartdark_get_unicorn_selected_project_id' )
-				? goyoartdark_get_unicorn_selected_project_id()
-				: (string) get_theme_mod( 'goyo_unicorn_project_id', '' );
-			if ( '' !== trim( (string) $unicorn_project_id ) ) {
+			// ── Unicorn 효과 설정 읽기 ──────────────────────────────────
+			$unicorn_effect    = (string) get_theme_mod( 'goyo_unicorn_effect_preset', 'default' );
+			$unicorn_dark_mode = (string) get_theme_mod( 'goyo_unicorn_dark_mode', 'screen' );
+			$unicorn_soft_id   = (string) get_theme_mod( 'goyo_unicorn_soft_project_id', '' );
+ 
+			// goyoartdark_get_unicorn_selected_project_id() 가 정의되면 그쪽을 사용,
+			// 없으면 effect 에 따라 직접 선택.
+			if ( function_exists( 'goyoartdark_get_unicorn_selected_project_id' ) ) {
+				$unicorn_project_id = goyoartdark_get_unicorn_selected_project_id();
+			} elseif ( 'soft-particles' === $unicorn_effect && '' !== trim( $unicorn_soft_id ) ) {
+				$unicorn_project_id = $unicorn_soft_id;
+			} else {
+				$unicorn_project_id = (string) get_theme_mod( 'goyo_unicorn_project_id', '' );
+			}
+ 
+			// effect = 'none' 이거나 프로젝트 ID 가 없으면 스크립트 로드 자체를 생략.
+			if ( 'none' !== $unicorn_effect && '' !== trim( (string) $unicorn_project_id ) ) {
 				$unicorn_loader_path = get_parent_theme_file_path( 'assets/js/unicorn-loader.js' );
 				$unicorn_loader_ver  = file_exists( $unicorn_loader_path ) ? (string) filemtime( $unicorn_loader_path ) : $version;
 				wp_enqueue_script(
@@ -399,26 +400,16 @@ if ( ! function_exists( 'goyoartdark_enqueue_scripts' ) ) :
 					'goyoartdark-unicorn-loader',
 					'goyoUnicornConfig',
 					array(
-						'projectId' => $unicorn_project_id,
+						'projectId'     => $unicorn_project_id,
+						'effect'        => $unicorn_effect,
+						'darkMode'      => $unicorn_dark_mode,
+						'softProjectId' => $unicorn_soft_id,
 					)
 				);
 			}
 		}
 
-		if ( ! is_admin() ) {
-			$mh_parallax_deps = array( 'goyoartdark-lenis-init' );
-			/* 홈: body.goyo-hero-past-fold 는 scroll-scale 가 먼저 동기해야 함 — 복원 스크롤·폴드 상태와 패럴럭스 초기 RAF 충돌 방지 */
-			if ( goyoartdark_is_effective_front_page_for_assets() ) {
-				$mh_parallax_deps[] = 'goyoartdark-mainhero-content-scroll-scale';
-			}
-			wp_enqueue_script(
-				'goyoartdark-mainhero-inner-parallax',
-				get_parent_theme_file_uri( 'assets/js/mainhero-inner-parallax.js' ),
-				$mh_parallax_deps,
-				$version,
-				true
-			);
-		}
+	
 		/* 홈 갤러리 = category-col-reveal.js( 셀렉터에 .goyo-main-gallery-grid … 포함, board.css 동일 ) */
 		if ( is_category() || is_search() || goyoartdark_is_effective_front_page_for_assets() ) {
 			wp_enqueue_script(

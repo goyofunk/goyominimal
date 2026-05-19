@@ -6,8 +6,6 @@
  *   [goyo_subbanner]      - primary-menu 기반 서브배너(페이지 타이틀 + 서브메뉴)
  *   [goyo_category_loop]  - 카테고리/검색 아카이브 루프(category.php 이식)
  *   [goyo_single_content] - 싱글 포스트 본문 + 이전·다음글 + 관련글 (single.php 이식)
- *   [goyo_hero_inner]     - 홈 히어로(메인슬로건·보조문구 HTML, 버튼, 커스터마이저; selective refresh)
- *   [goyo_hero_font_back] - 홈 히어로 전체 배경 이미지(커스터마이저·테마 assets 폴백)
  *
  * 의존: inc/content.php, inc/content-page.php, inc/content-empty.php, inc/content-none.php,
  *       inc/related-post.php, inc/pagination.php, inc/category-functions.php
@@ -912,111 +910,6 @@ function goyoartdark_is_main_page_blocks_context() {
 }
 
 /**
- * 히어로 높이 한 구간 문자열만 정제( 세미콜론은 구간 구분만 바깥에서 처리 ).
- *
- * @param mixed $value 원본.
- * @return string
- */
-function goyoartdark_sanitize_hero_height_segment( $value ) {
-	$s = wp_strip_all_tags( (string) $value );
-	$s = str_replace( array( "\r", "\n", "\t", '"', "'" ), ' ', $s );
-	$s = preg_replace( '/[;{}<>`\\\\@]/u', '', $s );
-	$s = trim( preg_replace( '/\s+/', ' ', $s ) );
-	if ( '' === $s ) {
-		return '';
-	}
-	if ( function_exists( 'mb_strlen' ) && mb_strlen( $s, 'UTF-8' ) > 120 ) {
-		$s = mb_substr( $s, 0, 120, 'UTF-8' );
-	} elseif ( strlen( $s ) > 120 ) {
-		$s = substr( $s, 0, 120 );
-	}
-	return $s;
-}
-
-/**
- * 히어로 높이 입력 문자열을 데스크톱 / max820 / max520 값으로 해석( 비면 앞 단계값·최종 100vh 폴백 ).
- *
- * @param string $value 세미콜론으로 최대 세 구간( 데스크톱; 820 이하; 520 이하 ).
- * @return array{desktop:string,820:string,520:string}
- */
-function goyoartdark_parse_hero_height_from_string( $value ) {
-	$fallback = '100vh';
-	$s        = wp_strip_all_tags( (string) $value );
-	$s        = trim( $s );
-	if ( '' === $s ) {
-		return array(
-			'desktop' => $fallback,
-			'820'     => $fallback,
-			'520'     => $fallback,
-		);
-	}
-	$chunks = explode( ';', $s );
-	$p0     = isset( $chunks[0] ) ? goyoartdark_sanitize_hero_height_segment( trim( $chunks[0] ) ) : '';
-	$p1     = isset( $chunks[1] ) ? goyoartdark_sanitize_hero_height_segment( trim( $chunks[1] ) ) : '';
-	$p2     = isset( $chunks[2] ) ? goyoartdark_sanitize_hero_height_segment( trim( $chunks[2] ) ) : '';
-
-	$desktop = '' !== $p0 ? $p0 : $fallback;
-	$b820    = '' !== $p1 ? $p1 : $desktop;
-	$b520    = '' !== $p2 ? $p2 : $b820;
-
-	return array(
-		'desktop' => $desktop,
-		'820'     => $b820,
-		'520'     => $b520,
-	);
-}
-
-/**
- * theme_mod 재저장 시 짧게만 남기기( 한 구간만 쓰면 한 줄, 동일 폭이면 하나로 합침 ).
- *
- * @param array<string, string> $parsed goyoartdark_parse_hero_height_from_string 과 동일 구조 키.
- * @return string
- */
-function goyoartdark_format_hero_height_for_storage( array $parsed ) {
-	$d  = isset( $parsed['desktop'] ) ? (string) $parsed['desktop'] : '';
-	$b8 = isset( $parsed['820'] ) ? (string) $parsed['820'] : $d;
-	$b5 = isset( $parsed['520'] ) ? (string) $parsed['520'] : $b8;
-	if ( $b8 === $d && $b5 === $d ) {
-		return $d;
-	}
-	if ( $b5 === $b8 ) {
-		return $d . '; ' . $b8;
-	}
-	return $d . '; ' . $b8 . '; ' . $b5;
-}
-
-/**
- * 사용자 정의 저장용 — 세미콜론 구간 각각 정제 후 간결 문자열로 합침.
- *
- * @param mixed $value 원본.
- * @return string
- */
-function goyoartdark_sanitize_hero_height_value( $value ) {
-	$parsed = goyoartdark_parse_hero_height_from_string( $value );
-	return goyoartdark_format_hero_height_for_storage( $parsed );
-}
-
-/**
- * 활성 값( theme_mod 또는 기본 100vh 한 줄 입력 가정 ).
- *
- * @return array{desktop:string,820:string,520:string}
- */
-function goyoartdark_parse_hero_height_theme_mod() {
-	$raw = get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_HEIGHT, '100vh; 570px; 50vh' );
-	return goyoartdark_parse_hero_height_from_string( (string) $raw );
-}
-
-/**
- * 프론트·미리보기용 히어로 높이( 데스크톱 구간 하나 ).
- *
- * @return string
- */
-function goyoartdark_get_hero_height_css_value() {
-	$h = goyoartdark_parse_hero_height_theme_mod();
-	return $h['desktop'];
-}
-
-/**
  * 히어로 — 커스터마이저 `default`·get_theme_mod 공통(현재 샘플 문구와 동일, 번역은 출력 시).
  *
  * @return array{slogan: string, subtext: string, button_label: string}
@@ -1024,25 +917,29 @@ function goyoartdark_get_hero_height_css_value() {
 function goyoartdark_get_hero_default_strings() {
 	// goyominimal-export.dat 사용자정의 기준 기본문구(신규 설치·theme_mod 비어 있을 때).
 	return array(
-		'slogan'       => 'A Creative Website, <br>Done in One Day',
-		'subtext'      => '메인페이지의 사진을 교체하고, 회사 정보를 입력하는 것만으로 <br>' . "\n" . '뚝딱 홈페이지를 오픈하실 수 있습니다.',
-		'button_label' => '문의하기',
+		'slogan' => 'A Creative Website, <br>Done in One Day',
 	);
 }
 
+// goyoartdark_render_hero_inner_content_html() 제거됨 — 슬로건·버튼 HTML 렌더링 불필요.
+// 보조문구 스타일(폰트·색상·투명도)은 아래 CSS 변수 주입 함수에서 유지됨.
+
 /**
- * 히어로: `.mainhero-content`만(상단 아이라인 없음) — 루트 래퍼 제외.
- *
- * @return string
+ * 보조문구 스타일 커스터마이저 값을 CSS 변수로 주입한다.
+ * (.mainhero-lead 에 --goyo-subtext-* 변수로 적용)
  */
-function goyoartdark_render_hero_inner_content_html() {
+function goyoartdark_hero_subtext_style_css_var() {
+	if ( ! goyoartdark_is_main_page_blocks_context() && ! is_front_page() && ! is_customize_preview() ) {
+		return;
+	}
+
 	$hex_to_rgba = static function ( $hex, $opacity ) {
-		$hex = sanitize_hex_color( (string) $hex );
+		$hex     = sanitize_hex_color( (string) $hex );
 		if ( ! $hex ) {
 			return '';
 		}
 		$opacity = max( 0, min( 1, (float) $opacity ) );
-		$hex = ltrim( $hex, '#' );
+		$hex     = ltrim( $hex, '#' );
 		if ( strlen( $hex ) === 3 ) {
 			$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
 		}
@@ -1055,160 +952,36 @@ function goyoartdark_render_hero_inner_content_html() {
 		return 'rgba(' . $r . ', ' . $g . ', ' . $b . ', ' . round( $opacity, 2 ) . ')';
 	};
 
-	$def     = goyoartdark_get_hero_default_strings();
-	$title   = get_theme_mod( 'goyo_hero_slogan', $def['slogan'] );
-	$title   = is_string( $title ) ? $title : '';
-	$sub     = get_theme_mod( 'goyo_hero_subtext', $def['subtext'] );
-	$sub     = is_string( $sub ) ? $sub : '';
-	$btntxt  = get_theme_mod( 'goyo_hero_button_label', $def['button_label'] );
-	$btntxt  = is_string( $btntxt ) ? trim( $btntxt ) : '';
-	$href    = get_theme_mod( 'goyo_hero_button_url', '/contactpage/contact/' );
-	$href    = is_string( $href ) ? trim( $href ) : '';
-	if ( '' !== $href && '#' !== $href && false === strpos( $href, '://' ) && 0 !== strpos( $href, 'mailto:' ) && 0 !== strpos( $href, 'tel:' ) ) {
-		if ( preg_match( '/^(localhost|127(?:\.\d{1,3}){3}|\[::1\])(?::\d{1,5})?(?:\/.*)?$/i', $href ) ) {
-			$href = 'http://' . $href;
-		} elseif ( 0 === strpos( $href, '/' ) || 0 === strpos( $href, './' ) || 0 === strpos( $href, '../' ) || 0 === strpos( $href, '?' ) ) {
-			$href = home_url( $href );
-		} else {
-			$href = home_url( '/' . ltrim( $href, '/' ) );
-		}
-	}
-	$newtab  = (bool) get_theme_mod( 'goyo_hero_button_new_tab', false );
+	$ff  = get_theme_mod( 'goyo_hero_subtext_font_family', '' );
+	$ff  = is_string( $ff ) ? goyoartdark_sanitize_hero_font_family( trim( $ff ) ) : '';
+	$sz  = get_theme_mod( 'goyo_hero_subtext_font_size', 'clamp(0.9rem, 1.8vw, 1.1rem)' );
+	$sz  = is_string( $sz ) ? goyoartdark_sanitize_hero_css_value( trim( $sz ) ) : '';
+	$cl  = sanitize_hex_color( (string) get_theme_mod( 'goyo_hero_subtext_color', '#f2f2f0' ) );
+	$op  = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_subtext_opacity', 1 ) );
+	$cl  = $hex_to_rgba( $cl, $op );
 
-	$ff_slogan = get_theme_mod( 'goyo_hero_slogan_font_family', '"Poppins", sans-serif' );
-	$ff_slogan = is_string( $ff_slogan ) ? goyoartdark_sanitize_hero_font_family( trim( $ff_slogan ) ) : '';
-	$sz_slogan = get_theme_mod( 'goyo_hero_slogan_font_size', 'clamp(1.9rem, 4.5vw, 4.2rem)' );
-	$sz_slogan = is_string( $sz_slogan ) ? goyoartdark_sanitize_hero_css_value( trim( $sz_slogan ) ) : '';
-	$fw_slogan = function_exists( 'goyoartdark_sanitize_hero_font_weight' )
-		? goyoartdark_sanitize_hero_font_weight( get_theme_mod( 'goyo_hero_slogan_font_weight', '700' ) )
-		: ( in_array( (string) get_theme_mod( 'goyo_hero_slogan_font_weight', '700' ), array( '200', '300', '400', '500', '600', '700', '800' ), true ) ? (string) get_theme_mod( 'goyo_hero_slogan_font_weight', '700' ) : '700' );
-	$cl_slogan = sanitize_hex_color( (string) get_theme_mod( 'goyo_hero_slogan_color', '#fff157' ) );
-	$op_slogan = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_slogan_opacity', 1 ) );
-	$cl_slogan = $hex_to_rgba( $cl_slogan, $op_slogan );
-	$slogan_style = array();
-	if ( '' !== $ff_slogan ) {
-		$slogan_style[] = 'font-family: ' . $ff_slogan;
+	$vars = array();
+	if ( '' !== $ff ) {
+		$vars[] = '--goyo-subtext-font-family: ' . $ff;
 	}
-	if ( '' !== $sz_slogan ) {
-		$slogan_style[] = 'font-size: ' . $sz_slogan;
+	if ( '' !== $sz ) {
+		$vars[] = '--goyo-subtext-font-size: ' . $sz;
 	}
-	if ( '' !== $fw_slogan ) {
-		$slogan_style[] = 'font-weight: ' . $fw_slogan;
-	}
-	if ( '' !== $cl_slogan ) {
-		$slogan_style[] = 'color: ' . $cl_slogan;
-	}
-	$slogan_font_attr = ! empty( $slogan_style ) ? ' style="' . esc_attr( implode( '; ', $slogan_style ) ) . '"' : '';
-
-	$ff_subf = get_theme_mod( 'goyo_hero_subtext_font_family', '' );
-	$ff_subf = is_string( $ff_subf ) ? goyoartdark_sanitize_hero_font_family( trim( $ff_subf ) ) : '';
-	$sz_subf = get_theme_mod( 'goyo_hero_subtext_font_size', 'clamp(0.9rem, 1.8vw, 1.1rem)' );
-	$sz_subf = is_string( $sz_subf ) ? goyoartdark_sanitize_hero_css_value( trim( $sz_subf ) ) : '';
-	$cl_subf = sanitize_hex_color( (string) get_theme_mod( 'goyo_hero_subtext_color', '#f2f2f0' ) );
-	$op_subf = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_subtext_opacity', 1 ) );
-	$cl_subf = $hex_to_rgba( $cl_subf, $op_subf );
-	$sub_style = array();
-	if ( '' !== $ff_subf ) {
-		$sub_style[] = 'font-family: ' . $ff_subf;
-	}
-	if ( '' !== $sz_subf ) {
-		$sub_style[] = 'font-size: ' . $sz_subf;
-	}
-	if ( '' !== $cl_subf ) {
-		$sub_style[] = 'color: ' . $cl_subf;
-	}
-	$sub_font_attr = ! empty( $sub_style ) ? ' style="' . esc_attr( implode( '; ', $sub_style ) ) . '"' : '';
-
-	$sz_btn = get_theme_mod( 'goyo_hero_button_font_size', '0.9rem' );
-	$sz_btn = is_string( $sz_btn ) ? goyoartdark_sanitize_hero_css_value( trim( $sz_btn ) ) : '';
-	$cl_btn = sanitize_hex_color( (string) get_theme_mod( 'goyo_hero_button_color', '#f2f2f0' ) );
-	$op_btn = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_button_opacity', 1 ) );
-	$cl_btn = $hex_to_rgba( $cl_btn, $op_btn );
-
-	$bg_hex = sanitize_hex_color( (string) get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BG_COLOR, '#000000' ) );
-	if ( ! $bg_hex ) {
-		$bg_hex = '#000000';
-	}
-	$bg_op  = goyoartdark_sanitize_hero_opacity( get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BG_OPACITY, 0.78 ) );
-	$bg_css = $hex_to_rgba( $bg_hex, $bg_op );
-
-	$bd_hex = sanitize_hex_color( (string) get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BORDER_COLOR, '#ffffff' ) );
-	if ( ! $bd_hex ) {
-		$bd_hex = '#ffffff';
-	}
-	$bd_op  = goyoartdark_sanitize_hero_opacity( get_theme_mod( Goyoartdark_Theme_Mod_Registry::HERO_BUTTON_BORDER_OPACITY, 0.14 ) );
-	$bd_css = $hex_to_rgba( $bd_hex, $bd_op );
-
-	$btn_style = array();
-	if ( '' !== $sz_btn ) {
-		$btn_style[] = 'font-size: ' . $sz_btn;
-	}
-	if ( '' !== $cl_btn ) {
-		$btn_style[] = 'color: ' . $cl_btn;
-	}
-	if ( '' !== $bg_css ) {
-		$btn_style[] = 'background: ' . $bg_css;
-	}
-	if ( '' !== $bd_css ) {
-		$btn_style[] = 'border: 1px solid ' . $bd_css;
-	}
-	$btn_style_attr = ! empty( $btn_style ) ? ' style="' . esc_attr( implode( '; ', $btn_style ) ) . '"' : '';
-
-	$title_trim = trim( $title );
-	$sub_trim   = trim( $sub );
-
-	$title_html = ( '' === $title_trim )
-		? '<h1 class="mainhero-title"' . $slogan_font_attr . '>' . esc_html__( 'Captivating Websites That tell compelling stories', 'goyoartdark' ) . '</h1>'
-		: '<div class="mainhero-title"' . $slogan_font_attr . '>' . wp_kses_post( $title ) . '</div>';
-
-	$sub_html = ( '' === $sub_trim )
-		? '<p class="mainhero-lead"' . $sub_font_attr . '>' . esc_html__( 'Main Hero Description', 'goyoartdark' ) . '</p>'
-		: '<div class="mainhero-lead"' . $sub_font_attr . '>' . wp_kses_post( $sub ) . '</div>';
-
-	$hide_subtext = (bool) get_theme_mod( 'goyo_hero_subtext_hide', false );
-	if ( $hide_subtext ) {
-		$sub_html = '';
+	if ( '' !== $cl ) {
+		$vars[] = '--goyo-subtext-color: ' . $cl;
 	}
 
-	$btn_l = ( '' === $btntxt ) ? esc_html__( 'Main Hero Button', 'goyoartdark' ) : esc_html( $btntxt );
-
-	$href_e = ( '' === $href ) ? '#' : esc_url( $href );
-	$attr   = '';
-	if ( $newtab ) {
-		$attr = ' target="_blank" rel="noopener noreferrer"';
+	if ( empty( $vars ) ) {
+		return;
 	}
 
-	$out  = '<div class="mainhero-content">';
-	$out .= $title_html;
-	$out .= $sub_html;
-
-	$hide_button = (bool) get_theme_mod( 'goyo_hero_button_hide', false );
-	if ( ! $hide_button ) {
-		$out .= '<a class="mainhero-btn" href="' . $href_e . '"' . $attr . $btn_style_attr . '>' . $btn_l . '</a>';
+	$css = '.mainhero-lead { ' . implode( '; ', $vars ) . '; }';
+	wp_add_inline_style( 'goyoartdark-style', $css );
+	if ( wp_style_is( 'goyoartdark-front-page', 'enqueued' ) ) {
+		wp_add_inline_style( 'goyoartdark-front-page', $css );
 	}
-
-	$out .= '</div>';
-	return $out;
 }
-
-/**
- * 히어로(커스터마이저 partial + 숏코드 공통) — .goyo-customize-partial--hero > .mainhero-inner.
- * 메인 슬라이드 등과 동일하게 항상 partial 루트를 출력해 테마 선택자(customizer selector)와 DOM 이 일치한다.
- *
- * @param bool $is_partial true 이면 맥락 없는 커스터마이저 partial AJAX 에서도 출력 허용.
- * @return string
- */
-function goyoartdark_render_hero_inner_html( $is_partial = false ) {
-	$in_context = goyoartdark_is_main_page_blocks_context();
-	if ( ! $in_context && ! ( $is_partial && is_customize_preview() ) ) {
-		return '';
-	}
-
-	$inner   = goyoartdark_render_hero_inner_content_html();
-	$block   = '<div class="mainhero-inner">' . $inner . '</div>';
-	$wrapped = '<div class="goyo-customize-partial goyo-customize-partial--hero">' . $block . '</div>';
-	return goyoartdark_cleanup_shortcode_output( $wrapped );
-}
+add_action( 'wp_enqueue_scripts', 'goyoartdark_hero_subtext_style_css_var', 36 );
 
 // [goyo_hero_inner] 숏코드는 제거됨 — 슬로건 HTML은 .conWrap .mainhero 안의 슬라이더에 직접 렌더링
 
@@ -1261,4 +1034,10 @@ if ( ! function_exists( 'goyoartdark_render_block_cleanup_main_content_paragraph
 		return goyoartdark_strip_empty_paragraphs_only( $block_content );
 	}
 endif;
-add_filter( 'render_block', 'goyoartdark_render_block_cleanup_main_content_paragraphs', 30, 2 );
+
+
+
+
+
+
+

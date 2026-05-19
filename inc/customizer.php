@@ -288,7 +288,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'sub_banner_min_height',
 			array(
-				'default'           => '',
+				'default'           => 'clamp(400px, 40vw, 500px)',
 				'sanitize_callback' => 'sanitize_text_field',
 				'transport'         => 'refresh',
 			)
