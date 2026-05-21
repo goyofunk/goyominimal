@@ -1,11 +1,12 @@
+
 /* 프론트(홈) 메인 슬라이드 · 갤러리 — 커스터마이저 연동 */
-.mainbigslider, .mainbigslider ul { height: 100vh !important; overflow: hidden; display: block; } 
+.mainbigslider, .mainbigslider ul { height: 100vh !important; overflow: hidden; display: block; }
+.mainbigslider { animation: goyo-hero-bg-fade 2s ease-out both; }
 
-.mainbigslider.metaslider .flexslider{margin: 0 !important;}
+.mainbigslider.metaslider .flexslider { margin: 0 !important; }
 body.admin-bar .mainbigslider.metaslider .flexslider { height: calc(100vh - 32px) !important; } 
-.mainbigslider li { overflow: hidden; } 
-.mainbigslider li > img { object-fit: cover; height: 100vh !important; width: auto; min-width: 100% !important; } 
-
+.mainbigslider ul.slides li { width: 100% !important; max-height: 100vh !important;    display: flex !important; align-items: center; justify-content: center;}
+.mainbigslider li > img { object-fit: cover; min-height: 100vh !important; min-width: 100% !important; display: block; }
 
 /* 히어로 첫 로드: 배경 페이드 → 잠시 후 슬로건·보조문구·버튼이 아래→위+페이드(느긋한 시차, 길게) */
 @keyframes goyo-hero-bg-fade { 
@@ -80,8 +81,8 @@ body.admin-bar .mainbigslider.metaslider .flexslider { height: calc(100vh - 32px
 .front-contactWrap .contactbox #kboard-contact-form-editor .kboard-control .kboard-contact-form-button-large:hover { background: #000 !important; border-color: #000 !important; color: #ffffff !important; } 
 
 /* 홈: Unicorn Studio WebGL ( Kinetic Studio 와 동일 embed ) */
-.mainsection { padding: 0 !important; margin: 0 !important; min-height: max-content; display: flex; flex-direction: column; justify-content: center; } 
-.mainsection > .mainBox { padding: clamp(30px, 10vw, 100px) 3vw;}
+.mainsection { padding: 0 !important; margin: 0 !important; height: max-content; display: flex; flex-direction: column; justify-content: center; } 
+.front-page .mainBox { padding: clamp(30px, 10vw, 100px) 3vw; margin-top: 0;}
 
 .mainhero { position: relative; z-index: 0; display: flex; align-items: center; justify-content: center; box-sizing: border-box;
     height: 100vh; margin: 0; padding: 0; background-color: var(--wp--preset--color--base, #f7f7f5); color: #f2f2f0; overflow: hidden; } 
@@ -109,15 +110,22 @@ body.goyo-unicorn-over-black--screen .mainhero-unicorn { mix-blend-mode: screen;
 .mainhero-btn:focus-visible { outline: 2px solid rgba(255, 255, 255, 0.55); outline-offset: 2px; } 
 
 
-.mainhero .metaslider .caption-wrap { position: absolute; bottom:clamp(50px, 13vh, 130px); left: 50%; transform: translate(-50%, 0); background: transparent !important; color: white; opacity: 1; margin: 0 auto; display: block; width: 1360px; line-height: 1.4em; } 
+.mainhero .metaslider .caption-wrap { position: absolute; bottom:clamp(50px, 12vw, 150px); left: 50%; transform: translate(-50%, 0); background: transparent !important; color: white; opacity: 1; margin: 0 auto; display: block; width: 1360px; line-height: 1.4em; } 
 .mainhero .metaslider .caption { padding: clamp(20px,2vw,40px);animation: goyo-hero-txt-in 1s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both; word-wrap: break-word;
      background-color: rgba(0, 0, 0, 0.3); width: max-content; display: flex; flex-direction: column; gap: clamp(10px, 1.1vw, 24px); } 
-.mainhero-title { margin: 0; font-size: var(--goyo-slogan-font-size, clamp(1.7rem, 3vw, 3rem)); font-family: var(--goyo-slogan-font-family, inherit); font-weight: var(--goyo-slogan-font-weight, 500); line-height: 1.2; letter-spacing: -0.01em; color: var(--goyo-slogan-color, #ffffff); opacity: var(--goyo-slogan-opacity, 1); animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both; } 
-.mainhero-lead { margin: 0; font-size: var(--goyo-subtext-font-size, clamp(1rem, 1.6vw, 1.1rem)); font-family: var(--goyo-subtext-font-family, inherit); font-weight: 400; line-height: 1.65; color: var(--goyo-subtext-color, rgba(242, 242, 240, 0.75)); opacity: var(--goyo-subtext-opacity, 1); animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both; } 
+.mainhero-title { margin: 0; font-size: var(--goyo-slogan-font-size, clamp(1.7rem, 3vw, 3rem));text-shadow: 0 0 10px rgba(0, 0, 0, 0.15); font-family: var(--goyo-slogan-font-family, inherit); font-weight: var(--goyo-slogan-font-weight, 500); line-height: 1.15; letter-spacing: -0.01em; color: var(--goyo-slogan-color, #ffffff); opacity: var(--goyo-slogan-opacity, 1); animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both; } 
+.mainhero-lead { margin: 0; font-size: var(--goyo-subtext-font-size, clamp(1rem, 1.6vw, 1.1rem));text-shadow: 0 0 10px rgba(0, 0, 0, 0.15); font-family: var(--goyo-subtext-font-family, inherit); font-weight: 400; line-height: 1.65; color: var(--goyo-subtext-color, rgba(242, 242, 240, 0.75)); opacity: var(--goyo-subtext-opacity, 1); animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both; } 
 .mainhero-btn { display: inline-flex; align-items: center; justify-content: center; margin: 5px 0 ; padding: 1rem 2rem; min-width: 170px; font-size: clamp(0.88rem, 1vw, 0.95rem);
      font-weight: 500; line-height: 1.2; letter-spacing: 0.01em; text-decoration: none; color: #f2f2f0; border-radius: 6rem; background: rgba(0, 0, 0, 0.3); animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 1.2s both; } 
-.mainhero .flex-control-paging li a{background: rgba(255, 255, 255, 0.5);}
+     .mainhero-btn:hover { filter: brightness(1.05); }
+     .mainhero .flex-control-paging li a{background: rgba(255, 255, 255, 0.5);}
 .mainhero .flex-control-paging li a.flex-active{background: #fff;}
+
+.maincol3 { padding: clamp(40px, 6vw, 120px) 3vw;}
+.maincol3 .bzCardGrid2{ max-width: 1100px; margin: 0 auto;gap: 30px;}
+.maincol3 .maincol3in {box-shadow:0 0 30px 0 rgba(55, 105, 148, 0.2), 0 0 5px rgba(28, 51, 71, 0.1); line-height: 1.6; border-radius: 15px; overflow: hidden;}
+
+
 
 /* ── 히어로 정렬: 센터(center) — bottom-left 잔존 스타일 명시 리셋 ── */
 body.goyo-hero-layout--center .mainhero-vignette { align-items: center; justify-content: center; } 
@@ -180,41 +188,46 @@ body.is-customize-preview .goyo-customize-partial { position: relative; }
 @media (max-width: 1400px) {
     .mainhero .metaslider .caption-wrap{width: 100%;        margin-left: 5vw;  margin-right: 5vw;}
 }
-@media (max-width: 1024px) {
 
+@media (max-width: 1024px) {
 .front-contactWrap { grid-template-columns: 1fr; } 
 .front-contactWrap .imgbox { min-height: 260px; } 
  }
+
  @media (max-width: 820px) {
 .mainhero, .mainbigslider, .mainbigslider ul, .mainbigslider ul li, body.admin-bar .mainbigslider.metaslider .flexslider, 
-.mainbigslider li > img { 
-        min-height: 450px !important;height: 450px !important;}
+.mainbigslider li > img {  min-height: 450px !important;height: 450px !important;}
 body.goyo-hero-layout--center .mainhero .metaslider .caption-wrap{ top: calc(50% + 20px) !important;}
 .mainhero .metaslider .caption-wrap {bottom: clamp(30px, 5vh, 60px);}
-
-.mainhero-btn {padding: 0.8rem 1.5rem;min-width: 130px; } 
+.mainhero-btn { padding: 0.6rem 1.3rem; min-width: 120px; } 
 .front-page .metaslider.ms-theme-clarity .flexslider { margin-bottom: 0 !important; margin-top: -30px !important; } 
-
 .front-page h1.fronth1 { padding-top: 0px !important; margin-bottom: -20px !important; } 
 .frontcolGp { padding: 10px 0 !important; } 
 body.goyo-hero-layout--bottom-left .mainhero-vignette .goyo-customize-partial {margin: 0 auto -10px auto !important; } 
 .mainhero-content { transform-origin: 50% 50%; } 
+.maincol3 .bzCardGrid2{gap: 20px;}
+.front-page .mainBox {padding: 40px 3vw; margin-top: 0;}
+.mainBox > h2{padding-bottom:0 !important}
 
 .front-contactWrap .contactbox #kboard-contact-form-editor .kboard-attr-row { grid-template-columns: 1fr; gap: 6px; } 
 .front-contactWrap .contactbox #kboard-contact-form-editor .kboard-control input[type="submit"],
 .front-contactWrap .contactbox #kboard-contact-form-editor .kboard-control .kboard-default-button-small,
 .front-contactWrap .contactbox #kboard-contact-form-editor .kboard-control .kboard-contact-form-button-submit,
 .front-contactWrap .contactbox #kboard-contact-form-editor .kboard-control .kboard-contact-form-button-large { width: 100% !important; } 
+
  }
  
  @media (max-width: 520px) {
-   
+    .maincol3 .bzCardGrid2{gap: 20px !important;}
 .youTubeBox, .front-contactWrap {  max-width: inherit !important; } 
 /* .mainhero { height: auto; }  */
 .frontcolGp2 { min-height: 60vh !important; margin-left: -25px !important; margin-right: -25px !important; width: inherit !important; max-width: inherit !important; } 
 .front-contactWrap { margin-bottom: 0 !important; } 
 .mainhero-inner { padding:clamp(3rem, 5vh, 6.5rem) 15px; } 
- }@media (prefers-reduced-motion: reduce) {.mainhero { background: radial-gradient(ellipse 100% 80% at 50% 40%, #12152a 0%, #020206 50%, #010104 100%); } 
+ }
+ 
+ @media (prefers-reduced-motion: reduce) {
+    .mainhero { background: radial-gradient(ellipse 100% 80% at 50% 40%, #12152a 0%, #020206 50%, #010104 100%); } 
 .mainhero-unicorn { display: none; } 
 .mainhero::before { transform: scale(1.04); will-change: auto; animation: none; opacity: 1; } 
 .mainhero-title,

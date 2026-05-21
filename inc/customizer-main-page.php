@@ -279,6 +279,52 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		)
 	);
 
+	// ── 메인 슬로건 배경색 ───────────────────────────────────────
+	$wp_customize->add_setting(
+		'goyo_hero_caption_bg_color',
+		array(
+			'default'           => '#000000',
+			'sanitize_callback' => 'sanitize_hex_color',
+			'transport'         => 'refresh',
+		)
+	);
+	$wp_customize->add_control(
+		new WP_Customize_Color_Control(
+			$wp_customize,
+			'goyo_hero_caption_bg_color',
+			array(
+				'label'    => __( '메인 슬로건 — 배경색', 'goyoartdark' ),
+				'section'  => $section_id,
+				'settings' => 'goyo_hero_caption_bg_color',
+				'priority' => 1.55,
+			)
+		)
+	);
+
+	$wp_customize->add_setting(
+		'goyo_hero_caption_bg_alpha',
+		array(
+			'default'           => 0.3,
+			'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
+			'transport'         => 'refresh',
+		)
+	);
+	$wp_customize->add_control(
+		'goyo_hero_caption_bg_alpha',
+		array(
+			'label'       => __( '메인 슬로건 — 배경 투명도(알파)', 'goyoartdark' ),
+			'section'     => $section_id,
+			'settings'    => 'goyo_hero_caption_bg_alpha',
+			'type'        => 'range',
+			'input_attrs' => array(
+				'min'  => 0,
+				'max'  => 1,
+				'step' => 0.01,
+			),
+			'priority'    => 1.56,
+		)
+	);
+
 	// ── 메인 슬로건 배경색 없애기 ─────────────────────────────────
 	$wp_customize->add_setting(
 		'goyo_hero_caption_no_bg',
@@ -638,11 +684,32 @@ function goyoartdark_hero_customizer_inline_css() {
 		'.mainhero{' . implode( ';', $vars ) . ';}'
 	);
 
-	// ── 메인 슬로건 배경색 없애기 ─────────────────────────────────
+	// ── 메인 슬로건 배경색 없애기 / 배경색 적용 ──────────────────
 	if ( get_theme_mod( 'goyo_hero_caption_no_bg', true ) ) {
 		wp_add_inline_style(
 			'goyoartdark-front-page',
 			'.mainhero .metaslider .caption{background-color:transparent !important;padding:0 0 2vw 0 !important;}'
+		);
+	} else {
+		$caption_bg_hex   = get_theme_mod( 'goyo_hero_caption_bg_color', '#000000' );
+		$caption_bg_alpha = floatval( get_theme_mod( 'goyo_hero_caption_bg_alpha', 0.3 ) );
+
+		// HEX → RGB 변환
+		$caption_bg_hex = ltrim( $caption_bg_hex, '#' );
+		if ( 3 === strlen( $caption_bg_hex ) ) {
+			$caption_bg_hex = $caption_bg_hex[0] . $caption_bg_hex[0]
+				. $caption_bg_hex[1] . $caption_bg_hex[1]
+				. $caption_bg_hex[2] . $caption_bg_hex[2];
+		}
+		$r = hexdec( substr( $caption_bg_hex, 0, 2 ) );
+		$g = hexdec( substr( $caption_bg_hex, 2, 2 ) );
+		$b = hexdec( substr( $caption_bg_hex, 4, 2 ) );
+
+		$rgba_value = 'rgba(' . (int) $r . ', ' . (int) $g . ', ' . (int) $b . ', ' . $caption_bg_alpha . ')';
+
+		wp_add_inline_style(
+			'goyoartdark-front-page',
+			'.mainhero .metaslider .caption{background-color:' . $rgba_value . ' !important;}'
 		);
 	}
 }

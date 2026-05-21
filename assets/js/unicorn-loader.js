@@ -9,7 +9,7 @@
  * {
  *   effect        : 'default' | 'soft-particles' | 'none',
  *   darkMode      : 'screen' | 'none',
- *   projectId     : string,   // 기본(현재 효과) Unicorn 프로젝트 ID
+ *   projectId     : string,   // 기본 Unicorn 프로젝트 ID
  *   softProjectId : string,   // Soft Particles 프로젝트 ID
  * }
  */

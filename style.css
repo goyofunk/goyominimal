@@ -142,7 +142,7 @@ h1.pageTitle { font-size: clamp(24px, 3.4vw, 50px); font-weight: 700; }
 .bzCardGrid2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 20px; } 
 .bzCardGrid2 > .wp-block-group:nth-child(1).fadeup { transition-delay: 0.1s; }
 .bzCardGrid2 > .wp-block-group:nth-child(2).fadeup { transition-delay: 0.25s; }
-.bzCardGrid2 > .wp-block-group:nth-child(3).fadeup { transition-delay: 0.4s; }
+.bzCardGrid2 > .wp-block-group:nth-child(3).fadeup { transition-delay: 0.5s; }
 
 /* FAQ: .faq-accordion(단순 Q/A 마크업) + .faqWrapper(아코디언, assets/js/custom.js 와 연동).  */
 .faq-accordion { margin: 0 auto; max-width: 780px; border-top: 1px solid var(--border-color); } 

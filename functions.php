@@ -410,6 +410,8 @@ if ( ! function_exists( 'goyoartdark_enqueue_scripts' ) ) :
 		}
 
 	
+	
+
 		/* 홈 갤러리 = category-col-reveal.js( 셀렉터에 .goyo-main-gallery-grid … 포함, board.css 동일 ) */
 		if ( is_category() || is_search() || goyoartdark_is_effective_front_page_for_assets() ) {
 			wp_enqueue_script(

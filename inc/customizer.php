@@ -1107,8 +1107,8 @@ endif;
 				'settings'    => 'goyo_unicorn_effect_preset',
 				'type'        => 'select',
 				'choices'     => array(
-					'default'            => __( '기본(현재 효과)', 'goyoartdark' ),
-					'soft_particles_fog' => __( 'Soft Particles Fog (테스트용)', 'goyoartdark' ),
+					'default'            => __( '기본(Dot)', 'goyoartdark' ),
+					'soft_particles_fog' => __( 'Soft Particles Fog ', 'goyoartdark' ),
 					'none'               => __( '효과없음', 'goyoartdark' ),
 				),
 				'priority'    => 42,
@@ -1147,7 +1147,7 @@ endif;
 		$wp_customize->add_control(
 			'goyo_unicorn_project_id',
 			array(
-				'label'       => __( '기본(현재 효과) 프로젝트 ID', 'goyoartdark' ),
+				'label'       => __( '기본(Dot) 프로젝트 ID', 'goyoartdark' ),
 				'section'     => $section_id,
 				'settings'    => 'goyo_unicorn_project_id',
 				'type'        => 'text',
@@ -1171,7 +1171,7 @@ endif;
 				'section'     => $section_id,
 				'settings'    => 'goyo_unicorn_project_id_soft_particles_fog',
 				'type'        => 'text',
-				'description' => __( '비우면 기본(현재 효과) 프로젝트 ID로 대체됩니다.', 'goyoartdark' ),
+				'description' => __( '비우면 기본(기본) 프로젝트 ID로 대체됩니다.', 'goyoartdark' ),
 				'priority'    => 45,
 			)
 		);
