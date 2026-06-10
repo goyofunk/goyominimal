@@ -950,7 +950,7 @@ if ( ! function_exists( 'goyoartdark_render_sub_banner_custom_style' ) ) :
 		$header_submenu_font_size         = (string) get_theme_mod( 'header_submenu_font_size', '16px' );
 		$header_menu_font_weight          = (int) get_theme_mod( 'header_menu_font_weight', 600 );
 		$header_submenu_font_weight       = (int) get_theme_mod( 'header_submenu_font_weight', 400 );
-		$default_font_family_stack        = 'Pretendard, "Noto Sans KR", sans-serif';
+		$default_font_family_stack        = '"Pretendard Variable", "Noto Sans KR", sans-serif';
 		$header_menu_font_family          = (string) get_theme_mod( 'header_menu_font_family', '' );
 		$header_submenu_font_family       = (string) get_theme_mod( 'header_submenu_font_family', $default_font_family_stack );
 		$sub_banner_page_title_font_family = (string) get_theme_mod( 'sub_banner_page_title_font_family', '"Poppins", sans-serif' );
@@ -1109,12 +1109,13 @@ if ( ! function_exists( 'goyoartdark_render_header_logo_custom_style' ) ) :
 	 * @return void
 	 */
 	function goyoartdark_render_header_logo_custom_style() {
-		$logo_width_value  = (string) get_theme_mod( Goyoartdark_Theme_Mod_Registry::HEADER_LOGO_WIDTH, '188px;160px' );
+		$logo_width_value  = (string) get_theme_mod( Goyoartdark_Theme_Mod_Registry::HEADER_LOGO_WIDTH, '188px; 188px; 100px' );
 		$logo_margin_value = (string) get_theme_mod( Goyoartdark_Theme_Mod_Registry::HEADER_LOGO_MARGIN, '0 0 0 0;0 0 0 0' );
-		$logo_width        = '188px';
-		$logo_width_mobile = '160px';
-		$logo_margin       = '0 0 0 0';
-		$logo_margin_mobile = '0 0 0 0';
+		$logo_width        = '180px';
+		$logo_width_ipad   = '180px';
+		$logo_width_mobile = '180px';
+		$logo_margin       = '0 12px 0 0';
+		$logo_margin_mobile = '0 12px 0 0';
 		if ( function_exists( 'goyoartdark_sanitize_logo_width' ) ) {
 			$logo_width_value = goyoartdark_sanitize_logo_width( $logo_width_value );
 		}
@@ -1122,11 +1123,18 @@ if ( ! function_exists( 'goyoartdark_render_header_logo_custom_style' ) ) :
 			$logo_margin_value = goyoartdark_sanitize_logo_margin( $logo_margin_value );
 		}
 		if ( false !== strpos( $logo_width_value, ';' ) ) {
-			$logo_width_parts = explode( ';', $logo_width_value, 2 );
-			$logo_width       = trim( (string) $logo_width_parts[0] );
-			$logo_width_mobile = trim( (string) $logo_width_parts[1] );
+			$logo_width_parts = array_map( 'trim', explode( ';', $logo_width_value ) );
+			$logo_width       = (string) $logo_width_parts[0];
+			if ( count( $logo_width_parts ) >= 3 ) {
+				$logo_width_ipad   = (string) $logo_width_parts[1];
+				$logo_width_mobile = (string) $logo_width_parts[2];
+			} else {
+				$logo_width_ipad   = $logo_width;
+				$logo_width_mobile = (string) $logo_width_parts[1];
+			}
 		} else {
-			$logo_width = trim( $logo_width_value );
+			$logo_width        = trim( $logo_width_value );
+			$logo_width_ipad   = $logo_width;
 			$logo_width_mobile = $logo_width;
 		}
 		if ( false !== strpos( $logo_margin_value, ';' ) ) {
@@ -1138,7 +1146,7 @@ if ( ! function_exists( 'goyoartdark_render_header_logo_custom_style' ) ) :
 			$logo_margin_mobile = $logo_margin;
 		}
 		?>
-<style id="goyo-header-logo-custom-vars">:root{--goyo-header-logo-width:<?php echo esc_html( $logo_width ); ?>;--goyo-header-logo-margin:<?php echo esc_html( $logo_margin ); ?>;}@media screen and (max-width:520px){:root{--goyo-header-logo-width:<?php echo esc_html( $logo_width_mobile ); ?>;--goyo-header-logo-margin:<?php echo esc_html( $logo_margin_mobile ); ?>;}}</style>
+<style id="goyo-header-logo-custom-vars">:root{--goyo-header-logo-width:<?php echo esc_html( $logo_width ); ?>;--goyo-header-logo-margin:<?php echo esc_html( $logo_margin ); ?>;}@media screen and (max-width:820px){:root{--goyo-header-logo-width:<?php echo esc_html( $logo_width_ipad ); ?>;}}@media screen and (max-width:520px){:root{--goyo-header-logo-width:<?php echo esc_html( $logo_width_mobile ); ?>;--goyo-header-logo-margin:<?php echo esc_html( $logo_margin_mobile ); ?>;}}</style>
 		<?php
 	}
 endif;

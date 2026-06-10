@@ -445,7 +445,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'sub_banner_subnav_font_family',
 			array(
-				'default'           => 'Pretendard, "Noto Sans KR", sans-serif',
+				'default'           => '"Pretendard Variable", "Noto Sans KR", sans-serif',
 				'sanitize_callback' => 'sanitize_text_field',
 				'transport'         => 'refresh',
 			)
@@ -600,7 +600,7 @@ if ( ! function_exists( 'goyoartdark_customizer_common_info_section' ) ) :
 		$wp_customize->add_setting(
 			'header_submenu_font_family',
 			array(
-				'default'           => 'Pretendard, "Noto Sans KR", sans-serif',
+				'default'           => '"Pretendard Variable", "Noto Sans KR", sans-serif',
 				'sanitize_callback' => 'sanitize_text_field',
 				'transport'         => 'refresh',
 			)
@@ -846,7 +846,7 @@ add_action( 'customize_register', 'goyoartdark_customizer_common_info_section' )
 // 헤더 로고는 WP 코어 사이트 아이덴티티 "로고"( add_theme_support( 'custom-logo' ) ). OG 이미지만 여기서 추가한다.
 if ( ! function_exists( 'goyoartdark_sanitize_logo_width' ) ) :
 	/**
-	 * 로고 가로 크기를 정리한다. `PC;모바일` 형식을 지원한다.
+	 * 로고 가로 크기를 정리한다. `PC;아이패드;모바일` 형식을 지원한다.
 	 *
 	 * @param mixed $raw Raw value.
 	 * @return string
@@ -868,9 +868,14 @@ if ( ! function_exists( 'goyoartdark_sanitize_logo_width' ) ) :
 			return $fallback;
 		};
 		if ( false !== strpos( $value, ';' ) ) {
-			$parts        = explode( ';', $value, 2 );
+			$parts        = array_map( 'trim', explode( ';', $value ) );
 			$desktop_part = $sanitize_part( $parts[0], $default );
-			$mobile_part  = $sanitize_part( $parts[1], $desktop_part );
+			if ( count( $parts ) >= 3 ) {
+				$ipad_part   = $sanitize_part( $parts[1], $desktop_part );
+				$mobile_part = $sanitize_part( $parts[2], $ipad_part );
+				return $desktop_part . ';' . $ipad_part . ';' . $mobile_part;
+			}
+			$mobile_part = $sanitize_part( $parts[1], $desktop_part );
 			return $desktop_part . ';' . $mobile_part;
 		}
 		return $sanitize_part( $value, $default );
@@ -933,7 +938,7 @@ if ( ! function_exists( 'goyoartdark_customizer_site_identity_extra' ) ) :
 		$wp_customize->add_setting(
 			Goyoartdark_Theme_Mod_Registry::HEADER_LOGO_WIDTH,
 			array(
-				'default'           => '188px;160px',
+				'default'           => '188px; 188px; 100px',
 				'sanitize_callback' => 'goyoartdark_sanitize_logo_width',
 				'transport'         => 'refresh',
 			)
@@ -946,7 +951,7 @@ if ( ! function_exists( 'goyoartdark_customizer_site_identity_extra' ) ) :
 				'settings'    => Goyoartdark_Theme_Mod_Registry::HEADER_LOGO_WIDTH,
 				'type'        => 'text',
 				'priority'    => $logo_priority + 1,
-				'description' => __( '예: 115px; 40px (PC;모바일 520px 이하)', 'goyoartdark' ),
+				'description' => __( '예: 188px; 115px; 100px (기본;아이패드;모바일)', 'goyoartdark' ),
 			)
 		);
 		$wp_customize->add_setting(
@@ -1107,8 +1112,8 @@ endif;
 				'settings'    => 'goyo_unicorn_effect_preset',
 				'type'        => 'select',
 				'choices'     => array(
-					'default'            => __( '기본(Dot)', 'goyoartdark' ),
-					'soft_particles_fog' => __( 'Soft Particles Fog ', 'goyoartdark' ),
+					'default'            => __( 'White dots', 'goyoartdark' ),
+					'soft_particles_fog' => __( 'Soft Particles Fog (테스트용)', 'goyoartdark' ),
 					'none'               => __( '효과없음', 'goyoartdark' ),
 				),
 				'priority'    => 42,

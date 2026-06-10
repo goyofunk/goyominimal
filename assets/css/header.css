@@ -141,7 +141,7 @@ header .menu-container .menu-item:not(.current-menu-item):not(.current-menu-pare
 
 .subBanner .pageTitle { color: var(--sub-banner-page-title-font-color, var(--menu-top-current-color)); font-size: var(--sub-banner-page-title-font-size, clamp(24px, 3.2vw, 46px)); font-weight: var(--sub-banner-page-title-font-weight, 700); font-family: var(--sub-banner-page-title-font-family, inherit); }
 .single .subBanner .pageTitle { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
-    text-align: center; font-family: Pretendard, "Noto Sans KR", sans-serif !important; }
+    text-align: center; font-family: "Pretendard Variable", "Noto Sans KR", sans-serif !important; }
 .subBanner .pageTitle .pageTitleDate { display: block; font-size: clamp(14px, 1.15vw, 16px); font-weight: 400; opacity: 0.9;margin: 10px 0; }
 .menu-item > a, ul.sns a,
 .search-toggle i,
