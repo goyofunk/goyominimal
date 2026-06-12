@@ -21,6 +21,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * 커스터마이저 히어로 설정 → CSS 변수를 goyoartdark-front-page 핸들에 인라인 주입.
  * transport=refresh 이므로 별도 JS 없이 미리보기 새로고침만으로 반영된다.
  *
+ * 출력 규약( 부모 goyobase/inc/shortcodes/hero.php 와 동일 ):
+ *  - CSS 컨텍스트에 esc_attr() 금지 — 폰트 패밀리의 따옴표가 &quot; 로 깨져 무효 CSS 가 된다.
+ *    값 정리는 부모 sanitize 콜백( font_family/css_value/font_weight )이 담당.
+ *  - 투명도는 별도 opacity 변수 대신 글자색에 알파를 구워( rgba ) 넣는다 —
+ *    .mainhero-title/.mainhero-lead 의 등장 애니메이션( goyo-hero-txt-in, fill both )이
+ *    요소 opacity 를 1 로 영구 점유하므로 opacity 속성 경로는 동작하지 않는다.
+ *
  * @return void
  */
 function goyoartdark_hero_customizer_inline_css() {
@@ -31,45 +38,62 @@ function goyoartdark_hero_customizer_inline_css() {
 		return;
 	}
 
+	$hex_to_rgba = static function ( $hex, $opacity ) {
+		$hex = sanitize_hex_color( (string) $hex );
+		if ( ! $hex ) {
+			return '';
+		}
+		$opacity = max( 0, min( 1, (float) $opacity ) );
+		$hex     = ltrim( $hex, '#' );
+		if ( strlen( $hex ) === 3 ) {
+			$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+		}
+		$r = hexdec( substr( $hex, 0, 2 ) );
+		$g = hexdec( substr( $hex, 2, 2 ) );
+		$b = hexdec( substr( $hex, 4, 2 ) );
+		if ( $opacity >= 0.999 ) {
+			return '#' . $hex;
+		}
+		return 'rgba(' . $r . ', ' . $g . ', ' . $b . ', ' . round( $opacity, 2 ) . ')';
+	};
+
 	// ── 메인 슬로건 ─────────────────────────────────────────────
-	$slogan_font_family = get_theme_mod( 'goyo_hero_slogan_font_family', '"Poppins", sans-serif' );
-	$slogan_font_size   = get_theme_mod( 'goyo_hero_slogan_font_size', 'clamp(1.9rem, 4.5vw, 4.2rem)' );
-	$slogan_font_weight = get_theme_mod( 'goyo_hero_slogan_font_weight', '700' );
-	$slogan_color       = get_theme_mod( 'goyo_hero_slogan_color', goyo_default( 'hero_slogan_color', '#fff157' ) );
-	$slogan_opacity     = get_theme_mod( 'goyo_hero_slogan_opacity', 1 );
+	$slogan_font_family = goyoartdark_sanitize_hero_font_family( trim( (string) get_theme_mod( 'goyo_hero_slogan_font_family', '"Poppins", sans-serif' ) ) );
+	$slogan_font_size   = goyoartdark_sanitize_hero_css_value( trim( (string) get_theme_mod( 'goyo_hero_slogan_font_size', 'clamp(1.9rem, 4.5vw, 4.2rem)' ) ) );
+	$slogan_font_weight = goyoartdark_sanitize_hero_font_weight( get_theme_mod( 'goyo_hero_slogan_font_weight', '700' ) );
+	$slogan_opacity     = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_slogan_opacity', 1 ) );
+	$slogan_color       = $hex_to_rgba( get_theme_mod( 'goyo_hero_slogan_color', goyo_default( 'hero_slogan_color', '#fff157' ) ), $slogan_opacity );
 
 	// ── 보조문구 ─────────────────────────────────────────────────
-	$subtext_font_family = get_theme_mod( 'goyo_hero_subtext_font_family', '' );
-	$subtext_font_size   = get_theme_mod( 'goyo_hero_subtext_font_size', 'clamp(0.9rem, 1.8vw, 1.1rem)' );
-	$subtext_color       = get_theme_mod( 'goyo_hero_subtext_color', '#f2f2f0' );
-	$subtext_opacity     = get_theme_mod( 'goyo_hero_subtext_opacity', goyo_default( 'hero_subtext_opacity', 1 ) );
+	$subtext_font_family = goyoartdark_sanitize_hero_font_family( trim( (string) get_theme_mod( 'goyo_hero_subtext_font_family', '' ) ) );
+	$subtext_font_size   = goyoartdark_sanitize_hero_css_value( trim( (string) get_theme_mod( 'goyo_hero_subtext_font_size', 'clamp(0.9rem, 1.8vw, 1.1rem)' ) ) );
+	$subtext_opacity     = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_subtext_opacity', goyo_default( 'hero_subtext_opacity', 1 ) ) );
+	$subtext_color       = $hex_to_rgba( get_theme_mod( 'goyo_hero_subtext_color', '#f2f2f0' ), $subtext_opacity );
 
 	// CSS 변수 빌드 — 빈 값은 제외
 	$vars = array();
-	if ( $slogan_font_family ) {
-		$vars[] = '--goyo-slogan-font-family: ' . esc_attr( $slogan_font_family );
+	if ( '' !== $slogan_font_family ) {
+		$vars[] = '--goyo-slogan-font-family: ' . $slogan_font_family;
 	}
-	if ( $slogan_font_size ) {
-		$vars[] = '--goyo-slogan-font-size: ' . esc_attr( $slogan_font_size );
+	if ( '' !== $slogan_font_size ) {
+		$vars[] = '--goyo-slogan-font-size: ' . $slogan_font_size;
 	}
-	if ( $slogan_font_weight ) {
-		$vars[] = '--goyo-slogan-font-weight: ' . esc_attr( $slogan_font_weight );
+	if ( '' !== $slogan_font_weight ) {
+		$vars[] = '--goyo-slogan-font-weight: ' . $slogan_font_weight;
 	}
-	if ( $slogan_color ) {
-		$vars[] = '--goyo-slogan-color: ' . esc_attr( $slogan_color );
+	if ( '' !== $slogan_color ) {
+		$vars[] = '--goyo-slogan-color: ' . $slogan_color;
 	}
-	$vars[] = '--goyo-slogan-opacity: ' . floatval( $slogan_opacity );
 
-	if ( $subtext_font_family ) {
-		$vars[] = '--goyo-subtext-font-family: ' . esc_attr( $subtext_font_family );
+	if ( '' !== $subtext_font_family ) {
+		$vars[] = '--goyo-subtext-font-family: ' . $subtext_font_family;
 	}
-	if ( $subtext_font_size ) {
-		$vars[] = '--goyo-subtext-font-size: ' . esc_attr( $subtext_font_size );
+	if ( '' !== $subtext_font_size ) {
+		$vars[] = '--goyo-subtext-font-size: ' . $subtext_font_size;
 	}
-	if ( $subtext_color ) {
-		$vars[] = '--goyo-subtext-color: ' . esc_attr( $subtext_color );
+	if ( '' !== $subtext_color ) {
+		$vars[] = '--goyo-subtext-color: ' . $subtext_color;
 	}
-	$vars[] = '--goyo-subtext-opacity: ' . floatval( $subtext_opacity );
 
 	if ( empty( $vars ) ) {
 		return;

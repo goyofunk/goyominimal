@@ -3,7 +3,7 @@
  * 사용자 정의: '메인페이지' 패널 — 로더 (자식 테마 고유 구성).
  *
  * 이 테마가 갖는 것(테마별로 패널명·항목 구성이 다른 부분):
- *  - main-page-panel.php    : '메인페이지' 섹션 등록( goyominimal 은 패널 없이 단일 섹션 ).
+ *  - main-page-panel.php    : 상위 패널 + '메인페이지 슬로건' 섹션 등록( artlight 와 동일 골격 ).
  *  - main-page-hero.php     : 슬로건 스타일(정렬·캡션 배경·폰트·색)·검색 아이콘 컨트롤.
  *  - main-page-frontend.php : 슬로건/보조문구 CSS 변수·캡션 배경 인라인 출력 + 정렬 body class.
  *
