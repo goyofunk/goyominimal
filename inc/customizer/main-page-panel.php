@@ -3,7 +3,7 @@
  * 사용자 정의 '메인페이지' — 섹션 등록.
  *
  * goyominimal 은 메인페이지 항목이 적어 상위 패널 없이 단일 섹션 'goyo_main_page_top' 만 쓴다.
- * 부모(goyobase) unicorn-hero.php 의 Unicorn 컨트롤도 이 섹션에 붙는다.
+ * 부모(goyobase) unicorn-hero.php 의 Unicorn 컨트롤은 이 테마에서 제외( unicorn_enabled => false ).
  *
  * @package WordPress
  * @subpackage Goyoartdark

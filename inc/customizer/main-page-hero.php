@@ -324,7 +324,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 
 	// 버튼(링크)·히어로 배경 이미지·히어로 높이 컨트롤은 이 테마에 없음( MetaSlider 가 담당 ).
 
-	// Unicorn 효과 선택(부모 등록, priority 42 이후) 직상단 — '상단 검색…' 직전에 시각적 구분선.
+	// '상단 검색…' 직전에 시각적 구분선( 이 테마는 Unicorn 컨트롤 없음 — unicorn_enabled => false ).
 	$wp_customize->add_setting(
 		'goyo_main_page_top_sep_before_search_1',
 		array(

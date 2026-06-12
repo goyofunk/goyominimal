@@ -40,8 +40,10 @@ add_filter(
 			'main_page_disable_dark_mode' => true,
 			'hero_slogan_color'           => '#fff157',
 			'hero_subtext_opacity'        => 1,
-			'unicorn_project_id'          => '',
-			'unicorn_effect_preset'       => 'default',
+			// 고정 히어로 스크립트 패키지 미사용 — Unicorn 컨트롤·unicorn-loader.js·mainhero-content-scroll-scale.js
+			// 는 goyoartdark·goyoartlight 전용( 부모 enqueue.php·unicorn-hero.php·body-class.php 가 이 키를 읽음 ).
+			'unicorn_enabled'             => false,
+			'hero_scroll_scale_enabled'   => false,
 			'header_menu_font_size'       => 'clamp(18px, 1.3vw, 22px)',
 			'header_menu_font_opacity'    => 0.94,
 			'header_submenu_font_color'   => '#606060',

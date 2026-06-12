@@ -71,7 +71,9 @@ header .menu-container .menu-item:not(.current-menu-item):not(.current-menu-pare
 html.goyo-reveal-tiles .goyo-main-gallery-grid .goyo-main-gallery-item.goyo-col-reveal { opacity: 0; }
 
 /* ── 페이지 전환 — page-transition.css 라이트 보정( 암전 방지 ) ───────────────────────────── */
-::view-transition, ::view-transition-group(root), ::view-transition-image-pair(root) { background-color: #f7f7f5; }
+::view-transition, 
+::view-transition-group(root), 
+::view-transition-image-pair(root) { background-color: #f7f7f5; }
 ::view-transition-old(root), ::view-transition-new(root) { background-color: #f7f7f5; }
 ::backdrop { background-color: #f7f7f5; }
 
@@ -81,6 +83,7 @@ html.goyo-reveal-tiles .goyo-main-gallery-grid .goyo-main-gallery-item.goyo-col-
 .bzCardGrid2 > .wp-block-group:nth-child(2).fadeup { transition-delay: 0.25s; }
 .bzCardGrid2 > .wp-block-group:nth-child(3).fadeup { transition-delay: 0.5s; }
 .front-page .metaslider.ms-theme-clarity .flexslider { margin-bottom: 0 !important; }
+
 /* 메타슬라이더 점(dot): 부모의 변수색 대신 MetaSlider 기본(흰색) 유지( 구버전 goyominimal 과 동일 ) */
 .metaslider.ms-theme-default-base .flexslider .flex-control-nav li a:not(.flex-active) { background: rgba(255, 255, 255, 0.5) !important; }
 .metaslider.ms-theme-default-base .flexslider .flex-control-nav li a.flex-active { background: rgba(255, 255, 255, 1) !important; }
