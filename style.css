@@ -3,354 +3,100 @@ Theme Name: 미니멀리즘 테마
 Theme URI: https://goyofunkstudio.com
 Author: 고요펑크스튜디오
 Author URI: https://goyofunkstudio.com
-Description: 예술가와 디자이너를 위한 포트폴리오용 테마  
+Description: 예술가와 디자이너를 위한 포트폴리오용 테마
 Requires at least: 6.7
 Tested up to: 6.9
 Requires PHP: 7.2
 Version: 1.0.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Template: goyobase
 Text Domain: goyominimal
 */
 
-/* Pretendard 가변 폰트 등록 (로컬 woff2 전용) */
-@font-face { font-family: 'Pretendard Variable'; font-weight: 45 920; font-style: normal; font-display: swap; src: local('Pretendard Variable'), url('assets/fonts/pretendard/PretendardVariable.woff2') format('woff2-variations'); } 
+/*
+ * 미니멀리즘 — 컬러 오버라이드 시트.
+ * 구조·공통 CSS(베이스 style.css·board·header·page-transition·editor-style)는 부모 goyobase 가 제공하고,
+ * 이 파일은 라이트 톤의 색·음영 값만 덮어쓴다. 메인페이지 전용 스타일은 assets/css/front-page.css.
+ * 로드 순서(부모 enqueue 보장): 부모 style.css → board/header/page-transition → 이 파일 → front-page.css
+ */
 
-/* 전역 리셋: 브라우저 기본 margin/padding 제거로 레이아웃 기준선 확보 — 문단 여백은 싱글·페이지 본문에서 board.css 가 theme.json blockGap 으로 복구 */
-* { margin: 0; padding: 0; box-sizing: border-box; } 
+/* ── 기본 스킴: 밝은 배경 + 라이트 color-scheme ───────────────────────────── */
+html { background-color: var(--wp--preset--color--base, #f7f7f5); color-scheme: light; }
 
-/* html 배경을 body 와 동일한 다크 톤으로 지정: 페이지 전환·초기 로드 시 브라우저 기본 흰 배경이 순간 노출되는 FOUC 방지. color-scheme 은 브라우저 UI(스크롤바·폼 컨트롤) 도 다크로 맞춰 깜빡임 제거 */
-html { background-color: var(--wp--preset--color--base, #f7f7f5); color-scheme: light; } 
-
-/* 헤더·푸터·네비게이션이 참조하는 테마 공통 커스텀 프로퍼티 정의. theme.json 팔레트(base/contrast/accent/divider/border2/surface/frosted/muted) 와 매핑해 다크 테마 일관성 유지.  dynamic-css.php 를 대체하는 정적 변수 세트 */
+/* 테마 공통 커스텀 프로퍼티 — 라이트 값( 부모 :root 선언을 통째로 덮어씀 ) */
 :root { --body-bg-color: var(--wp--preset--color--base, #f7f7f5);
-	 --body-text-color: var(--wp--preset--color--contrast, #1f2328); /* 주요 강조색(현재 메뉴·활성 링크·포인트) */ 
-	 --primary-color: var(--wp--preset--color--accent, #04af65); 
-	 --current-menu-color: var(--wp--preset--color--accent, #04af65); /* 상단 메뉴 색상 */ 
-	 --menu-top-color: var(--wp--preset--color--contrast, #1f2328); 
-	 --menu-top-current-color: #0f1419; /* 상단 메뉴 드롭다운 서브메뉴 */ 
-	 --submenu-bg-color: var(--wp--preset--color--surface, #ffffff); 
-	 --submenu-text-color: var(--wp--preset--color--contrast, #1f2328); 
-	 --submenu-hover-text-color: var(--wp--preset--color--accent, #04af65); 
-	 --submenu-hover-bg-color: var(--wp--preset--color--frosted, rgba(0, 0, 0, 0.06)); 
-	 /* subbanner 메뉴 색상 */ 
-	 --subbanner-menu-color: var(--wp--preset--color--contrast, #1f2328); 
-	 --subbanner-menu-color-active:#04af65; 
+	 --body-text-color: var(--wp--preset--color--contrast, #1f2328); /* 주요 강조색(현재 메뉴·활성 링크·포인트) */
+	 --primary-color: var(--wp--preset--color--accent, #04af65);
+	 --current-menu-color: var(--wp--preset--color--accent, #04af65); /* 상단 메뉴 색상 */
+	 --menu-top-color: var(--wp--preset--color--contrast, #1f2328);
+	 --menu-top-current-color: #0f1419; /* 상단 메뉴 드롭다운 서브메뉴 */
+	 --submenu-bg-color: var(--wp--preset--color--surface, #ffffff);
+	 --submenu-text-color: var(--wp--preset--color--contrast, #1f2328);
+	 --submenu-hover-text-color: var(--wp--preset--color--accent, #04af65);
+	 --submenu-hover-bg-color: var(--wp--preset--color--frosted, rgba(0, 0, 0, 0.06));
+	 /* subbanner 메뉴 색상 */
+	 --subbanner-menu-color: var(--wp--preset--color--contrast, #1f2328);
+	 --subbanner-menu-color-active:#04af65;
 	 --border-color: var(--wp--preset--color--divider, rgba(31, 35, 40, 0.16));
-	  --border-color2: var(--wp--preset--color--border2, rgba(31, 35, 40, 0.28)); 
-	  --border-color3: rgba(31, 35, 40, 0.45); 
+	  --border-color2: var(--wp--preset--color--border2, rgba(31, 35, 40, 0.28));
+	  --border-color3: rgba(31, 35, 40, 0.45);
 	  --link-color: #333333; --link-hover-color: #0f1419;
 	  --footer-text-color: #9c9c9c;
 	  --footer-link-color: #d0d0d0; --footer-link-hover-color: #ffffff;
 	  --footer-link-current-color: rgb(255 255 255 / 80%);
-	  --copyright-bg-color: #eff1f3; } 
+	  --copyright-bg-color: #eff1f3; }
 
-body { margin: 0 auto; overflow: auto; overflow-x: hidden; position: relative; width: 100%; -ms-overflow-style: none; } 
+/* ── 헤더/메뉴 — header.css 라이트 보정 ───────────────────────────── */
+header { background-color: rgba(0, 0, 0, 0.2); }
+.front-page header.scActive { background-color: rgba(0, 0, 0, 0.1) !important; }
+header .sub-menu { box-shadow: 0 3px 5px rgba(0, 0, 0, 0.08); }
+.menu-container .more-navigation { box-shadow: -10px 0 15px rgba(0, 0, 0, 0.05); }
+.menu-container .more-navigation li a { font-weight: 500 !important; }
+.menu-container .more-navigation li.show .sub-menu { background-color: inherit !important; }
+header .menu-container .menu-item:not(.current-menu-item):not(.current-menu-parent):not(.current-menu-ancestor):not(.current-page-ancestor) > a:hover,
+header .menu-container .menu-item:not(.current-menu-item):not(.current-menu-parent):not(.current-menu-ancestor):not(.current-page-ancestor) > a:focus-visible { color: #333 !important; }
+.menu-btn .menu-icon::before { color: #ffffff; }
+/* 홈 메뉴 아이콘: 커스터마이저 헤더 메뉴 글자색을 따른다( goyominimal 고유 — artlight 는 고정 #fff ) */
+.front-page .menu-icon::before { color: var(--header-menu-font-color); }
+@media screen and (max-width: 1200px) {
+	.menu-btn .menu-icon::before { color: #ffffff; }
+	.front-page .menu-icon::before { color: #ffffff; }
+}
+.gotoTop { background-color: rgba(255, 255, 255, 0.75); }
+.gotoTop i { color: #444; }
 
-/* 본문·폼 요소: Framer 다크 캔버스(#000) 위의 기본 텍스트 색을 흰색으로 강제하여 theme.json 프리셋과 일치시킴 */
-body,
-button,
-input,
-select,
-optgroup,
-textarea { font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; font-size: clamp(15px, 0.9vw, 16px); line-height: 1.75; color: var(--wp--preset--color--contrast, #1f2328); background-color: var(--wp--preset--color--base, #f7f7f5); } 
+/* ── 게시판/목록 — board.css 라이트 보정 ───────────────────────────── */
+.category-search-input::placeholder { color: rgba(0, 0, 0, 0.45); }
+html.goyo-reveal-tiles .goyo-main-gallery-grid .goyo-main-gallery-item.goyo-col-reveal { opacity: 0; }
 
-/* 모든 템플릿의 main(직계 wp-block-group)에 적용되는 전역 패딩을 제거해 풀폭 섹션이 정확히 100%로 보이도록 고정 */
-.wp-site-blocks > main.wp-block-group { padding-top: 0 !important; padding-right: 0 !important; padding-bottom: 0 !important; padding-left: 0 !important; } 
+/* ── 페이지 전환 — page-transition.css 라이트 보정( 암전 방지 ) ───────────────────────────── */
+::view-transition, ::view-transition-group(root), ::view-transition-image-pair(root) { background-color: #f7f7f5; }
+::view-transition-old(root), ::view-transition-new(root) { background-color: #f7f7f5; }
+::backdrop { background-color: #f7f7f5; }
 
-/* 헤딩 타이포그래피: Framer 의 타이트한 글자 리듬을 clamp + 음수 tracking 으로 계승, 색은 본문 상속 */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 { color: inherit; } 
-h1 { font-size: clamp(24px, 3vw, 36px); letter-spacing: -0.02em; } 
-h2 { font-size: clamp(20px, 2.3vw, 28px); letter-spacing: -0.02em; } 
-h3 { font-size: clamp(17px, 1.7vw, 20px); letter-spacing: -0.01em; } 
-h4 { font-size: clamp(15px, 1.5vw, 18px); letter-spacing: -0.01em; } 
-h5 { font-size: clamp(14px, 1.3vw, 16px); letter-spacing: -0.01em; } 
-h1,
-h2 { line-height: 1.4; } 
-h3,
-h4,
-h5 { line-height: 1.6; } 
-
-h2.pageTitle{ margin-bottom: 25px;}
-
-/* 링크: Framer Blue 를 기본 색으로 강제하고, 밑줄 두께·오프셋을 일관되게 제어해 Framer 감성의 정밀감 유지 */
-a { color: var(--link-color); text-decoration-thickness: 1px !important; text-underline-offset: .1em; text-decoration: none; } 
-a:hover,
-a:focus { color: var(--link-hover-color); } 
-:root :where(a:where(:not(.wp-element-button)):hover),
-:where(.wp-site-blocks *:focus) { text-decoration: none !important; } 
-button {display: inline-block; width: max-content;}
-/* 텍스트 선택 색: 프런트엔드에서 드래그 시 밝은 파랑 배경으로 강조 (가독성 위해 글자는 흰색 유지) */
-::selection { background: #04af65; color: #ffffff; } 
-::-moz-selection { background: #04af65; color: #ffffff; } 
-
-/* 포커스 아웃라인: Framer Blue 기반 접근성 시각 피드백 (브라우저 기본 검정 아웃라인이 다크 캔버스에서 사라지는 문제 방지) */
-:where(.wp-site-blocks *:focus) { outline-width: 0px; outline-style: solid; outline-color: #ffffff; } 
-
-/* 서브메뉴 하단 여백: 포커스 아웃라인이 잘리지 않도록 확보 */
-.wp-block-navigation .wp-block-navigation-submenu .wp-block-navigation-item:not(:last-child) { margin-bottom: 3px; } 
-
-/* 상위 메뉴 항목의 아웃라인이 텍스트와 붙지 않도록 오프셋 부여 */
-.wp-block-navigation .wp-block-navigation-item .wp-block-navigation-item__content { outline-offset: 4px; } 
-
-/* 서브메뉴 내부는 오프셋을 제거해 컨테이너 밖으로 아웃라인이 삐져나오지 않게 함 */
-.wp-block-navigation .wp-block-navigation-item ul.wp-block-navigation__submenu-container .wp-block-navigation-item__content { outline-offset: 0; } 
-
-/* widows/orphans 개선을 위한 텍스트 줄바꿈 품질 상향 */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-blockquote,
-caption,
-figcaption,
-p { text-wrap: pretty; } 
-
-/* 추가 수정  */
-.displaynone { display: none !important; }
-.pcnone{display: none !important;}
-.mobilenone{display: block !important;}
-
-/* 더보기 블록을 블록 레벨로 전환해 단독 라인으로 배치 */
-.more-link { display: block; } 
-nav ul{ display: inline-block; } 
-nav ul li { list-style:none; display: inline-block; } 
-.pagination ul li {list-style:none}
-/* 긴 한 줄 pre 가 가로 스크롤을 유발하지 않도록 내부 스크롤 허용 */
-:where(pre) { overflow-x: auto; } 
-:root :where(.wp-block-list) { padding-left: var(--wp--preset--spacing--40) !important; } 
-
-/* 버튼(fill): 부모/팔레트로 Gutenberg가 넣는 color:!important 와 맞물릴 때 기본 대비를 유지하려 !important 를 쓰나, 편집기에서 지정한 배경·글자색(has-background/has-text-color)은 인라인보다 우선하지 않도록 제외 */
-.wp-block-button:not(.is-style-outline):not(.is-style-frosted) .wp-block-button__link:not(.has-text-color) { color: var(--wp--preset--color--base) !important; }
-.wp-block-button:not(.is-style-outline):not(.is-style-frosted) .wp-block-button__link:not(.has-background) { background-color: var(--wp--preset--color--contrast) !important; }
-.wp-block-button:not(.is-style-outline):not(.is-style-frosted) .wp-block-button__link:not(.has-text-color):hover { color: var(--wp--preset--color--base) !important; }
-.wp-block-button:not(.is-style-outline):not(.is-style-frosted) .wp-block-button__link:not(.has-background):hover { background-color: color-mix(in srgb, var(--wp--preset--color--contrast) 85%, transparent) !important; }
-
-/* 검색 결과 */
-.not-found { padding: 60px 0 80px 0; display: flex; flex-direction: column; gap: 30px; } 
-.not-found .search_back { border-radius: 30px; padding: 8px 35px; border: 1px solid #ffffff23; background-color: #151515; cursor: pointer; } 
-
-/* 서브페이지 */
-h1.pageTitle { font-size: clamp(24px, 3.4vw, 50px); font-weight: 700; } 
-.bzCardGrid2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 20px; } 
+/* ── 본문 요소 라이트 보정 ───────────────────────────── */
+.faqWrapper .faq-header:hover { background-color: rgba(0, 0, 0, 0.02); }
 .bzCardGrid2 > .wp-block-group:nth-child(1).fadeup { transition-delay: 0.1s; }
 .bzCardGrid2 > .wp-block-group:nth-child(2).fadeup { transition-delay: 0.25s; }
 .bzCardGrid2 > .wp-block-group:nth-child(3).fadeup { transition-delay: 0.5s; }
+.front-page .metaslider.ms-theme-clarity .flexslider { margin-bottom: 0 !important; }
+/* 메타슬라이더 점(dot): 부모의 변수색 대신 MetaSlider 기본(흰색) 유지( 구버전 goyominimal 과 동일 ) */
+.metaslider.ms-theme-default-base .flexslider .flex-control-nav li a:not(.flex-active) { background: rgba(255, 255, 255, 0.5) !important; }
+.metaslider.ms-theme-default-base .flexslider .flex-control-nav li a.flex-active { background: rgba(255, 255, 255, 1) !important; }
+.metaslider .flex-control-paging li a.flex-active { margin: 0 !important; }
 
-/* FAQ: .faq-accordion(단순 Q/A 마크업) + .faqWrapper(아코디언, assets/js/custom.js 와 연동).  */
-.faq-accordion { margin: 0 auto; max-width: 780px; border-top: 1px solid var(--border-color); } 
-.faq-item { border-bottom: 1px solid var(--border-color); padding: 10px 0; margin-top: 0; } 
-.faq-question { display: flex; padding: 13px 0 13px 30px; font-size: clamp(18px, 2vw, 24px); font-weight: 500; align-items: center; cursor: pointer; position: relative; color: inherit; } 
-.faq-question::before { content: "\F64D"; font-family: "bootstrap-icons"; position: absolute; left: 0; font-size: 22px; opacity: 0.6; } 
-.faq-answer { display: none; margin-top: 10px; font-size: clamp(15px, 1.2vw, 18px); padding: 10px 0 20px 30px; color: var(--footer-text-color, #979797); line-height: 1.6; } 
-.faqWrapper { margin: 0 auto; width: 100%; max-width: 780px; } 
-.faqWrapper .faqItem { border-bottom: 1px solid var(--border-color); margin-block-start: 0; } 
-.faqWrapper .faq-header { display: flex; border-radius: 8px; align-items: center; padding: 15px 8px 15px 42px; margin: 0; cursor: pointer; font-size: clamp(15px, 1.5vw, 18px); font-weight: 400; position: relative; width: 100%; color: inherit; } 
-.faqWrapper .faq-header::before { content: "\F38B"; font-family: "bootstrap-icons"; position: absolute; left: 0; width: 30px; margin-left:12px; opacity: 0.85; } 
-.faqWrapper .faq-header:hover { background-color: rgba(0, 0, 0, 0.02); } 
-.faqWrapper .faq-header .faq-icon { position: relative; width: 24px; height: 24px; flex-shrink: 0; margin-left: auto; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--footer-text-color, #979797); pointer-events: none; } 
-.faqWrapper .faq-header .faq-icon::before { content: "\f4fe"; font-family: "bootstrap-icons"; display: block; line-height: 1; } 
-.faqWrapper .faqItem.active .faq-header .faq-icon::before { content: "\f2ea"; } 
-.faqWrapper .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1); margin: 0; padding: 0 5px 0 15px; font-size: clamp(14px, 1.2vw, 16px); line-height: 1.6; opacity: 0.9; } 
-.faqWrapper .faq-content::after { content: ''; display: block; height: 30px; } 
-.faqWrapper .faq-content::before { content: ''; display: block; height: 20px; } 
+/* ── 유튜브 배경 히어로 — goyominimal 은 홈 히어로 영상을 풀하이트로 사용 ───────────────────────────── */
+.home-hero-video.goyo-youtube-bg { width: 100%; height: 100vh !important; min-height: 100vh !important; max-height: 100vh !important; aspect-ratio: 16 / 9; }
 
-/* KBoard 공통 스타일(기존 board.css 충돌 규칙 통합) */
-.kboardTitle,
-.kboardTitle2 { margin-top: -15px; margin-bottom: 25px; font-size: clamp(22px, 2.5vw, 28px); font-weight: 500; } 
-.kboardTitle2 { margin-top: 0 !important; } 
-.kboardBox { margin-right: auto; margin-left: auto; width: 1000px; } 
-.page-kgallery .kboardBox { width: 100%; } 
-.kboardText { margin-bottom: 30px; font-size: 16px; } 
-.page #kboard-default-list .kboard-list-header { display: none; } 
-#kboard-default-list .kboard-control { margin-top: -65px !important; } 
-#kboard-default-list .kboard-pagination .kboard-pagination-pages li:hover a,
-#kboard-default-list .kboard-pagination .kboard-pagination-pages li.active a,
-#kboard-default-list .kboard-list tbody td.kboard-list-title .kboard-comments-count,
-.kboard-comments-count { color: var(--primary-color) !important; } 
-body.darkmode #kboard-default-editor .kboard-attr-row .attr-name img { filter: invert(1) hue-rotate(180deg); } 
-body.mode-editor .container.subbox { max-width: 700px !important; } 
-.mode-editor .kboardTitle,
-.mode-editor .kboardSub { display: none; } 
-.mode-editor .content .kboardBox,
-.mode-document #kboard-document { max-width: 1000px; width: 100%; margin-left: auto; margin-right: auto; } 
-
-/* KBoard 질문답변(Q&A) 게시판: #kboard-default-editor */
-#kboard-default-editor .kboard-attr-row .attr-value input[type="text"],
-#kboard-default-editor .kboard-attr-row .attr-value input[type="email"],
-#kboard-default-editor .kboard-attr-row .attr-value input[type="tel"],
-#kboard-default-editor .kboard-attr-row .attr-value input[type="number"],
-#kboard-default-editor .kboard-attr-row .attr-value input[type="password"],
-#kboard-default-editor .kboard-attr-row .attr-value input[type="search"],
-#kboard-default-editor .kboard-attr-row .attr-value input[type="url"],
-#kboard-default-editor .kboard-attr-row .attr-value input[type="date"],
-#kboard-default-editor .kboard-attr-row .attr-value select,
-#kboard-default-editor .kboard-attr-row .kboard-content textarea { color: var(--body-text-color) !important; background-color: transparent !important; border: 1px solid var(--border-color2) !important; border-radius: 4px !important; box-shadow: none !important; } 
-#kboard-default-editor .kboard-attr-row .attr-value select { background-color: var(--body-bg-color) !important; } 
-#kboard-default-editor .kboard-attr-row .attr-value select option { background-color: var(--body-bg-color); color: var(--body-text-color); } 
-#kboard-default-editor .kboard-attr-row .attr-value input:is(:focus, :focus-visible, :active),
-#kboard-default-editor .kboard-attr-row .attr-value select:is(:focus, :focus-visible, :active),
-#kboard-default-editor .kboard-attr-row .kboard-content textarea:is(:focus, :focus-visible, :active) { border-color: var(--border-color3) !important; outline: 0 !important; box-shadow: none !important; } 
-#kboard-default-editor .kboard-attr-row .attr-value input[type="file"] { border: 0 !important; background: transparent !important; box-shadow: none !important; color: var(--body-text-color) !important; font-size: 13px !important; line-height: 32px !important; padding: 0 !important; } 
-#kboard-default-editor .kboard-attr-row .attr-value input[type="file"]::file-selector-button,
-#kboard-default-editor .kboard-attr-row .attr-value input[type="file"]::-webkit-file-upload-button,
-#kboard-default-editor a.kboardAddfile,
-#kboard-default-editor .kboardAddfile,
-#kboard-default-editor .kboard-attr-attach a.kboard-default-button-small,
-#kboard-default-editor .kboard-attr-attach .kboard-default-button-small,
-#kboard-default-editor .kboard-attr-attach input[type="button"],
-#kboard-default-editor .kboard-attr-attach button { display: inline-block !important; box-sizing: border-box !important; width: auto !important; height: 32px !important; min-height: 32px !important; max-height: 32px !important; padding: 0 14px !important; margin: 0 !important; font-size: 13px !important; line-height: 30px !important; font-weight: 400 !important; letter-spacing: normal !important; border: 1px solid var(--border-color2) !important; border-radius: 4px !important; background-color: var(--body-bg-color) !important; background-image: none !important; color: var(--link-color) !important; text-decoration: none !important; text-transform: none !important; vertical-align: middle !important; cursor: pointer !important; box-shadow: none !important; } 
-#kboard-default-editor .kboard-attr-row .attr-value input[type="file"]::file-selector-button:hover,
-#kboard-default-editor .kboard-attr-row .attr-value input[type="file"]::-webkit-file-upload-button:hover,
-#kboard-default-editor .kboardAddfile:hover,
-#kboard-default-editor .kboard-attr-attach .kboard-default-button-small:hover,
-#kboard-default-editor .kboard-attr-attach input[type="button"]:hover,
-#kboard-default-editor .kboard-attr-attach button:hover { border-color: var(--border-color3) !important; color: var(--link-hover-color) !important; } 
-#kboard-default-editor input[type="checkbox"],
-#kboard-default-editor input[type="radio"],
-#kboard-default-editor .kboard-checkbox { accent-color:#009957 !important; color: #ffffff !important; } 
-#kboard-default-editor input[type="radio"] { width: 18px !important; height: 18px !important; vertical-align: middle !important; margin-right: 4px !important; } 
+/* ── KBoard 라이트 보정 ───────────────────────────── */
+#kboard-default-editor .kboard-checkbox { accent-color: #009957 !important; color: #ffffff !important; }
 #kboard-default-editor input[type="checkbox"]:checked,
 #kboard-default-editor input[type="radio"]:checked,
 body:not(.home):not(.front-page) #kboard-contact-form-editor input[type="checkbox"]:checked,
 body:not(.home):not(.front-page) #kboard-contact-form-editor input[type="radio"]:checked,
 .kboard-comments-default input[type="checkbox"]:checked,
 .kboard-comments-default input[type="radio"]:checked { color: #ffffff !important; }
-#kboard-default-editor .kboard-control .kboard-default-button-small.goList,
-#kboard-default-editor .kboard-control button[type="submit"],
-#kboard-default-editor .kboard-control input[type="submit"] { background-color:  #009957 !important; border: 1px solid var(--border-color2) !important; color: #ffffff !important; } 
-#kboard-default-list .kboard-list table tbody tr:hover { background-color: inherit !important } 
-#kboard-contact-form-editor form.kboard-form:has(.kboard-attr-checkbox input[type="checkbox"]) .kboard-attr-row.kboard-attr-captcha { display: none !important; } 
-#kboard-contact-form-editor .kboard-attr-checkbox:has(input[type="checkbox"]:checked) ~ .kboard-attr-captcha,
-#kboard-contact-form-editor form.kboard-form:has(.kboard-attr-checkbox input[type="checkbox"]:checked) .kboard-attr-row.kboard-attr-captcha { display: flex !important; } 
-
-#kboard-contact-form-editor .kboard-attr-row .attr-name .attr-required-text {color: #eb5959 !important; padding-left: 5px;}
-
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="text"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="email"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="tel"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="number"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="password"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="search"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="url"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="date"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value select,
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .kboard-content textarea { color: var(--body-text-color) !important; background-color: transparent !important; border: 1px solid var(--border-color2) !important; border-radius: 4px !important; box-shadow: none !important; } 
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value select { background-color: var(--body-bg-color) !important; } 
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value select option { background-color: var(--body-bg-color); color: var(--body-text-color); } 
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input:is(:focus, :focus-visible, :active),
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value select:is(:focus, :focus-visible, :active),
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .kboard-content textarea:is(:focus, :focus-visible, :active) { border-color: var(--border-color3) !important; outline: 0 !important; box-shadow: none !important; } 
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="file"] { border: 0 !important; background: transparent !important; box-shadow: none !important; color: var(--body-text-color) !important; font-size: 13px !important; line-height: 32px !important; padding: 0 !important; } 
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="file"]::file-selector-button,
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="file"]::-webkit-file-upload-button { display: inline-block !important; box-sizing: border-box !important; width: auto !important; height: 32px !important; min-height: 32px !important; max-height: 32px !important; padding: 0 14px !important; margin: 0 !important; font-size: 13px !important; line-height: 30px !important; font-weight: 400 !important; letter-spacing: normal !important; border: 1px solid var(--border-color2) !important; border-radius: 4px !important; background-color: var(--body-bg-color) !important; background-image: none !important; color: var(--link-color) !important; text-decoration: none !important; text-transform: none !important; vertical-align: middle !important; cursor: pointer !important; box-shadow: none !important; } 
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="file"]::file-selector-button:hover,
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-attr-row .attr-value input[type="file"]::-webkit-file-upload-button:hover { border-color: var(--border-color3) !important; color: var(--link-hover-color) !important; } 
-body:not(.home):not(.front-page) #kboard-contact-form-editor input[type="checkbox"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor input[type="radio"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-checkbox { accent-color: #009957 !important; color: #ffffff !important; } 
-body:not(.home):not(.front-page) #kboard-contact-form-editor input[type="radio"] { width: 18px !important; height: 18px !important; vertical-align: middle !important; margin-right: 4px !important; } 
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-control .kboard-contact-form-button-large,
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-control .kboard-contact-form-button-submit,
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-control button[type="submit"],
-body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-control input[type="submit"] { background-color:  #009957 !important; border: 1px solid var(--border-color2) !important; color: #ffffff !important; } 
-
-/* 댓글 영역: Contact 게시판 디자인과 통일 (다크 + accent) */
-.kboard-comments-default .comments-header { display: none !important; } 
-.kboard-comments-default { color: var(--body-text-color) !important; background-color: transparent !important; } 
-.kboard-comments-default .comments-list .comments-list-username,
-.kboard-comments-default .comments-list .comments-list-create,
-.kboard-comments-default .comments-list .comments-list-content { color: var(--body-text-color) !important; } 
-.kboard-comments-default .comments-list .comments-list-create { opacity: 0.7; } 
-.kboard-comments-default .comments-sort select { color: var(--body-text-color) !important; background-color: transparent !important; border: 1px solid var(--border-color2) !important; border-radius: 4px !important; padding: 4px 8px !important; box-shadow: none !important; } 
-.kboard-comments-default .comments-sort select:is(:focus, :focus-visible, :active) { border-color: var(--border-color3) !important; outline: 0 !important; } 
-.kboard-comments-default .kboard-comments-form .comment-textarea,
-.kboard-comments-default textarea { color: var(--body-text-color) !important; background-color: transparent !important; border: 1px solid var(--border-color2) !important; border-radius: 4px !important; box-shadow: none !important; padding: 10px !important; } 
-.kboard-comments-default .kboard-comments-form .comment-textarea:is(:focus, :focus-visible, :active),
-.kboard-comments-default textarea:is(:focus, :focus-visible, :active) { border-color: var(--border-color3) !important; outline: 0 !important; } 
-.kboard-comments-default input[type="text"],
-.kboard-comments-default input[type="email"],
-.kboard-comments-default input[type="number"],
-.kboard-comments-default input[type="date"],
-.kboard-comments-default input[type="password"] { color: var(--body-text-color) !important; background-color: transparent !important; border: 1px solid var(--border-color2) !important; border-radius: 4px !important; height: 40px !important; padding: 0 10px !important; box-shadow: none !important; } 
-.kboard-comments-default input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):is(:focus, :focus-visible, :active) { border-color: var(--border-color3) !important; outline: 0 !important; } 
-.kboard-comments-default input[type="file"] { border: 0 !important; background: transparent !important; box-shadow: none !important; color: var(--body-text-color) !important; font-size: 13px !important; line-height: 32px !important; padding: 0 !important; height: auto !important; } 
-.kboard-comments-default input[type="file"]::file-selector-button,
-.kboard-comments-default input[type="file"]::-webkit-file-upload-button { display: inline-block !important; box-sizing: border-box !important; width: auto !important; height: 32px !important; min-height: 32px !important; max-height: 32px !important; padding: 0 14px !important; margin: 0 !important; font-size: 13px !important; line-height: 30px !important; font-weight: 400 !important; letter-spacing: normal !important; border: 1px solid var(--border-color2) !important; border-radius: 4px !important; background-color: var(--body-bg-color) !important; background-image: none !important; color: var(--link-color) !important; text-decoration: none !important; text-transform: none !important; vertical-align: middle !important; cursor: pointer !important; box-shadow: none !important; } 
-.kboard-comments-default input[type="file"]::file-selector-button:hover,
-.kboard-comments-default input[type="file"]::-webkit-file-upload-button:hover { border-color: var(--border-color3) !important; color: var(--link-hover-color) !important; } 
-.kboard-comments-default .comments-list .comments-list-controller .comments-button-action { display: inline-block !important; box-sizing: border-box !important; height: 30px !important; padding: 0 12px !important; margin: 0 4px 0 0 !important; font-size: 13px !important; line-height: 28px !important; font-weight: 400 !important; border: 1px solid var(--border-color2) !important; border-radius: 4px !important; background-color: transparent !important; background-image: none !important; color: var(--link-color) !important; text-decoration: none !important; vertical-align: middle !important; cursor: pointer !important; box-shadow: none !important; } 
-.kboard-comments-default .comments-list .comments-list-controller .comments-button-action:hover { border-color: var(--border-color3) !important; color: var(--link-hover-color) !important; background-color: transparent !important; } 
-.kboard-comments-default .comments-list .comments-list-controller .comments-button-action.comments-button-like,
-.kboard-comments-default .comments-list .comments-list-controller .comments-button-action.comments-button-unlike,
-.kboard-comments-default .comments-list .comments-list-controller .right { display: none !important; } 
-.kboard-comments-default .kboard-comments-form .comments-submit-button input[type="submit"],
-.kboard-comments-default .kboard-comments-form button[type="submit"] { padding: 5px 20px !important; height: 40px !important; min-width: 80px !important; border-radius: 4px !important; font-size: 15px !important; font-weight: 400 !important; background-color: var(--wp--preset--color--accent, #04af65) !important; border: 1px solid var(--border-color2) !important; color: #ffffff !important; cursor: pointer !important; box-shadow: none !important; } 
-body.darkmode .kboard-comments-default { background-color: transparent !important; } 
-body .kboard-comments-default hr { margin: 0 !important; padding: 15px 0 0 0 !important; height: auto !important; max-width: none !important; border: 0 !important; border-bottom: 1px solid var(--border-color1, var(--border-color)) !important; background: none !important; } 
-
-
-
-/* 메타슬라이더 패턴 */
-.metaslider .flex-control-nav { bottom: 15px !important; } 
-.front-page .metaslider.ms-theme-clarity .flexslider { padding-bottom: 30px !important;margin-bottom: 0 !important; } 
-.metaslider .flex-control-paging li a,
-.metaslider .flex-control-paging li a.flex-active { width: 10px !important; height: 10px !important; } 
-.metaslider.ms-theme-default-base .flexslider .flex-direction-nav li a { background: transparent !important; background-image: none !important; top: calc(50% + 10px) !important; } 
-.metaslider.ms-theme-default-base .flexslider .flex-direction-nav li a:focus { outline: none !important; } 
-.metaslider .flexslider .flex-direction-nav li a.flex-next:after { mask-image: url(assets/images/sl-right.svg) !important; } 
-.metaslider .flexslider .flex-direction-nav li a.flex-prev:after { mask-image: url(assets/images/sl-left.svg) !important; } 
-.metaslider .flexslider .flex-direction-nav li a:after,
-.metaslider .flexslider .flex-direction-nav li a:before { mask-size: 30px auto !important; } 
-.metaslider .flexslider .flex-control-nav li a:focus { outline: none !important; } 
-/* .metaslider.ms-theme-default-base .flexslider .flex-control-nav li a:not(.flex-active) { background: rgba(255,255,255,0.5) !important; } 
-.metaslider.ms-theme-default-base .flexslider .flex-control-nav li a.flex-active { background:  rgba(255,255,255,1) !important; }  */
-body .metaslider.ms-theme-clarity .flexslider .caption-wrap,
-.metaslider.ms-theme-clarity .flexslider .slides li { background: rgba(0,0,0,0) !important; background-color: rgba(0,0,0,0) !important; border: 0px !important; margin-top: 10px !important; } 
-
-@media screen and (max-width: 1200px) {
-	.kboardBox { width: 100%; }
-	.kboardTitle,
-	.kboardTitle2 { margin-top: 0; }
-}
-
-@media screen and (max-width: 1024px) {
-	.faqWrapper .faq-header { padding: 15px 0 15px 35px; }
-}
-
-@media screen and (max-width: 820px) {
-	.faq-accordion { max-width: inherit; }
-	.faq-question { font-size: 20px !important; }
-	.faq-question::before { font-size: 18px; }
-	.faq-answer { font-size: 16px !important; }
-	.faq-item { padding: 7px 0; }
-	.faqWrapper .faq-header { padding: 12px 0 12px 35px; }
-	.faqWrapper .faq-content p { line-height: 1.5; }
-	.bzCardGrid2 .bzCard p { font-size: 15px; margin:0px 0px 30px 0px !important }
-
-	#metaslider_3843.flexslider .slides li { margin-right: 10px !important; }
-	.kboardTitle,
-	.kboardTitle2 { margin-top: 0; font-size: 20px; }
-	#kboard-default-list .kboard-control { margin-top: -55px !important; }
-	.contact-rightimg {min-height: 300px;    aspect-ratio: 4 / 3 !important;}
-}
-
-@media screen and (max-width: 520px) {
-	.kboardTitle,
-	.kboardTitle2 { margin-top: 0 !important; margin-bottom: 15px; font-size: 20px !important; }
-	#kboard-default-list .kboard-control { margin-top: -45px !important; }
-	.metaslider.ms-theme-default-base .flexslider .flex-direction-nav li a { top: calc(50% + 13px) !important; }
-	.subBanner .pageTitle{padding: 0 10px;}
-	.bzCardGrid2 { grid-template-columns: 1fr !important; gap: 0 !important; }
-	.pcnone{display: block !important;}
-	.mobilenone{display: none !important;}
-	
-}
-
+#kboard-default-editor .kboard-control input[type="submit"] { background-color: #009957 !important; }
+body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-checkbox { accent-color: #009957 !important; color: #ffffff !important; }
+body:not(.home):not(.front-page) #kboard-contact-form-editor .kboard-control input[type="submit"] { background-color: #009957 !important; }
