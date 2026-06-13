@@ -82,14 +82,14 @@ if ( ! function_exists( 'goyominimal_enqueue_cate_card_swiper' ) ) :
 	 * @return void
 	 */
 	function goyominimal_enqueue_cate_card_swiper() {
-		if ( ! function_exists( 'goyoartdark_is_effective_front_page_for_assets' ) || ! goyoartdark_is_effective_front_page_for_assets() ) {
+		if ( ! function_exists( 'goyobase_is_effective_front_page_for_assets' ) || ! goyobase_is_effective_front_page_for_assets() ) {
 			return;
 		}
 		$path = get_stylesheet_directory() . '/assets/js/cate-card-swiper.js';
 		wp_enqueue_script(
 			'goyominimal-cate-card-swiper',
 			get_stylesheet_directory_uri() . '/assets/js/cate-card-swiper.js',
-			array( 'goyoartdark-swiper' ),
+			array( 'goyobase-swiper' ),
 			file_exists( $path ) ? (string) filemtime( $path ) : wp_get_theme()->get( 'Version' ),
 			true
 		);

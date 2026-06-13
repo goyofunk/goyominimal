@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param WP_Customize_Manager $wp_customize 매니저.
  * @return void
  */
-function goyoartdark_register_main_page_customizer_panel( $wp_customize ) {
+function goyobase_register_main_page_customizer_panel( $wp_customize ) {
 	if ( $wp_customize->get_panel( 'goyo_main_page_panel' ) ) {
 		return;
 	}
@@ -30,7 +30,7 @@ function goyoartdark_register_main_page_customizer_panel( $wp_customize ) {
 		)
 	);
 }
-add_action( 'customize_register', 'goyoartdark_register_main_page_customizer_panel', 6 );
+add_action( 'customize_register', 'goyobase_register_main_page_customizer_panel', 6 );
 
 /**
  * '메인페이지 슬로건' 섹션(슬로건 스타일·검색) — 컨트롤 등록 전에 먼저 만든다.
@@ -38,7 +38,7 @@ add_action( 'customize_register', 'goyoartdark_register_main_page_customizer_pan
  * @param WP_Customize_Manager $wp_customize 매니저.
  * @return void
  */
-function goyoartdark_register_main_page_top_section( $wp_customize ) {
+function goyobase_register_main_page_top_section( $wp_customize ) {
 	if ( $wp_customize->get_section( 'goyo_main_page_top' ) ) {
 		return;
 	}
@@ -51,4 +51,4 @@ function goyoartdark_register_main_page_top_section( $wp_customize ) {
 		)
 	);
 }
-add_action( 'customize_register', 'goyoartdark_register_main_page_top_section', 7 );
+add_action( 'customize_register', 'goyobase_register_main_page_top_section', 7 );

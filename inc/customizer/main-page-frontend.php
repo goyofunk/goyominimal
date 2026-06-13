@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * 커스터마이저 히어로 설정 → CSS 변수를 goyoartdark-front-page 핸들에 인라인 주입.
+ * 커스터마이저 히어로 설정 → CSS 변수를 goyobase-front-page 핸들에 인라인 주입.
  * transport=refresh 이므로 별도 JS 없이 미리보기 새로고침만으로 반영된다.
  *
  * 출력 규약( 부모 goyobase/inc/shortcodes/hero.php 와 동일 ):
@@ -30,11 +30,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return void
  */
-function goyoartdark_hero_customizer_inline_css() {
+function goyobase_hero_customizer_inline_css() {
 	if ( ! is_front_page() && ! is_customize_preview() ) {
 		return;
 	}
-	if ( ! wp_style_is( 'goyoartdark-front-page', 'enqueued' ) ) {
+	if ( ! wp_style_is( 'goyobase-front-page', 'enqueued' ) ) {
 		return;
 	}
 
@@ -58,16 +58,16 @@ function goyoartdark_hero_customizer_inline_css() {
 	};
 
 	// ── 메인 슬로건 ─────────────────────────────────────────────
-	$slogan_font_family = goyoartdark_sanitize_hero_font_family( trim( (string) get_theme_mod( 'goyo_hero_slogan_font_family', '"Poppins", sans-serif' ) ) );
-	$slogan_font_size   = goyoartdark_sanitize_hero_css_value( trim( (string) get_theme_mod( 'goyo_hero_slogan_font_size', 'clamp(1.9rem, 4.5vw, 4.2rem)' ) ) );
-	$slogan_font_weight = goyoartdark_sanitize_hero_font_weight( get_theme_mod( 'goyo_hero_slogan_font_weight', '700' ) );
-	$slogan_opacity     = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_slogan_opacity', 1 ) );
+	$slogan_font_family = goyobase_sanitize_hero_font_family( trim( (string) get_theme_mod( 'goyo_hero_slogan_font_family', '"Poppins", sans-serif' ) ) );
+	$slogan_font_size   = goyobase_sanitize_hero_css_value( trim( (string) get_theme_mod( 'goyo_hero_slogan_font_size', 'clamp(1.9rem, 4.5vw, 4.2rem)' ) ) );
+	$slogan_font_weight = goyobase_sanitize_hero_font_weight( get_theme_mod( 'goyo_hero_slogan_font_weight', '700' ) );
+	$slogan_opacity     = goyobase_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_slogan_opacity', 1 ) );
 	$slogan_color       = $hex_to_rgba( get_theme_mod( 'goyo_hero_slogan_color', goyo_default( 'hero_slogan_color', '#fff157' ) ), $slogan_opacity );
 
 	// ── 보조문구 ─────────────────────────────────────────────────
-	$subtext_font_family = goyoartdark_sanitize_hero_font_family( trim( (string) get_theme_mod( 'goyo_hero_subtext_font_family', '' ) ) );
-	$subtext_font_size   = goyoartdark_sanitize_hero_css_value( trim( (string) get_theme_mod( 'goyo_hero_subtext_font_size', 'clamp(0.9rem, 1.8vw, 1.1rem)' ) ) );
-	$subtext_opacity     = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_subtext_opacity', goyo_default( 'hero_subtext_opacity', 1 ) ) );
+	$subtext_font_family = goyobase_sanitize_hero_font_family( trim( (string) get_theme_mod( 'goyo_hero_subtext_font_family', '' ) ) );
+	$subtext_font_size   = goyobase_sanitize_hero_css_value( trim( (string) get_theme_mod( 'goyo_hero_subtext_font_size', 'clamp(0.9rem, 1.8vw, 1.1rem)' ) ) );
+	$subtext_opacity     = goyobase_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_subtext_opacity', goyo_default( 'hero_subtext_opacity', 1 ) ) );
 	$subtext_color       = $hex_to_rgba( get_theme_mod( 'goyo_hero_subtext_color', '#f2f2f0' ), $subtext_opacity );
 
 	// CSS 변수 빌드 — 빈 값은 제외
@@ -100,14 +100,14 @@ function goyoartdark_hero_customizer_inline_css() {
 	}
 
 	wp_add_inline_style(
-		'goyoartdark-front-page',
+		'goyobase-front-page',
 		'.mainhero{' . implode( ';', $vars ) . ';}'
 	);
 
 	// ── 메인 슬로건 배경색 없애기 / 배경색 적용 ──────────────────
 	if ( get_theme_mod( 'goyo_hero_caption_no_bg', true ) ) {
 		wp_add_inline_style(
-			'goyoartdark-front-page',
+			'goyobase-front-page',
 			'.mainhero .metaslider .caption{background-color:transparent !important;padding:0 0 2vw 0 !important;}'
 		);
 	} else {
@@ -128,12 +128,12 @@ function goyoartdark_hero_customizer_inline_css() {
 		$rgba_value = 'rgba(' . (int) $r . ', ' . (int) $g . ', ' . (int) $b . ', ' . $caption_bg_alpha . ')';
 
 		wp_add_inline_style(
-			'goyoartdark-front-page',
+			'goyobase-front-page',
 			'.mainhero .metaslider .caption{background-color:' . $rgba_value . ' !important;}'
 		);
 	}
 }
-add_action( 'wp_enqueue_scripts', 'goyoartdark_hero_customizer_inline_css', 201 );
+add_action( 'wp_enqueue_scripts', 'goyobase_hero_customizer_inline_css', 201 );
 
 /**
  * 보조문구 스타일 커스터마이저 값을 CSS 변수로 주입한다.
@@ -141,8 +141,8 @@ add_action( 'wp_enqueue_scripts', 'goyoartdark_hero_customizer_inline_css', 201 
  *
  * @return void
  */
-function goyoartdark_hero_subtext_style_css_var() {
-	if ( ! goyoartdark_is_main_page_blocks_context() && ! is_front_page() && ! is_customize_preview() ) {
+function goyobase_hero_subtext_style_css_var() {
+	if ( ! goyobase_is_main_page_blocks_context() && ! is_front_page() && ! is_customize_preview() ) {
 		return;
 	}
 
@@ -166,11 +166,11 @@ function goyoartdark_hero_subtext_style_css_var() {
 	};
 
 	$ff = get_theme_mod( 'goyo_hero_subtext_font_family', '' );
-	$ff = is_string( $ff ) ? goyoartdark_sanitize_hero_font_family( trim( $ff ) ) : '';
+	$ff = is_string( $ff ) ? goyobase_sanitize_hero_font_family( trim( $ff ) ) : '';
 	$sz = get_theme_mod( 'goyo_hero_subtext_font_size', 'clamp(0.9rem, 1.8vw, 1.1rem)' );
-	$sz = is_string( $sz ) ? goyoartdark_sanitize_hero_css_value( trim( $sz ) ) : '';
+	$sz = is_string( $sz ) ? goyobase_sanitize_hero_css_value( trim( $sz ) ) : '';
 	$cl = sanitize_hex_color( (string) get_theme_mod( 'goyo_hero_subtext_color', '#f2f2f0' ) );
-	$op = goyoartdark_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_subtext_opacity', goyo_default( 'hero_subtext_opacity', 1 ) ) );
+	$op = goyobase_sanitize_hero_opacity( get_theme_mod( 'goyo_hero_subtext_opacity', goyo_default( 'hero_subtext_opacity', 1 ) ) );
 	$cl = $hex_to_rgba( $cl, $op );
 
 	$vars = array();
@@ -189,12 +189,12 @@ function goyoartdark_hero_subtext_style_css_var() {
 	}
 
 	$css = '.mainhero-lead { ' . implode( '; ', $vars ) . '; }';
-	wp_add_inline_style( 'goyoartdark-style', $css );
-	if ( wp_style_is( 'goyoartdark-front-page', 'enqueued' ) ) {
-		wp_add_inline_style( 'goyoartdark-front-page', $css );
+	wp_add_inline_style( 'goyobase-style', $css );
+	if ( wp_style_is( 'goyobase-front-page', 'enqueued' ) ) {
+		wp_add_inline_style( 'goyobase-front-page', $css );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'goyoartdark_hero_subtext_style_css_var', 36 );
+add_action( 'wp_enqueue_scripts', 'goyobase_hero_subtext_style_css_var', 36 );
 
 /**
  * 히어로 정렬 'center' body class 추가 — front-page.css 가 .goyo-hero-layout--center 를 사용한다.
@@ -204,7 +204,7 @@ add_action( 'wp_enqueue_scripts', 'goyoartdark_hero_subtext_style_css_var', 36 )
  * @param string[] $classes 기존 body 클래스 배열.
  * @return string[]
  */
-function goyoartdark_hero_layout_center_body_class( $classes ) {
+function goyobase_hero_layout_center_body_class( $classes ) {
 	if ( ! is_front_page() && ! is_customize_preview() ) {
 		return $classes;
 	}
@@ -213,4 +213,4 @@ function goyoartdark_hero_layout_center_body_class( $classes ) {
 	}
 	return $classes;
 }
-add_filter( 'body_class', 'goyoartdark_hero_layout_center_body_class' );
+add_filter( 'body_class', 'goyobase_hero_layout_center_body_class' );

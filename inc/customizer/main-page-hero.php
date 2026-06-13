@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param WP_Customize_Manager $wp_customize 매니저.
  * @return void
  */
-function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
+function goyobase_customizer_main_page_top_hero( $wp_customize ) {
 	$section_id = 'goyo_main_page_top';
 
 	// ── 메인 슬로건 정렬 ──────────────────────────────────────────
@@ -28,7 +28,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		'goyo_hero_layout',
 		array(
 			'default'           => 'center',
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_layout',
+			'sanitize_callback' => 'goyobase_sanitize_hero_layout',
 			'transport'         => 'refresh',
 		)
 	);
@@ -73,7 +73,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		'goyo_hero_caption_bg_alpha',
 		array(
 			'default'           => 0.3,
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
+			'sanitize_callback' => 'goyobase_sanitize_hero_opacity',
 			'transport'         => 'refresh',
 		)
 	);
@@ -117,7 +117,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		'goyo_hero_slogan_font_family',
 		array(
 			'default'           => '"Poppins", sans-serif',
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_font_family',
+			'sanitize_callback' => 'goyobase_sanitize_hero_font_family',
 			'transport'         => 'refresh',
 		)
 	);
@@ -139,7 +139,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		'goyo_hero_slogan_font_size',
 		array(
 			'default'           => 'clamp(1.9rem, 4.5vw, 4.2rem)',
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_css_value',
+			'sanitize_callback' => 'goyobase_sanitize_hero_css_value',
 			'transport'         => 'refresh',
 		)
 	);
@@ -162,7 +162,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		'goyo_hero_slogan_font_weight',
 		array(
 			'default'           => '700',
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_font_weight',
+			'sanitize_callback' => 'goyobase_sanitize_hero_font_weight',
 			'transport'         => 'refresh',
 		)
 	);
@@ -211,7 +211,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		'goyo_hero_slogan_opacity',
 		array(
 			'default'           => 1,
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
+			'sanitize_callback' => 'goyobase_sanitize_hero_opacity',
 			'transport'         => 'refresh',
 		)
 	);
@@ -236,7 +236,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		'goyo_hero_subtext_font_family',
 		array(
 			'default'           => '',
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_font_family',
+			'sanitize_callback' => 'goyobase_sanitize_hero_font_family',
 			'transport'         => 'refresh',
 		)
 	);
@@ -258,7 +258,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		'goyo_hero_subtext_font_size',
 		array(
 			'default'           => 'clamp(0.9rem, 1.8vw, 1.1rem)',
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_css_value',
+			'sanitize_callback' => 'goyobase_sanitize_hero_css_value',
 			'transport'         => 'refresh',
 		)
 	);
@@ -302,7 +302,7 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		'goyo_hero_subtext_opacity',
 		array(
 			'default'           => goyo_default( 'hero_subtext_opacity', 1 ),
-			'sanitize_callback' => 'goyoartdark_sanitize_hero_opacity',
+			'sanitize_callback' => 'goyobase_sanitize_hero_opacity',
 			'transport'         => 'refresh',
 		)
 	);
@@ -362,4 +362,4 @@ function goyoartdark_customizer_main_page_top_hero( $wp_customize ) {
 		)
 	);
 }
-add_action( 'customize_register', 'goyoartdark_customizer_main_page_top_hero', 8 );
+add_action( 'customize_register', 'goyobase_customizer_main_page_top_hero', 8 );

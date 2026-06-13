@@ -124,3 +124,14 @@ WordPress 공식 [Theme Developer Handbook](https://developer.wordpress.org/them
 - **금지:** 사용자 문구 없이 “더 예쁘게”“일관되게”“폴리시”만으로 간격·폰트·색을 바꾼다.
 - **절차:** 무지시 UI/CSS 변경이 **유력하면 작업 전** 사용자에게 **반드시** 묻고 승인 후 진행한다. **묻지 않고 반영하면 규칙 위반**이다.
 
+## 13. 테마 패밀리 기준·정책
+
+고요 테마 패밀리(install 5개, 각각 별도 DB·git): `goyoartdark`·`goyoartlight`·`goyominimal`·`goyofactory`·`goyoonepage`. 각 install = 부모 `goyobase` + 동명 자식 1개. 상세는 `CLAUDE.md` 참고.
+
+- **자식 기준 = `goyominimal`.** 새 자식 테마는 goyominimal 복제로 시작한다.
+- **마스터 부모 = `goyominimal` install 의 `goyobase`.** 부모 수정은 여기서만, 이후 나머지 4개로 `robocopy /MIR /XD .git` 미러링.
+- **부모 접두사 = `goyobase`** (`goyobase_` 함수 / `goyobase-` 에셋핸들·CSS클래스). theme_mod 키는 중립 `goyo_*`. `inc/mod-compat.php` 의 레거시 리터럴 `'goyoartdark_'` 는 **개명 금지**(과거 DB 조회용).
+- **스킴:** `goyoartdark` 만 dark(자식 `goyo_theme_profile` override). 나머지는 부모 기본 light.
+- **유니콘 마우스 효과:** `goyoartdark`·`goyoartlight` 만 ON(자식 `goyo_theme_defaults` 로 `unicorn_enabled=true, hero_scroll_scale_enabled=true`). 나머지 3개는 OFF(부모 기본 OFF).
+- 부모 기본값(`goyo_theme_profile`/`goyo_default`)은 **공용=light·유니콘 OFF** 기준. 예외 테마만 자식에서 명시 선언한다.
+

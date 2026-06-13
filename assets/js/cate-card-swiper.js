@@ -3,7 +3,7 @@
  *
  * 페이지 편집기의 쿼리 루프 마크업( div.cateCard > ul.cateCardGrid > li )을
  * Swiper 4 구조( .swiper-container > .swiper-wrapper > .swiper-slide )로 변환한 뒤 초기화한다.
- * Swiper 본체는 부모 테마(goyobase)가 전 페이지에 로드한다( goyoartdark-swiper 의존 ).
+ * Swiper 본체는 부모 테마(goyobase)가 전 페이지에 로드한다( goyobase-swiper 의존 ).
  */
 (function () {
 	"use strict";
