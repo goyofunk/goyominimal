@@ -87,7 +87,7 @@ html.goyo-reveal-tiles .goyo-main-gallery-grid .goyo-main-gallery-item.goyo-col-
 /* 메타슬라이더 점(dot): 부모의 변수색 대신 MetaSlider 기본(흰색) 유지( 구버전 goyominimal 과 동일 ) */
 .metaslider.ms-theme-default-base .flexslider .flex-control-nav li a:not(.flex-active) { background: rgba(255, 255, 255, 0.5) !important; }
 .metaslider.ms-theme-default-base .flexslider .flex-control-nav li a.flex-active { background: rgba(255, 255, 255, 1) !important; }
-.metaslider .flex-control-paging li a.flex-active { margin: 0 !important; }
+.metaslider .flex-control-paging li a.flex-active { margin: 0 5px !important; }
 
 /* ── 유튜브 배경 히어로 — goyominimal 은 홈 히어로 영상을 풀하이트로 사용 ───────────────────────────── */
 .home-hero-video.goyo-youtube-bg { width: 100%; height: 100vh !important; min-height: 100vh !important; max-height: 100vh !important; aspect-ratio: 16 / 9; }

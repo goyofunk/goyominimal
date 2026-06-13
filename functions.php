@@ -21,6 +21,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// 페이지/글당 리비전 보관 개수 제한 — DB 비대 방지(최근 10개만 유지, 자동저장은 별도).
+add_filter(
+	'wp_revisions_to_keep',
+	function () {
+		return 10;
+	}
+);
+
 // 라이트 프로필: 페이지 전환 크리티컬 <head>·홈 레이아웃 인라인 CSS 의 스킴/배경.
 add_filter(
 	'goyo_theme_profile',
@@ -65,3 +73,26 @@ add_filter(
 
 // 사용자 정의(Customizer) '메인페이지' 섹션 — 이 테마 고유 구성.
 require get_stylesheet_directory() . '/inc/customizer-main-page.php';
+
+if ( ! function_exists( 'goyominimal_enqueue_cate_card_swiper' ) ) :
+	/**
+	 * 메인페이지 카테고리 카드(쿼리 루프 .cateCard) Swiper 변환 스크립트.
+	 * Swiper 본체·CSS 는 부모(goyobase) 프론트 번들이 로드하므로 메인페이지에서만 enqueue 한다.
+	 *
+	 * @return void
+	 */
+	function goyominimal_enqueue_cate_card_swiper() {
+		if ( ! function_exists( 'goyoartdark_is_effective_front_page_for_assets' ) || ! goyoartdark_is_effective_front_page_for_assets() ) {
+			return;
+		}
+		$path = get_stylesheet_directory() . '/assets/js/cate-card-swiper.js';
+		wp_enqueue_script(
+			'goyominimal-cate-card-swiper',
+			get_stylesheet_directory_uri() . '/assets/js/cate-card-swiper.js',
+			array( 'goyoartdark-swiper' ),
+			file_exists( $path ) ? (string) filemtime( $path ) : wp_get_theme()->get( 'Version' ),
+			true
+		);
+	}
+endif;
+add_action( 'wp_enqueue_scripts', 'goyominimal_enqueue_cate_card_swiper', 30 );
