@@ -24,15 +24,17 @@
 .front-th { overflow: hidden; } 
 .front-th img { transform: scale(1.03); transition: all 0.3s; display: flex; align-items: center; justify-content: center; } 
 .front-th:hover img { transform: scale(1); } 
-
+.minwidth100 { overflow: hidden; } 
+.minwidth100 > img { min-width: 100% !important; object-fit: cover; } 
 .frontcolGp { padding: 10px 0px 25px !important; } 
 .frontcolGp .wp-block-post-title { font-size: clamp(15px, 1.1vw ,18px); } 
 .frontcolGp2box { display: flex; flex-direction: column; justify-content: center; } 
 
+
+
 /* 프론트(홈) 메인 슬라이드 · 갤러리 — 커스터마이저 연동 */
 .mainbigslider, .mainbigslider ul { height: 100vh !important; overflow: hidden; display: block; } 
 .mainbigslider { animation: goyo-hero-bg-fade 2s ease-out both; } 
-
 .mainbigslider.metaslider .flexslider { margin: 0 !important; } 
 body.admin-bar .mainbigslider.metaslider .flexslider { height: calc(100vh - 32px) !important; } 
 .mainbigslider ul.slides li { width: 100% !important; max-height: 100vh !important; display: flex !important; align-items: center; justify-content: center; } 
@@ -77,8 +79,8 @@ body.goyo-unicorn-over-black--screen .mainhero-unicorn { mix-blend-mode: screen;
 .mainhero-title { margin: 0; font-size: var(--goyo-slogan-font-size, clamp(1.7rem, 3vw, 3rem)); text-shadow: 0 0 10px rgba(0, 0, 0, 0.15); font-family: var(--goyo-slogan-font-family, inherit); font-weight: var(--goyo-slogan-font-weight, 500); line-height: 1.15; letter-spacing: -0.01em; color: var(--goyo-slogan-color, #ffffff); opacity: var(--goyo-slogan-opacity, 1); animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both; } 
 .mainhero-lead { margin: 0; font-size: var(--goyo-subtext-font-size, clamp(1rem, 1.6vw, 1.1rem)); text-shadow: 0 0 10px rgba(0, 0, 0, 0.15); font-family: var(--goyo-subtext-font-family, inherit); font-weight: 400; line-height: 1.65; color: var(--goyo-subtext-color, rgba(242, 242, 240, 0.75)); opacity: var(--goyo-subtext-opacity, 1); animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both; } 
 .mainhero-btn { display: inline-flex; align-items: center; justify-content: center; margin: 5px 0; padding: 1rem 2rem; min-width: 170px; font-size: clamp(0.88rem, 1vw, 0.95rem); font-weight: 500; line-height: 1.2; letter-spacing: 0.01em; text-decoration: none; color: #f2f2f0; border-radius: 6rem; background: rgba(0, 0, 0, 0.3); animation: goyo-hero-txt-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) 1.2s both; } 
- .mainhero-btn:hover { filter: brightness(1.05); } 
- .mainhero .flex-control-paging li a { background: rgba(255, 255, 255, 0.5); } 
+.mainhero-btn:hover { filter: brightness(1.05); } 
+.mainhero .flex-control-paging li a { background: rgba(255, 255, 255, 0.5); } 
 .mainhero .flex-control-paging li a.flex-active { background: #fff; } 
 
 
@@ -127,8 +129,7 @@ body.goyo-home-overlay main ~ * { position: relative; z-index: 2; background-col
 body.is-customize-preview .goyo-customize-partial-placeholder { margin: 0; padding: 1rem 1.25rem; font-size: 0.9rem; line-height: 1.45; color: rgba(219, 219, 219, 0.88); background: rgba(255, 255, 255, 0.05); border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 4px; } 
 body.is-customize-preview .goyo-customize-partial { position: relative; } 
 
-.minwidth100 { overflow: hidden; } 
-.minwidth100 > img { min-width: 100% !important; object-fit: cover; } 
+
 
 
 

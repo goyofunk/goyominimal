@@ -54,6 +54,10 @@ add_filter(
 			'hero_scroll_scale_enabled'   => false,
 			'header_menu_font_size'       => 'clamp(18px, 1.3vw, 22px)',
 			'header_menu_font_opacity'    => 0.94,
+			// 라이트 테마지만 헤더는 히어로 이미지·다크 서브배너 위에 떠 있으므로( header.css: header bg rgba(0,0,0,.2),
+			// .front-page header transparent ) 상단 메뉴 글자·현재항목 모두 흰색이 기본이다.
+			'header_menu_font_color'         => '#ffffff',
+			'header_menu_current_font_color' => '#ffffff',
 			'header_submenu_font_color'   => '#606060',
 			'sub_banner_min_height_empty' => 'clamp(400px, 40vw, 500px)',
 			'header_logo_width'           => '188px; 188px; 100px',
